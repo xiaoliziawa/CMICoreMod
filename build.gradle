@@ -210,10 +210,9 @@ tasks.named('jarJar') {
                 "Implementation-Vendor"   : mod_authors,
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
-        archiveFileName.set("CMI Core-" + mod_version + "-" + minecraft_version + "-all" + ".jar")
+        archiveFileName.set(String.format("CMI Core-%s-%s-all.jar", mod_version, minecraft_version))
     }
 
-    // This is the preferred method to reobfuscate your jar file
     finalizedBy 'reobfJar'
 }
 

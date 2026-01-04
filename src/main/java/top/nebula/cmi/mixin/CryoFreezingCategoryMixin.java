@@ -18,7 +18,7 @@ public abstract class CryoFreezingCategoryMixin {
 			at = @At("TAIL"),
 			remap = false
 	)
-	private void adastra$addFluidOutput(IRecipeLayoutBuilder builder, CryoFreezingRecipe recipe, IFocusGroup focuses, CallbackInfo info) {
+	private void cmi$setRecipe(IRecipeLayoutBuilder builder, CryoFreezingRecipe recipe, IFocusGroup focuses, CallbackInfo info) {
 		FluidHolder result = recipe.result();
 		if (result == null || result.isEmpty()) {
 			return;

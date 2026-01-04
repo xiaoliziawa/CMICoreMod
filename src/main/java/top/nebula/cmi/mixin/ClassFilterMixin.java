@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = ClassFilter.class, remap = false)
 public abstract class ClassFilterMixin {
 	@Inject(method = "deny(Ljava/lang/String;)V", at = @At("HEAD"), cancellable = true)
-	public void cmi$cancelDenyString(String s, CallbackInfo info) {
+	public void cmi$cancelDenyString(String string, CallbackInfo info) {
 		info.cancel();
 	}
 

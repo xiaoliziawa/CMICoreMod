@@ -197,7 +197,7 @@ tasks.named('jar', Jar).configure {
                 "Implementation-Vendor"   : mod_authors,
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
-        archiveFileName.set("CMI Core-" + mod_version + "-" + minecraft_version + ".jar")
+        archiveFileName.set(String.format("CMI Core-%s-%s.jar", mod_version, minecraft_version))
     }
 
     finalizedBy 'reobfJar'

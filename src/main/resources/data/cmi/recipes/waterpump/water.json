@@ -1,9 +1,0 @@
-{
-	"type": "cmi:water_pump",
-	"input": {
-		"item": "cmi:water_pump"
-	},
-	"water": {
-		"fluid": "minecraft:water"
-	}
-}

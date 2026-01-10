@@ -1,16 +1,13 @@
 package top.nebula.cmi.common.register;
 
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.entity.*;
 
-import java.util.function.Supplier;
-
 public class ModBlockEntityTypes {
-	public static final Supplier<BlockEntityType<TestGravelBlockEntity>> TEST_GRAVEL;
-	public static final Supplier<BlockEntityType<MarsGeothermalVentBlockEntity>> MARS_GEO;
-	public static final Supplier<BlockEntityType<MercuryGeothermalVentBlockEntity>> MERCURY_GEO;
+	public static final BlockEntityEntry<TestGravelBlockEntity> TEST_GRAVEL;
+	public static final BlockEntityEntry<MarsGeothermalVentBlockEntity> MARS_GEO;
+	public static final BlockEntityEntry<MercuryGeothermalVentBlockEntity> MERCURY_GEO;
 	public static final BlockEntityEntry<WaterPumpBlockEntity> WATER_PUMP;
 
 	static {

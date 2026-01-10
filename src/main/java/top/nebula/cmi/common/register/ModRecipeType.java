@@ -11,10 +11,7 @@ import java.util.function.Supplier;
 
 public class ModRecipeType {
 	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES;
-
 	public static final Supplier<RecipeType<AcceleratorRecipe>> ACCELERATOR;
-
-//	public static final Supplier<RecipeType<WaterPumpRecipe>> WATER_PUMP;
 
 	static {
 		RECIPE_TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, Cmi.MODID);
@@ -22,13 +19,10 @@ public class ModRecipeType {
 		ACCELERATOR = RECIPE_TYPES.register("accelerator", () -> {
 			return AcceleratorRecipe.Type.INSTANCE;
 		});
-
-//		WATER_PUMP = RECIPE_TYPES.register("water_pump", () ->  {
-//			return WaterPumpRecipe.Type.INSTANCE;
-//		});
 	}
 
 	public static void register(IEventBus event) {
+		Cmi.LOGGER.info("CMI Core RecipeTypes Registered!");
 		RECIPE_TYPES.register(event);
 	}
 }

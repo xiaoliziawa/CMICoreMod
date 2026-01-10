@@ -1,5 +1,6 @@
 package top.nebula.cmi;
 
+import com.tterrag.registrate.Registrate;
 import dev.latvian.mods.kubejs.typings.Info;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -19,6 +20,7 @@ public class Cmi {
 	public static final String MODID = "cmi";
 	public static final String NAME = "CMI";
 	public static final Logger LOGGER = LogManager.getLogger(NAME);
+	public static final Registrate REGISTRATE = Registrate.create(MODID);
 
 	/**
 	 * 加载ResourceLocation资源
@@ -36,9 +38,9 @@ public class Cmi {
 	public Cmi(FMLJavaModLoadingContext context) {
 		IEventBus bus = context.getModEventBus();
 
-		ModBlocks.register(bus);
-		ModBlockEntityTypes.register(bus);
-		ModItems.register(bus);
+		ModBlocks.register();
+		ModBlockEntityTypes.register();
+		ModItems.register();
 		ModRecipeType.register(bus);
 		ModRecipeSerializer.register(bus);
 

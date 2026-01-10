@@ -28,7 +28,7 @@ public class MarsGeothermalVentBlock extends BaseEntityBlock {
 	public static final IntegerProperty SMOKE_TYPE = IntegerProperty.create("smoke_type", 0, 3);
 	public static final BooleanProperty SPAWNING_PARTICLES = BooleanProperty.create("spawning_particles");
 
-	public MarsGeothermalVentBlock() {
+	public MarsGeothermalVentBlock(Properties properties) {
 		super(Properties.of()
 				.mapColor(MapColor.STONE)
 				.requiresCorrectToolForDrops()
@@ -94,6 +94,6 @@ public class MarsGeothermalVentBlock extends BaseEntityBlock {
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-		return new MarsGeothermalVentBlockEntity(pos, state);
+		return new MarsGeothermalVentBlockEntity(ModBlockEntityTypes.MARS_GEO.get(), pos, state);
 	}
 }

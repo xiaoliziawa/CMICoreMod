@@ -22,10 +22,14 @@ public class ModBlockStateProvider extends BlockStateProvider {
 		simpleBlockWithItem(ModBlocks.WATER_PUMP.get(), new ModelFile.UncheckedModelFile(modLoc("block/water_pump")));
 	}
 
-	private void saplingBlock(Supplier<Block> blockRegistryObject) {
-		simpleBlock(blockRegistryObject.get(), models()
-				.cross(ForgeRegistries.BLOCKS.getKey(blockRegistryObject.get()).getPath(),
-						blockTexture(blockRegistryObject.get()))
-				.renderType("cutout"));
+	private void saplingBlock(Supplier<? extends Block> block) {
+		simpleBlock(
+				block.get(),
+				models()
+						.cross(
+								ForgeRegistries.BLOCKS.getKey(block.get()).getPath(),
+								blockTexture(block.get()))
+						.renderType("cutout")
+		);
 	}
 }

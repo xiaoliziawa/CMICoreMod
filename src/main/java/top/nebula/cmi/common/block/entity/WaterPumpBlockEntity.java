@@ -5,11 +5,11 @@ import blusunrize.immersiveengineering.common.register.IEBlocks;
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.nebula.cmi.Cmi;
-import top.nebula.cmi.common.register.ModBlockEntityTypes;
 import top.nebula.cmi.common.register.ModBlocks;
 import top.nebula.cmi.util.ModLang;
 import net.minecraft.core.BlockPos;
@@ -38,8 +38,8 @@ import vazkii.patchouli.api.PatchouliAPI;
 import java.util.List;
 
 public class WaterPumpBlockEntity extends BlockEntity implements IHaveGoggleInformation {
-	public WaterPumpBlockEntity(BlockPos pos, BlockState state) {
-		super(ModBlockEntityTypes.WATER_PUMP.get(), pos, state);
+	public WaterPumpBlockEntity(BlockEntityType<? extends WaterPumpBlockEntity> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 
 	private static final Lazy<Fluid> SEA_WATER = Lazy.of(() -> {

@@ -8,8 +8,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import top.nebula.cmi.common.register.ModBlockEntityTypes;
 import top.nebula.cmi.common.block.custom.MercuryGeothermalVentBlock;
 
 public class MercuryGeothermalVentBlockEntity extends BlockEntity {
@@ -17,8 +17,8 @@ public class MercuryGeothermalVentBlockEntity extends BlockEntity {
 
 	private int soundTime = 0;
 
-	public MercuryGeothermalVentBlockEntity(BlockPos pos, BlockState state) {
-		super(ModBlockEntityTypes.MERCURY_GEO.get(), pos, state);
+	public MercuryGeothermalVentBlockEntity(BlockEntityType<? extends MercuryGeothermalVentBlockEntity> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
 	}
 
 	public static void particleTick(Level level, BlockPos pos, BlockState state, MercuryGeothermalVentBlockEntity entity) {

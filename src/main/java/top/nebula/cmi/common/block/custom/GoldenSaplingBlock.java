@@ -1,0 +1,11 @@
+package top.nebula.cmi.common.block.custom;
+
+import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import top.nebula.cmi.worldgen.tree.GoldenTreeGrower;
+
+public class GoldenSaplingBlock extends SaplingBlock {
+	public GoldenSaplingBlock(BlockBehaviour.Properties properties) {
+		super(new GoldenTreeGrower(), properties);
+	}
+}

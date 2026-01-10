@@ -13,22 +13,16 @@ public class ModRecipeSerializer {
 	public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS;
 	public static final Supplier<RecipeSerializer<AcceleratorRecipe>> ACCELERATOR;
 
-//	public static final Supplier<RecipeSerializer<WaterPumpRecipe>> WATER_PUMP;
-
 	static {
 		SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Cmi.MODID);
 
 		ACCELERATOR = SERIALIZERS.register("accelerator", () -> {
 			return AcceleratorRecipe.Serializer.INSTANCE;
 		});
-		/*
-		WATER_PUMP = SERIALIZERS.register("water_pump", () -> {
-			return WaterPumpRecipe.Serializer.INSTANCE;
-		});
-		 */
 	}
 
 	public static void register(IEventBus event) {
+		Cmi.LOGGER.info("CMI Core RecipeSerializers Registered!");
 		SERIALIZERS.register(event);
 	}
 }

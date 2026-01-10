@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +14,7 @@ import top.nebula.cmi.common.block.custom.TestGravelBlock;
 import top.nebula.cmi.common.register.ModItems;
 
 public class TestGravelBlockEntity extends BrushableBlockEntity {
-	public TestGravelBlockEntity(BlockPos pos, BlockState state) {
+	public TestGravelBlockEntity(BlockEntityType<? extends TestGravelBlockEntity> type, BlockPos pos, BlockState state) {
 		super(pos, state);
 	}
 

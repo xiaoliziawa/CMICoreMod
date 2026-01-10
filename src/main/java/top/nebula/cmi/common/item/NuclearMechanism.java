@@ -15,8 +15,8 @@ import org.jetbrains.annotations.Nullable;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 public class NuclearMechanism extends Item {
-	public NuclearMechanism() {
-		super(new Properties());
+	public NuclearMechanism(Item.Properties properties) {
+		super(properties);
 	}
 
 	@Override

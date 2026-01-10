@@ -12,16 +12,16 @@ public class ModBlockEntityTypes {
 
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.blockEntity("test_gravel", TestGravelBlockEntity::new)
-				.validBlocks(ModBlocks.TEST_GRAVEL)
+				.validBlock(ModBlocks.TEST_GRAVEL)
 				.register();
 		MARS_GEO = Cmi.REGISTRATE.blockEntity("mars_geothermal_vent", MarsGeothermalVentBlockEntity::new)
-				.validBlocks(ModBlocks.MARS_GEO)
+				.validBlock(ModBlocks.MARS_GEO)
 				.register();
 		MERCURY_GEO = Cmi.REGISTRATE.blockEntity("mercury_geothermal_vent", MercuryGeothermalVentBlockEntity::new)
-				.validBlocks(ModBlocks.MERCURY_GEO)
+				.validBlock(ModBlocks.MERCURY_GEO)
 				.register();
 		WATER_PUMP = Cmi.REGISTRATE.blockEntity("water_pump", WaterPumpBlockEntity::new)
-				.validBlocks(ModBlocks.WATER_PUMP)
+				.validBlock(ModBlocks.WATER_PUMP)
 				.register();
 	}
 

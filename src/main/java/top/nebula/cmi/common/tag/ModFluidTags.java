@@ -1,6 +1,5 @@
 package top.nebula.cmi.common.tag;
 
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;

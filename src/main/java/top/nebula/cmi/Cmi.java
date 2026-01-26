@@ -41,7 +41,6 @@ public class Cmi {
 		ModBlocks.register();
 		ModBlockEntityTypes.register();
 		ModItems.register();
-		ModSoundEvent.register(bus);
 		ModRecipeType.register(bus);
 		ModRecipeSerializer.register(bus);
 

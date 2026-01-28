@@ -24,11 +24,11 @@ public class HydraulicPressInstance extends ShaftInstance<MechanicalPressBlockEn
 				.getModel(CmiBlockPartialModel.HYDRAULIC_PRESS_HEAD, blockState)
 				.createInstance();
 
-		Quaternionf q = new Quaternionf().rotateY((float) Math.toRadians(
+		Quaternionf rotateY = new Quaternionf().rotateY((float) Math.toRadians(
 				AngleHelper.horizontalAngle(blockState.getValue(MechanicalPressBlock.HORIZONTAL_FACING))
 		));
 
-		pressHead.setRotation(q);
+		pressHead.setRotation(rotateY);
 
 		transformModels();
 	}

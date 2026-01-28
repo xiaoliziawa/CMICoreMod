@@ -66,9 +66,5 @@ public class ModJeiPlugin implements IModPlugin {
 				.ifPresent((type) -> {
 					registration.addRecipeCatalyst(ModBlocks.HYDRAULIC_PRESS.asStack(), type);
 				});
-		registration.getJeiHelpers().getRecipeType(Create.asResource("packing"))
-				.ifPresent((type) -> {
-					registration.addRecipeCatalyst(ModBlocks.HYDRAULIC_PRESS.asStack(), type);
-				});
 	}
 }

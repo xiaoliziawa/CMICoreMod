@@ -5,7 +5,7 @@ import dev.latvian.mods.kubejs.recipe.schema.RegisterRecipeSchemasEvent;
 import dev.latvian.mods.kubejs.script.BindingsEvent;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.compat.kubejs.recipe.AcceleratorSchema;
-import top.nebula.cmi.utils.ModLang;
+import top.nebula.cmi.utils.CmiLang;
 
 public class ModKubeJSPlugin extends KubeJSPlugin {
 	@Override
@@ -18,6 +18,6 @@ public class ModKubeJSPlugin extends KubeJSPlugin {
 		super.registerBindings(event);
 
 		event.add("CMICore", Cmi.class);
-		event.add("CMIModLang", ModLang.class);
+		event.add("CMIModLang", CmiLang.class);
 	}
 }

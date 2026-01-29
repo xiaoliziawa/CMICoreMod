@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.register.ModBlocks;
-import top.nebula.cmi.utils.ModLang;
+import top.nebula.cmi.utils.CmiLang;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -248,11 +248,11 @@ public class WaterPumpBlockEntity extends BlockEntity implements IHaveGoggleInfo
 	@Override
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
 		if (isStructureValid()) {
-			ModLang.builder()
+			CmiLang.builder()
 					.translate("tooltip.water_pump.functional")
 					.forGoggles(tooltip);
 		} else {
-			ModLang.builder()
+			CmiLang.builder()
 					.translate("tooltip.water_pump.non_functional")
 					.forGoggles(tooltip);
 		}

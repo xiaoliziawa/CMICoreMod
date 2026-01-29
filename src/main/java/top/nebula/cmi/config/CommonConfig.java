@@ -13,6 +13,7 @@ public class CommonConfig {
 
 		HYDRAULIC_PRESS_STEAM_CONSUMPTION = BUILDER
 				.comment("Steam consumption per run of hydraulic press (mB)")
+				.comment("default: 1000")
 				.defineInRange("steam_consumption", 1000, 0, 10000);
 	}
 

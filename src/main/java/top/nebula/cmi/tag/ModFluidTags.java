@@ -1,4 +1,4 @@
-package top.nebula.cmi.common.tag;
+package top.nebula.cmi.tag;
 
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;

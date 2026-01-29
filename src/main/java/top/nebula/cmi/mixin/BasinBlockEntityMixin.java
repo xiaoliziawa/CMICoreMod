@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import top.nebula.cmi.common.tag.ModBlockTags;
+import top.nebula.cmi.tag.ModBlockTags;
 
 @Mixin(value = BasinBlockEntity.class, remap = false)
 public abstract class BasinBlockEntityMixin {

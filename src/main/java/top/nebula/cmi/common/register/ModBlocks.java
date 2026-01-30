@@ -45,7 +45,7 @@ public class ModBlocks {
 				.item()
 				.build()
 				.register();
-		HYDRAULIC_PRESS = Cmi.REGISTRATE.block("hydraulic_press", HydraulicPressBlock::new)
+		HYDRAULIC_PRESS = Cmi.CREATE_REGISTRATE.block("hydraulic_press", HydraulicPressBlock::new)
 				.initialProperties(SharedProperties::stone)
 				.blockstate(BlockStateGen.horizontalBlockProvider(true))
 				.transform(BlockStressDefaults.setImpact(16.0))

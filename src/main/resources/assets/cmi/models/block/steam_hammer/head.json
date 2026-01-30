@@ -2,11 +2,11 @@
 	"parent": "minecraft:block/block",
 	"render_type": "cutout",
 	"textures": {
-		"5": "cmi:block/hydraulic_press/bronze_fluid_tank_inner_connected",
-		"6": "cmi:block/hydraulic_press/bronze_fluid_tank",
-		"7": "cmi:block/hydraulic_press/bronze_underside",
-		"8": "cmi:block/hydraulic_press/bronze_plating",
-		"particle": "cmi:block/hydraulic_press/bronze_plating"
+		"5": "cmi:block/steam_hammer/bronze_fluid_tank_inner_connected",
+		"6": "cmi:block/steam_hammer/bronze_fluid_tank",
+		"7": "cmi:block/steam_hammer/bronze_underside",
+		"8": "cmi:block/steam_hammer/bronze_plating",
+		"particle": "cmi:block/steam_hammer/bronze_plating"
 	},
 	"elements": [
 		{

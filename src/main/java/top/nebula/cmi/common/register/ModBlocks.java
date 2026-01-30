@@ -7,6 +7,7 @@ import com.simibubi.create.foundation.utility.Couple;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorBlock;
+import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorItem;
 import top.nebula.cmi.common.block.golden_sapling.GoldenSaplingBlock;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerBlock;
 import top.nebula.cmi.common.block.mars_geothermal_vent.MarsGeothermalVentBlock;
@@ -56,7 +57,7 @@ public class ModBlocks {
 				.initialProperties(SharedProperties::stone)
 				.transform(BlockStressDefaults.setCapacity(0))
 				.transform(BlockStressDefaults.setGeneratorSpeed(() -> Couple.create(0, 256)))
-				.item()
+				.item(AcceleratorMotorItem::new)
 				.build()
 				.register();
 	}

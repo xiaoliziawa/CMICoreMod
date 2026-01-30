@@ -117,8 +117,7 @@ public class SteamHammerItem extends AssemblyOperatorBlockItem {
 
 		// "按住 [Shift] 查看详情" 提示 - 始终显示
 		// Shift 按下时文字变白，否则为灰色
-		Lang.translate("tooltip.holdForDescription",
-						Component.literal("Shift").withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY))
+		Lang.translate("tooltip.holdForDescription", Component.literal("Shift").withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY))
 				.style(ChatFormatting.DARK_GRAY)
 				.addTo(tooltip);
 

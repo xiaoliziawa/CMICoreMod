@@ -6,7 +6,6 @@ import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipHelper.Palette;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import com.tterrag.registrate.Registrate;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -33,10 +32,10 @@ public class Cmi {
 	public static final Logger LOGGER = LogManager.getLogger(NAME);
 	public static final Registrate REGISTRATE = Registrate.create(MODID);
 	public static final CreateRegistrate CREATE_REGISTRATE = CreateRegistrate.create(MODID)
-		.setTooltipModifierFactory(item ->
-			new ItemDescription.Modifier(item, Palette.STANDARD_CREATE)
-				.andThen(TooltipModifier.mapNull(KineticStats.create(item)))
-		);
+			.setTooltipModifierFactory((item) -> {
+				return new ItemDescription.Modifier(item, Palette.STANDARD_CREATE)
+						.andThen(TooltipModifier.mapNull(KineticStats.create(item)));
+			});
 
 	public static ResourceLocation loadResource(String path) {
 		return ResourceLocation.fromNamespaceAndPath(MODID, path);

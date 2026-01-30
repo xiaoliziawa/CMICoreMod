@@ -7,10 +7,10 @@ import net.minecraft.network.chat.MutableComponent;
 import top.nebula.cmi.Cmi;
 
 /**
- * CMI 模组的语言工具类，基于 Create 的 {@link Lang} 和 {@link LangBuilder} 。
+ * CMI 模组的语言工具类, 基于 Create 的 {@link Lang} 和 {@link LangBuilder} 。
  * <p>
- * 提供便捷的方法来创建本地化文本组件，自动添加 {@code cmi.} 命名空间前缀。
- * 支持动态参数替换（{@code %s}、{@code %d} 等格式化占位符）。
+ * 提供便捷的方法来创建本地化文本组件, 自动添加 {@code cmi.} 命名空间前缀。
+ * 支持动态参数替换({@code %s}、{@code %d} 等格式化占位符)。
  *
  * <h2>使用示例</h2>
  * <pre>{@code
@@ -25,7 +25,7 @@ import top.nebula.cmi.Cmi;
  *     .style(ChatFormatting.GOLD)
  *     .addTo(tooltip);
  *
- * // 直接获取 Component（不使用 builder 链式调用）
+ * // 直接获取 Component(不使用 builder 链式调用)
  * MutableComponent text = CmiLang.translateDirect("message.hello", playerName);
  * }</pre>
  *
@@ -33,8 +33,8 @@ import top.nebula.cmi.Cmi;
  * 语言文件中的键需要以 {@code cmi.} 为前缀：
  * <pre>{@code
  * {
- *   "cmi.tooltip.example": "This is an example",
- *   "cmi.tooltip.steam_cost": "Requires %s mB of steam"
+ *     "cmi.tooltip.example": "This is an example",
+ *     "cmi.tooltip.steam_cost": "Requires %s mB of steam"
  * }
  * }</pre>
  *
@@ -42,9 +42,8 @@ import top.nebula.cmi.Cmi;
  * @see LangBuilder 链式文本构建器
  */
 public class CmiLang {
-
 	/**
-	 * 创建一个新的 {@link LangBuilder} 实例，使用 CMI 的命名空间。
+	 * 创建一个新的 {@link LangBuilder} 实例, 使用 CMI 的命名空间。
 	 * <p>
 	 * 返回的 builder 可以通过链式调用添加文本、翻译、样式等。
 	 *
@@ -55,14 +54,14 @@ public class CmiLang {
 	}
 
 	/**
-	 * 翻译指定的语言键并返回 {@link LangBuilder}，支持动态参数。
+	 * 翻译指定的语言键并返回 {@link LangBuilder}, 支持动态参数。
 	 * <p>
-	 * 自动添加 {@code cmi.} 前缀到语言键。例如，传入 {@code "tooltip.example"}
+	 * 自动添加 {@code cmi.} 前缀到语言键。例如, 传入 {@code "tooltip.example"}
 	 * 会查找 {@code "cmi.tooltip.example"} 键。
 	 *
-	 * @param langKey 语言键（不含 {@code cmi.} 前缀）
-	 * @param args    格式化参数，用于替换翻译文本中的占位符（如 {@code %s}）
-	 * @return 包含翻译结果的 LangBuilder，可继续链式调用
+	 * @param langKey 语言键(不含 {@code cmi.} 前缀)
+	 * @param args    格式化参数, 用于替换翻译文本中的占位符(如 {@code %s})
+	 * @return 包含翻译结果的 LangBuilder, 可继续链式调用
 	 *
 	 * @see #translateDirect(String, Object...) 直接获取 Component 而非 Builder
 	 */
@@ -71,13 +70,13 @@ public class CmiLang {
 	}
 
 	/**
-	 * 直接翻译指定的语言键并返回 {@link MutableComponent}，支持动态参数。
+	 * 直接翻译指定的语言键并返回 {@link MutableComponent}, 支持动态参数。
 	 * <p>
-	 * 与 {@link #translate(String, Object...)} 类似，但直接返回 Component
+	 * 与 {@link #translate(String, Object...)} 类似, 但直接返回 Component
 	 * 而非 LangBuilder。适用于不需要额外链式操作的场景。
 	 *
-	 * @param langKey 语言键（不含 {@code cmi.} 前缀）
-	 * @param args    格式化参数，用于替换翻译文本中的占位符（如 {@code %s}）
+	 * @param langKey 语言键(不含 {@code cmi.} 前缀)
+	 * @param args    格式化参数, 用于替换翻译文本中的占位符(如 {@code %s})
 	 * @return 翻译后的可变文本组件
 	 *
 	 * @see #translate(String, Object...) 返回 LangBuilder 以支持链式调用

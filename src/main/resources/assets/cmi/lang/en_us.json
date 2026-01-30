@@ -11,10 +11,12 @@
 	"multiblock.building.cmi.water_pump": "Multiblock Water Pump Build",
 	"biome.cmi.andesite_cave": "Andesite Cave",
 	"pattern.cmi.mechanism": "Mechanism",
-	"tooltip.cmi.shift.check": "Hold Shift to view information",
-	"tooltip.cmi.hydraulic_press.function_1": "Pressing stacks of items while working (Invalid for Compacting)",
-	"tooltip.cmi.hydraulic_press.function_2": "Only functions when %smB of steam is in the device",
-	"tooltip.cmi.hydraulic_press.function_3": "Consumes %smb of steam per time",
+
+	"cmi.tooltip.hydraulic_press.summary": "Pressing stacks of items while working (Invalid for Compacting)",
+	"cmi.tooltip.hydraulic_press.condition1": "When working:",
+	"cmi.tooltip.hydraulic_press.behaviour1": "Only functions when %s mB of steam is in the device",
+	"cmi.tooltip.hydraulic_press.behaviour2": "Consumes %s mB of steam per operation",
+
 	"jei.category.cmi.accelerator": "Mechanism Accelerator",
 	"jei.catalyst.cmi.accelerator.1": "Use a mechanism on the accelerator",
 	"jei.catalyst.cmi.accelerator.2": "Requires at least 24 triggerable blocks in a 5×5 area around",

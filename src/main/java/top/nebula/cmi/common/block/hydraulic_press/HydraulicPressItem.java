@@ -1,8 +1,6 @@
 package top.nebula.cmi.common.block.hydraulic_press;
 
 import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
-import com.simibubi.create.foundation.item.TooltipHelper;
-import com.simibubi.create.foundation.item.TooltipHelper.Palette;
 import com.simibubi.create.foundation.utility.Lang;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -30,8 +28,8 @@ public class HydraulicPressItem extends AssemblyOperatorBlockItem {
 	public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
 		int steamCost = CommonConfig.HYDRAULIC_PRESS_STEAM_CONSUMPTION.get();
 
-		Lang.translate("tooltip.holdForDescription",
-						Component.literal("Shift").withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY))
+		Lang.translate("tooltip.holdForDescription", Component.literal("Shift")
+						.withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY))
 				.style(ChatFormatting.DARK_GRAY)
 				.addTo(tooltip);
 

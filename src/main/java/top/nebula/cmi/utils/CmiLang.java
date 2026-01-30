@@ -62,11 +62,10 @@ public class CmiLang {
 	 * @param langKey 语言键(不含 {@code cmi.} 前缀)
 	 * @param args    格式化参数, 用于替换翻译文本中的占位符(如 {@code %s})
 	 * @return 包含翻译结果的 LangBuilder, 可继续链式调用
-	 *
 	 * @see #translateDirect(String, Object...) 直接获取 Component 而非 Builder
 	 */
 	public static LangBuilder translate(String langKey, Object... args) {
-		return builder().add(Components.translatable(Cmi.MODID + "." + langKey, Lang.resolveBuilders(args)));
+		return builder().add(Components.translatable(String.format("%s.%s", Cmi.MODID, langKey), Lang.resolveBuilders(args)));
 	}
 
 	/**
@@ -78,10 +77,9 @@ public class CmiLang {
 	 * @param langKey 语言键(不含 {@code cmi.} 前缀)
 	 * @param args    格式化参数, 用于替换翻译文本中的占位符(如 {@code %s})
 	 * @return 翻译后的可变文本组件
-	 *
 	 * @see #translate(String, Object...) 返回 LangBuilder 以支持链式调用
 	 */
 	public static MutableComponent translateDirect(String langKey, Object... args) {
-		return Components.translatable(Cmi.MODID + "." + langKey, Lang.resolveBuilders(args));
+		return Components.translatable(String.format("%s.%s", Cmi.MODID, langKey), Lang.resolveBuilders(args));
 	}
 }

@@ -43,7 +43,7 @@ public class SteamHammerRenderer extends KineticBlockEntityRenderer<MechanicalPr
 			float renderedHeadOffset = pressingBehaviour.getRenderedHeadOffset(partialTicks) * pressingBehaviour.mode.headOffset;
 
 			SuperByteBuffer headRender = CachedBufferer.partialFacing(
-					CmiBlockPartialModel.HYDRAULIC_PRESS_HEAD,
+					CmiBlockPartialModel.STEAM_HAMMER,
 					state,
 					state.getValue(BlockStateProperties.HORIZONTAL_FACING)
 			);

@@ -21,7 +21,7 @@ public class SteamHammerInstance extends ShaftInstance<MechanicalPressBlockEntit
 
 		pressHead = materialManager.defaultSolid()
 				.material(Materials.ORIENTED)
-				.getModel(CmiBlockPartialModel.HYDRAULIC_PRESS_HEAD, blockState)
+				.getModel(CmiBlockPartialModel.STEAM_HAMMER, blockState)
 				.createInstance();
 
 		Quaternionf rotateY = new Quaternionf().rotateY((float) Math.toRadians(

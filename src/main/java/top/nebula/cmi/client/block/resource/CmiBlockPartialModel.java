@@ -11,10 +11,10 @@ import java.util.Map;
 public class CmiBlockPartialModel {
 	public static final Map<ResourceLocation, Couple<PartialModel>> FOLDING_DOORS = new HashMap<>();
 
-	public static final PartialModel HYDRAULIC_PRESS_HEAD;
+	public static final PartialModel STEAM_HAMMER;
 
 	static {
-		HYDRAULIC_PRESS_HEAD = addPartial("hydraulic_press/head");
+		STEAM_HAMMER = addPartial("steam_hammer/head");
 	}
 
 	private static PartialModel addPartial(String path) {

@@ -5,6 +5,8 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorBlockEntity;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorRenderer;
+import top.nebula.cmi.common.block.fast_spout.FastSpoutBlockEntity;
+import top.nebula.cmi.common.block.fast_spout.FastSpoutRenderer;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerBlockEntity;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerInstance;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerRenderer;
@@ -20,6 +22,7 @@ public class ModBlockEntityTypes {
 	public static final BlockEntityEntry<WaterPumpBlockEntity> WATER_PUMP;
 	public static final BlockEntityEntry<SteamHammerBlockEntity> HYDRAULIC_PRESS;
 	public static final BlockEntityEntry<AcceleratorMotorBlockEntity> ACCELERATOR_MOTOR;
+	public static final BlockEntityEntry<FastSpoutBlockEntity> FAST_SPOUT;
 
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.blockEntity("test_gravel", TestGravelBlockEntity::new)
@@ -43,6 +46,10 @@ public class ModBlockEntityTypes {
 				.instance(() -> HalfShaftInstance::new, false)
 				.validBlocks(ModBlocks.ACCELERATOR_MOTOR)
 				.renderer(() -> AcceleratorMotorRenderer::new)
+				.register();
+		FAST_SPOUT = Cmi.CREATE_REGISTRATE.blockEntity("fast_spout", FastSpoutBlockEntity::new)
+				.validBlocks(ModBlocks.FAST_SPOUT)
+				.renderer(() -> FastSpoutRenderer::new)
 				.register();
 	}
 

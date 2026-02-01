@@ -5,10 +5,11 @@ import com.simibubi.create.foundation.data.BlockStateGen;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.utility.Couple;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.client.renderer.RenderType;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorBlock;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorItem;
-import top.nebula.cmi.common.block.fast_spout.FastSpoutBlock;
+import top.nebula.cmi.common.block.fast_spout.AdvancedSpoutBlock;
 import top.nebula.cmi.common.block.golden_sapling.GoldenSaplingBlock;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerBlock;
 import top.nebula.cmi.common.block.mars_geothermal_vent.MarsGeothermalVentBlock;
@@ -27,7 +28,7 @@ public class ModBlocks {
 	public static final BlockEntry<TestGravelBlock> TEST_GRAVEL;
 	public static final BlockEntry<SteamHammerBlock> STEAM_HAMMER;
 	public static final BlockEntry<AcceleratorMotorBlock> ACCELERATOR_MOTOR;
-	public static final BlockEntry<FastSpoutBlock> FAST_SPOUT;
+	public static final BlockEntry<AdvancedSpoutBlock> FAST_SPOUT;
 	public static final BlockEntry<VoidDustCollectorBlock> VOID_DUST_COLLECTOR;
 
 	static {
@@ -65,8 +66,9 @@ public class ModBlocks {
 				.item(AcceleratorMotorItem::new)
 				.build()
 				.register();
-		FAST_SPOUT = Cmi.CREATE_REGISTRATE.block("fast_spout", FastSpoutBlock::new)
+		FAST_SPOUT = Cmi.CREATE_REGISTRATE.block("fast_spout", AdvancedSpoutBlock::new)
 				.initialProperties(SharedProperties::copperMetal)
+				.addLayer(() -> RenderType::cutoutMipped)
 				.item()
 				.build()
 				.register();

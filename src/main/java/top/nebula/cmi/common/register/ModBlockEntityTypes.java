@@ -5,8 +5,8 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorBlockEntity;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorRenderer;
-import top.nebula.cmi.common.block.fast_spout.FastSpoutBlockEntity;
-import top.nebula.cmi.common.block.fast_spout.FastSpoutRenderer;
+import top.nebula.cmi.common.block.fast_spout.AdvancedSpoutBlockEntity;
+import top.nebula.cmi.common.block.fast_spout.AdvancedSpoutRenderer;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerBlockEntity;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerInstance;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerRenderer;
@@ -23,7 +23,7 @@ public class ModBlockEntityTypes {
 	public static final BlockEntityEntry<WaterPumpBlockEntity> WATER_PUMP;
 	public static final BlockEntityEntry<SteamHammerBlockEntity> HYDRAULIC_PRESS;
 	public static final BlockEntityEntry<AcceleratorMotorBlockEntity> ACCELERATOR_MOTOR;
-	public static final BlockEntityEntry<FastSpoutBlockEntity> FAST_SPOUT;
+	public static final BlockEntityEntry<AdvancedSpoutBlockEntity> FAST_SPOUT;
 	public static final BlockEntityEntry<VoidDustCollectorBlockEnitiy> VOID_DUST_COLLECTOR;
 
 
@@ -50,9 +50,9 @@ public class ModBlockEntityTypes {
 				.validBlocks(ModBlocks.ACCELERATOR_MOTOR)
 				.renderer(() -> AcceleratorMotorRenderer::new)
 				.register();
-		FAST_SPOUT = Cmi.CREATE_REGISTRATE.blockEntity("fast_spout", FastSpoutBlockEntity::new)
+		FAST_SPOUT = Cmi.CREATE_REGISTRATE.blockEntity("fast_spout", AdvancedSpoutBlockEntity::new)
 				.validBlocks(ModBlocks.FAST_SPOUT)
-				.renderer(() -> FastSpoutRenderer::new)
+				.renderer(() -> AdvancedSpoutRenderer::new)
 				.register();
 		VOID_DUST_COLLECTOR = Cmi.REGISTRATE.blockEntity("void_dust_collector", VoidDustCollectorBlockEnitiy::new)
 				.validBlock(ModBlocks.VOID_DUST_COLLECTOR)

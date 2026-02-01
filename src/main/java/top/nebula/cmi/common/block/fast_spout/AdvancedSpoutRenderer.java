@@ -16,18 +16,18 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidStack;
 
-public class FastSpoutRenderer extends SafeBlockEntityRenderer<FastSpoutBlockEntity> {
+public class AdvancedSpoutRenderer extends SafeBlockEntityRenderer<AdvancedSpoutBlockEntity> {
 	static final PartialModel[] BITS = {
 			AllPartialModels.SPOUT_TOP,
 			AllPartialModels.SPOUT_MIDDLE,
 			AllPartialModels.SPOUT_BOTTOM
 	};
 
-	public FastSpoutRenderer(BlockEntityRendererProvider.Context context) {
+	public AdvancedSpoutRenderer(BlockEntityRendererProvider.Context context) {
 	}
 
 	@Override
-	protected void renderSafe(FastSpoutBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
+	protected void renderSafe(AdvancedSpoutBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
 		SmartFluidTankBehaviour tank = be.getBehaviour(SmartFluidTankBehaviour.TYPE);
 		if (tank == null) {
 			return;

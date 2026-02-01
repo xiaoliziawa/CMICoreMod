@@ -17,8 +17,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import top.nebula.cmi.common.register.ModBlockEntityTypes;
 
-public class FastSpoutBlock extends Block implements IWrenchable, IBE<FastSpoutBlockEntity> {
-	public FastSpoutBlock(Properties properties) {
+public class AdvancedSpoutBlock extends Block implements IWrenchable, IBE<AdvancedSpoutBlockEntity> {
+	public AdvancedSpoutBlock(Properties properties) {
 		super(properties);
 	}
 
@@ -43,12 +43,12 @@ public class FastSpoutBlock extends Block implements IWrenchable, IBE<FastSpoutB
 	}
 
 	@Override
-	public Class<FastSpoutBlockEntity> getBlockEntityClass() {
-		return FastSpoutBlockEntity.class;
+	public Class<AdvancedSpoutBlockEntity> getBlockEntityClass() {
+		return AdvancedSpoutBlockEntity.class;
 	}
 
 	@Override
-	public BlockEntityType<? extends FastSpoutBlockEntity> getBlockEntityType() {
+	public BlockEntityType<? extends AdvancedSpoutBlockEntity> getBlockEntityType() {
 		return ModBlockEntityTypes.FAST_SPOUT.get();
 	}
 }

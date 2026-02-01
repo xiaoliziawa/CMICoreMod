@@ -10,6 +10,7 @@ import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehavio
 import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour;
 import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour.TransportedResult;
 import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 
 import net.minecraft.core.BlockPos;
@@ -19,9 +20,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 import top.nebula.cmi.config.CommonConfig;
 
-public class FastSpoutBlockEntity extends SpoutBlockEntity {
-	public FastSpoutBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+public class AdvancedSpoutBlockEntity extends SpoutBlockEntity {
+	public AdvancedSpoutBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
+	}
+
+	@Override
+	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
+		super.addBehaviours(behaviours);
+
+		for (BlockEntityBehaviour behaviour : behaviours) {
+			if (behaviour instanceof SmartFluidTankBehaviour tankBehaviour) {
+				tankBehaviour.getPrimaryHandler().setCapacity(CommonConfig.FAST_SPOUT_CAPACITY.get());
+				break;
+			}
+		}
 	}
 
 	public int getFillingTime() {

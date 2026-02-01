@@ -31,7 +31,7 @@ public class FastSpoutBlockEntity extends SpoutBlockEntity {
 
 		for (BlockEntityBehaviour behaviour : behaviours) {
 			if (behaviour instanceof SmartFluidTankBehaviour tankBehaviour) {
-				tankBehaviour.getPrimaryHandler().setCapacity(8000);
+				tankBehaviour.getPrimaryHandler().setCapacity(CommonConfig.FAST_SPOUT_CAPACITY.get());
 				break;
 			}
 		}

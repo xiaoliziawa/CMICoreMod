@@ -20,8 +20,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
 import top.nebula.cmi.config.CommonConfig;
 
-public class FastSpoutBlockEntity extends SpoutBlockEntity {
-	public FastSpoutBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+public class AdvancedSpoutBlockEntity extends SpoutBlockEntity {
+	public AdvancedSpoutBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
 

@@ -116,7 +116,7 @@ public class VoidDustCollectorBlockEnitiy extends BlockEntity {
 		}
 
 		BlockPos below = worldPosition.below();
-		if (!level.getBlockState(below).is(Blocks.GOLD_BLOCK)) {
+		if (!level.getBlockState(below).is(BLOCKS_BELOW)) {
 			return false;
 		}
 

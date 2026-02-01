@@ -8,6 +8,7 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorBlock;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorItem;
+import top.nebula.cmi.common.block.fast_spout.FastSpoutBlock;
 import top.nebula.cmi.common.block.golden_sapling.GoldenSaplingBlock;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerBlock;
 import top.nebula.cmi.common.block.mars_geothermal_vent.MarsGeothermalVentBlock;
@@ -24,6 +25,7 @@ public class ModBlocks {
 	public static final BlockEntry<TestGravelBlock> TEST_GRAVEL;
 	public static final BlockEntry<SteamHammerBlock> STEAM_HAMMER;
 	public static final BlockEntry<AcceleratorMotorBlock> ACCELERATOR_MOTOR;
+	public static final BlockEntry<FastSpoutBlock> FAST_SPOUT;
 
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.block("test_gravel", TestGravelBlock::new)
@@ -58,6 +60,11 @@ public class ModBlocks {
 				.transform(BlockStressDefaults.setCapacity(0))
 				.transform(BlockStressDefaults.setGeneratorSpeed(() -> Couple.create(0, 256)))
 				.item(AcceleratorMotorItem::new)
+				.build()
+				.register();
+		FAST_SPOUT = Cmi.CREATE_REGISTRATE.block("fast_spout", FastSpoutBlock::new)
+				.initialProperties(SharedProperties::copperMetal)
+				.item()
 				.build()
 				.register();
 	}

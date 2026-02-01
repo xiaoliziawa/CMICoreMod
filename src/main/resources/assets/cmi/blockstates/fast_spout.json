@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "cmi:block/fast_spout/block"
+    }
+  }
+}

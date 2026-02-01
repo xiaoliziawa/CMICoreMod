@@ -12,6 +12,8 @@ public class CommonConfig {
 	public static final ForgeConfigSpec.IntValue ACCELERATOR_MOTOR_DEFAULT_SPEED;
 	public static final ForgeConfigSpec.IntValue ACCELERATOR_MOTOR_MAX_SPEED;
 
+	public static final ForgeConfigSpec.IntValue FAST_SPOUT_FILLING_TIME;
+
 	static {
 		BUILDER.comment("All settings below will only take effect after restarting the server or client.")
 				.push("general");
@@ -53,6 +55,18 @@ public class CommonConfig {
 				.comment("type: int")
 				.comment("default: 128")
 				.defineInRange("max_speed", 128, 1, 256);
+
+		BUILDER.pop();
+
+		BUILDER.comment("Fast Spout settings")
+				.push("fast_spout");
+
+		FAST_SPOUT_FILLING_TIME = BUILDER
+				.comment("Filling time in ticks (20 ticks = 1 second)")
+				.comment("Original spout uses 20 ticks")
+				.comment("type: int")
+				.comment("default: 5")
+				.defineInRange("filling_time", 5, 1, 100);
 
 		BUILDER.pop();
 

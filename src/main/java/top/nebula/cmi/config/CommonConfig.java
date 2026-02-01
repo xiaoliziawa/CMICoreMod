@@ -85,7 +85,7 @@ public class CommonConfig {
 				.comment("Original spout uses 1000 mB")
 				.comment("type: int")
 				.comment("default: 8000")
-				.defineInRange("capacity", 8000, 1000, 64000);
+				.defineInRange("capacity", 8000, 2000, 64000);
 
 		BUILDER.pop();
 
@@ -122,7 +122,7 @@ public class CommonConfig {
 				.comment("Work height of void dust collector")
 				.comment("type: int")
 				.comment("default: -63")
-				.defineInRange("work_height", -63, -64, 319);
+				.defineInRange("work_height", -63, -63, 319);
 
 		BUILDER.pop();
 

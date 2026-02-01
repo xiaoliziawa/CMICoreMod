@@ -99,11 +99,8 @@ public class VoidDustCollectorBlockEnitiy extends BlockEntity {
 
 		// 完成一次生成
 		if (workTimer >= workTimeRequired) {
-			if (stack.isEmpty()) {
-				capabilityHandler.itemHandler.setStackInSlot(0, OUTPUT_ITEM);
-			} else {
-				stack.grow(1);
-			}
+			ItemStack output = OUTPUT_ITEM.copy();
+			capabilityHandler.itemHandler.insertItem(0, output, false);
 
 			workTimer = 0;
 			workTimeRequired = 0;

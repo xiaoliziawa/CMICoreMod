@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"working=true": {
+			"model": "cmi:block/void_dust_collector/on"
+		},
+		"working=false": {
+			"model": "cmi:block/void_dust_collector/off"
+		}
+	}
+}

@@ -11,7 +11,7 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"name": "cmi:hydraulic_press"
+					"name": "cmi:fast_spout"
 				}
 			],
 			"rolls": 1.0

@@ -17,7 +17,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidStack;
 
 public class FastSpoutRenderer extends SafeBlockEntityRenderer<FastSpoutBlockEntity> {
-
 	static final PartialModel[] BITS = {
 			AllPartialModels.SPOUT_TOP,
 			AllPartialModels.SPOUT_MIDDLE,
@@ -28,12 +27,11 @@ public class FastSpoutRenderer extends SafeBlockEntityRenderer<FastSpoutBlockEnt
 	}
 
 	@Override
-	protected void renderSafe(FastSpoutBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer,
-			int light, int overlay) {
-
+	protected void renderSafe(FastSpoutBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
 		SmartFluidTankBehaviour tank = be.getBehaviour(SmartFluidTankBehaviour.TYPE);
-		if (tank == null)
+		if (tank == null) {
 			return;
+		}
 
 		TankSegment primaryTank = tank.getPrimaryTank();
 		FluidStack fluidStack = primaryTank.getRenderedFluid();
@@ -51,10 +49,17 @@ public class FastSpoutRenderer extends SafeBlockEntityRenderer<FastSpoutBlockEnt
 			if (!top) ms.translate(0, yOffset, 0);
 			else ms.translate(0, max - min, 0);
 
-			FluidRenderer.renderFluidBox(fluidStack,
-					min, min - yOffset, min,
-					max, min, max,
-					buffer, ms, light, false);
+			FluidRenderer.renderFluidBox(
+					fluidStack,
+					min,
+					min - yOffset, min,
+					max,
+					min, max,
+					buffer,
+					ms,
+					light,
+					false
+			);
 
 			ms.popPose();
 		}
@@ -68,17 +73,25 @@ public class FastSpoutRenderer extends SafeBlockEntityRenderer<FastSpoutBlockEnt
 		if (processingTicks != -1) {
 			radius = (float) (Math.pow(((2 * processingProgress) - 1), 2) - 1);
 			AABB bb = new AABB(0.5, .5, 0.5, 0.5, -1.2, 0.5).inflate(radius / 32f);
-			FluidRenderer.renderFluidBox(fluidStack, (float) bb.minX, (float) bb.minY, (float) bb.minZ,
-					(float) bb.maxX, (float) bb.maxY, (float) bb.maxZ, buffer, ms, light, true);
+			FluidRenderer.renderFluidBox(
+					fluidStack,
+					(float) bb.minX, (float) bb.minY, (float) bb.minZ,
+					(float) bb.maxX, (float) bb.maxY, (float) bb.maxZ,
+					buffer,
+					ms,
+					light,
+					true
+			);
 		}
 
 		float squeeze = radius;
-		if (processingPT < 0)
+		if (processingPT < 0) {
 			squeeze = 0;
-		else if (processingPT < 2)
+		} else if (processingPT < 2) {
 			squeeze = Mth.lerp(processingPT / 2f, 0, -1);
-		else if (processingPT < 10)
+		} else if (processingPT < 10) {
 			squeeze = -1;
+		}
 
 		ms.pushPose();
 		for (PartialModel bit : BITS) {

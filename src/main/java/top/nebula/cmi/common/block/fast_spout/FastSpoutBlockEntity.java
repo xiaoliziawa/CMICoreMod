@@ -1,8 +1,5 @@
 package top.nebula.cmi.common.block.fast_spout;
 
-import static com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour.ProcessingResult.HOLD;
-import static com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour.ProcessingResult.PASS;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +20,6 @@ import net.minecraftforge.fluids.FluidStack;
 import top.nebula.cmi.config.CommonConfig;
 
 public class FastSpoutBlockEntity extends SpoutBlockEntity {
-
 	public FastSpoutBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
@@ -41,26 +37,30 @@ public class FastSpoutBlockEntity extends SpoutBlockEntity {
 	}
 
 	@Override
-	protected ProcessingResult whenItemHeld(TransportedItemStack transported,
-			TransportedItemStackHandlerBehaviour handler) {
-		if (processingTicks != -1 && processingTicks != 5)
-			return HOLD;
-		if (!FillingBySpout.canItemBeFilled(level, transported.stack))
-			return PASS;
-		if (getTank().isEmpty())
-			return HOLD;
+	protected ProcessingResult whenItemHeld(TransportedItemStack transported, TransportedItemStackHandlerBehaviour handler) {
+		if (processingTicks != -1 && processingTicks != 5) {
+			return ProcessingResult.HOLD;
+		}
+		if (!FillingBySpout.canItemBeFilled(level, transported.stack)) {
+			return ProcessingResult.PASS;
+		}
+		if (getTank().isEmpty()) {
+			return ProcessingResult.HOLD;
+		}
 		FluidStack fluid = getCurrentFluid();
 		int requiredAmountForItem = FillingBySpout.getRequiredAmountForItem(level, transported.stack, fluid.copy());
-		if (requiredAmountForItem == -1)
-			return PASS;
-		if (requiredAmountForItem > fluid.getAmount())
-			return HOLD;
+		if (requiredAmountForItem == -1) {
+			return ProcessingResult.PASS;
+		}
+		if (requiredAmountForItem > fluid.getAmount()) {
+			return ProcessingResult.HOLD;
+		}
 
 		if (processingTicks == -1) {
 			processingTicks = getFillingTime();
 			notifyUpdate();
 			AllSoundEvents.SPOUTING.playOnServer(level, worldPosition, 0.75f, 0.9f + 0.2f * (float) Math.random());
-			return HOLD;
+			return ProcessingResult.HOLD;
 		}
 
 		ItemStack out = FillingBySpout.fillItem(level, requiredAmountForItem, transported.stack, fluid);
@@ -69,8 +69,9 @@ public class FastSpoutBlockEntity extends SpoutBlockEntity {
 			TransportedItemStack held = null;
 			TransportedItemStack result = transported.copy();
 			result.stack = out;
-			if (!transported.stack.isEmpty())
+			if (!transported.stack.isEmpty()) {
 				held = transported.copy();
+			}
 			outList.add(result);
 			handler.handleProcessingOnItem(transported, TransportedResult.convertToAndLeaveHeld(outList, held));
 		}
@@ -78,7 +79,7 @@ public class FastSpoutBlockEntity extends SpoutBlockEntity {
 		getTank().getPrimaryHandler().setFluid(fluid);
 		sendSplash = true;
 		notifyUpdate();
-		return HOLD;
+		return ProcessingResult.HOLD;
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import top.nebula.cmi.common.block.steam_hammer.SteamHammerRenderer;
 import top.nebula.cmi.common.block.mars_geothermal_vent.MarsGeothermalVentBlockEntity;
 import top.nebula.cmi.common.block.mercury_geothermal_vent.MercuryGeothermalVentBlockEntity;
 import top.nebula.cmi.common.block.test_gravel.TestGravelBlockEntity;
+import top.nebula.cmi.common.block.void_dust_collector.VoidDustCollectorBlockEnitiy;
 import top.nebula.cmi.common.block.water_pump.WaterPumpBlockEntity;
 
 public class ModBlockEntityTypes {
@@ -23,6 +24,8 @@ public class ModBlockEntityTypes {
 	public static final BlockEntityEntry<SteamHammerBlockEntity> HYDRAULIC_PRESS;
 	public static final BlockEntityEntry<AcceleratorMotorBlockEntity> ACCELERATOR_MOTOR;
 	public static final BlockEntityEntry<FastSpoutBlockEntity> FAST_SPOUT;
+	public static final BlockEntityEntry<VoidDustCollectorBlockEnitiy> VOID_DUST_COLLECTOR;
+
 
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.blockEntity("test_gravel", TestGravelBlockEntity::new)
@@ -50,6 +53,9 @@ public class ModBlockEntityTypes {
 		FAST_SPOUT = Cmi.CREATE_REGISTRATE.blockEntity("fast_spout", FastSpoutBlockEntity::new)
 				.validBlocks(ModBlocks.FAST_SPOUT)
 				.renderer(() -> FastSpoutRenderer::new)
+				.register();
+		VOID_DUST_COLLECTOR = Cmi.REGISTRATE.blockEntity("void_dust_collector", VoidDustCollectorBlockEnitiy::new)
+				.validBlock(ModBlocks.VOID_DUST_COLLECTOR)
 				.register();
 	}
 

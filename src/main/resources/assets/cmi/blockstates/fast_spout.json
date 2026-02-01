@@ -1,7 +1,7 @@
 {
-  "variants": {
-    "": {
-      "model": "cmi:block/fast_spout/block"
-    }
-  }
+	"variants": {
+		"": {
+			"model": "cmi:block/fast_spout/block"
+		}
+	}
 }

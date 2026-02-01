@@ -1,5 +1,6 @@
 {
 	"values": [
-		"cmi:hydraulic_press"
+		"cmi:steam_hammer",
+		"cmi:fast_spout"
 	]
 }

@@ -14,6 +14,8 @@ import top.nebula.cmi.common.block.steam_hammer.SteamHammerBlock;
 import top.nebula.cmi.common.block.mars_geothermal_vent.MarsGeothermalVentBlock;
 import top.nebula.cmi.common.block.mercury_geothermal_vent.MercuryGeothermalVentBlock;
 import top.nebula.cmi.common.block.test_gravel.TestGravelBlock;
+import top.nebula.cmi.common.block.void_dust_collector.VoidDustCollectorBlock;
+import top.nebula.cmi.common.block.void_dust_collector.VoidDustCollectorItem;
 import top.nebula.cmi.common.block.water_pump.WaterPumpBlock;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerItem;
 
@@ -26,6 +28,7 @@ public class ModBlocks {
 	public static final BlockEntry<SteamHammerBlock> STEAM_HAMMER;
 	public static final BlockEntry<AcceleratorMotorBlock> ACCELERATOR_MOTOR;
 	public static final BlockEntry<FastSpoutBlock> FAST_SPOUT;
+	public static final BlockEntry<VoidDustCollectorBlock> VOID_DUST_COLLECTOR;
 
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.block("test_gravel", TestGravelBlock::new)
@@ -65,6 +68,10 @@ public class ModBlocks {
 		FAST_SPOUT = Cmi.CREATE_REGISTRATE.block("fast_spout", FastSpoutBlock::new)
 				.initialProperties(SharedProperties::copperMetal)
 				.item()
+				.build()
+				.register();
+		VOID_DUST_COLLECTOR = Cmi.REGISTRATE.block("void_dust_collector", VoidDustCollectorBlock::new)
+				.item(VoidDustCollectorItem::new)
 				.build()
 				.register();
 	}

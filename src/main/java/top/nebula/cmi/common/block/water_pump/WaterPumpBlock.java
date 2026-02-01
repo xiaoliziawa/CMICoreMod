@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 @Mod.EventBusSubscriber(modid = Cmi.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class WaterPumpBlock extends Block implements IBE<WaterPumpBlockEntity> {
 	public WaterPumpBlock(Properties properties) {
-		super(properties.copy(Blocks.OAK_PLANKS));
+		super(Properties.copy(Blocks.OAK_PLANKS));
 	}
 
 	@Override

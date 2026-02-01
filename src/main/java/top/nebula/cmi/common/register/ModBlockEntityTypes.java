@@ -26,7 +26,6 @@ public class ModBlockEntityTypes {
 	public static final BlockEntityEntry<AdvancedSpoutBlockEntity> FAST_SPOUT;
 	public static final BlockEntityEntry<VoidDustCollectorBlockEnitiy> VOID_DUST_COLLECTOR;
 
-
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.blockEntity("test_gravel", TestGravelBlockEntity::new)
 				.validBlock(ModBlocks.TEST_GRAVEL)

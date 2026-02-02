@@ -1,6 +1,7 @@
 package top.nebula.cmi.common.register;
 
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
+import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
 import com.simibubi.create.foundation.data.BlockStateGen;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.utility.Couple;
@@ -69,7 +70,7 @@ public class ModBlocks {
 		FAST_SPOUT = Cmi.CREATE_REGISTRATE.block("fast_spout", AdvancedSpoutBlock::new)
 				.initialProperties(SharedProperties::copperMetal)
 				.addLayer(() -> RenderType::cutoutMipped)
-				.item()
+				.item(AssemblyOperatorBlockItem::new)
 				.build()
 				.register();
 		VOID_DUST_COLLECTOR = Cmi.REGISTRATE.block("void_dust_collector", VoidDustCollectorBlock::new)

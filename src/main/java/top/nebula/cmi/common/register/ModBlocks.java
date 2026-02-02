@@ -6,7 +6,6 @@ import com.simibubi.create.foundation.data.BlockStateGen;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.utility.Couple;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import net.minecraft.client.renderer.RenderType;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorBlock;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorItem;
@@ -69,7 +68,6 @@ public class ModBlocks {
 				.register();
 		ADVANCED_SPOUT = Cmi.CREATE_REGISTRATE.block("advanced_spout", AdvancedSpoutBlock::new)
 				.initialProperties(SharedProperties::copperMetal)
-//				.addLayer(() -> RenderType::cutoutMipped)
 				.item(AssemblyOperatorBlockItem::new)
 				.build()
 				.register();

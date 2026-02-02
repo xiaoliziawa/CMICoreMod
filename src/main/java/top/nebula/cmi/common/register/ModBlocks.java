@@ -69,7 +69,7 @@ public class ModBlocks {
 				.register();
 		ADVANCED_SPOUT = Cmi.CREATE_REGISTRATE.block("advanced_spout", AdvancedSpoutBlock::new)
 				.initialProperties(SharedProperties::copperMetal)
-				.addLayer(() -> RenderType::cutoutMipped)
+//				.addLayer(() -> RenderType::cutoutMipped)
 				.item(AssemblyOperatorBlockItem::new)
 				.build()
 				.register();

@@ -34,8 +34,7 @@ public class AdvancedSpoutBlock extends Block implements IWrenchable, IBE<Advanc
 	}
 
 	@Override
-	public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
-								@NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
+	public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
 		if (!level.isClientSide) {
 			boolean powered = level.hasNeighborSignal(pos);
 			if (state.getValue(POWERED) != powered) {

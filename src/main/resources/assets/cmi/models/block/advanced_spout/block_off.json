@@ -1,7 +1,6 @@
 {
-	"format_version": "1.21.11",
-	"credit": "Made with Blockbench",
-	"parent": "block/block",
+	"parent": "minecraft:block/block",
+	"render_type": "cutout",
 	"textures": {
 		"1": "cmi:block/advanced_spout/spout_off",
 		"particle": "cmi:block/advanced_spout/particle"

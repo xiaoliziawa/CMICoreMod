@@ -123,13 +123,13 @@ public class CommonConfig {
 				.comment("Maximum work height of void dust collector")
 				.comment("type: int")
 				.comment("default: -60")
-				.defineInRange("work_height", -60, -63, 319);
+				.defineInRange("max work_height", -60, -63, 319);
 
 		VOID_DUST_COLLECTOR_MIN_WORK_HEIGHT = BUILDER
 				.comment("Minimum work height of void dust collector(Collector doesnt work if greater than max height)")
 				.comment("type: int")
 				.comment("default: -63")
-				.defineInRange("work_height", -63, -63, 319);
+				.defineInRange("min work_height", -63, -63, 319);
 
 		BUILDER.pop();
 

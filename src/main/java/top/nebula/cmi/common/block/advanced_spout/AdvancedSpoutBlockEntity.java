@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.simibubi.create.AllSoundEvents;
+import com.simibubi.create.api.behaviour.BlockSpoutingBehaviour;
+import com.simibubi.create.content.fluids.FluidFX;
 import com.simibubi.create.content.fluids.spout.FillingBySpout;
 import com.simibubi.create.content.fluids.spout.SpoutBlockEntity;
 import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour.ProcessingResult;
@@ -12,15 +14,20 @@ import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackH
 import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.foundation.fluid.FluidHelper;
+import com.simibubi.create.foundation.utility.VecHelper;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidStack;
 import top.nebula.cmi.config.CommonConfig;
 
 public class AdvancedSpoutBlockEntity extends SpoutBlockEntity {
+
 	public AdvancedSpoutBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 	}
@@ -62,7 +69,7 @@ public class AdvancedSpoutBlockEntity extends SpoutBlockEntity {
 		if (processingTicks != -1 && processingTicks != 5) {
 			return ProcessingResult.HOLD;
 		}
-		if (!FillingBySpout.canItemBeFilled(level, transported.stack)) {
+		if (level == null || !FillingBySpout.canItemBeFilled(level, transported.stack)) {
 			return ProcessingResult.PASS;
 		}
 		if (getTank().isEmpty()) {
@@ -108,11 +115,57 @@ public class AdvancedSpoutBlockEntity extends SpoutBlockEntity {
 		if (isPowered()) {
 			return;
 		}
+		tickBehaviours();
 
-		boolean wasIdle = (processingTicks == -1);
-		super.tick();
-		if (wasIdle && processingTicks == FILLING_TIME - 1) {
-			processingTicks = getFillingTime() - 1;
+		if (level == null)
+			return;
+
+		FluidStack currentFluidInTank = getCurrentFluid();
+
+		if (processingTicks == -1 && (isVirtual() || !level.isClientSide()) && !currentFluidInTank.isEmpty()) {
+			BlockSpoutingBehaviour.forEach(behaviour -> {
+				if (customProcess != null)
+					return;
+				if (behaviour.fillBlock(level, worldPosition.below(2), this, currentFluidInTank, true) > 0) {
+					processingTicks = getFillingTime();
+					customProcess = behaviour;
+					notifyUpdate();
+				}
+			});
 		}
+
+		if (processingTicks >= 0) {
+			processingTicks--;
+			if (processingTicks == 5 && customProcess != null) {
+				int fillBlock = customProcess.fillBlock(level, worldPosition.below(2), this, currentFluidInTank, false);
+				customProcess = null;
+				if (fillBlock > 0) {
+					getTank().getPrimaryHandler()
+						.setFluid(FluidHelper.copyStackWithAmount(currentFluidInTank,
+							currentFluidInTank.getAmount() - fillBlock));
+					sendSplash = true;
+					notifyUpdate();
+				}
+			}
+		}
+
+		if (processingTicks >= 8 && level.isClientSide()) {
+			spawnProcessingParticles(getTank().getPrimaryTank().getRenderedFluid());
+		}
+	}
+
+	private void tickBehaviours() {
+		if (level == null)
+			return;
+		forEachBehaviour(BlockEntityBehaviour::tick);
+	}
+
+	protected void spawnProcessingParticles(FluidStack fluid) {
+		if (isVirtual() || level == null)
+			return;
+		Vec3 vec = VecHelper.getCenterOf(worldPosition);
+		vec = vec.subtract(0, 8 / 16f, 0);
+		ParticleOptions particle = FluidFX.getFluidParticle(fluid);
+		level.addAlwaysVisibleParticle(particle, vec.x, vec.y, vec.z, 0, -.1f, 0);
 	}
 }

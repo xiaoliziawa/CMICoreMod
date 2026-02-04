@@ -25,6 +25,7 @@
 	"cmi.tooltip.void_dust_collector.isWorking": "工作时",
 	"cmi.tooltip.void_dust_collector.workTime": "每 _%s Tick_ 收集一个虚空粉末",
 	"cmi.tooltip.void_dust_collector.energyConsumption": "每Tick消耗 _%s FE_",
+	"jei.category.cmi.void_dust_collector": "虚空粉末收集",
 	"jei.category.cmi.accelerator": "构件催生",
 	"jei.catalyst.cmi.accelerator.1": "对着催生器使用构件",
 	"jei.catalyst.cmi.accelerator.2": "需要周围5x5范围内至少24个可触发方块",

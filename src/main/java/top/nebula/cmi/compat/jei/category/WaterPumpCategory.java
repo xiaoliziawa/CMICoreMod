@@ -17,7 +17,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 import top.nebula.cmi.Cmi;
-import top.nebula.cmi.common.recipe.waterpump.WaterPumpRecipe;
+import top.nebula.cmi.common.recipe.water_pump.WaterPumpRecipe;
 import top.nebula.cmi.common.register.ModBlocks;
 import top.nebula.cmi.compat.jei.CmiGuiTextures;
 import top.nebula.cmi.compat.jei.category.multiblock.WaterPumpMultiblock;

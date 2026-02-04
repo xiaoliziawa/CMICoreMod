@@ -19,7 +19,7 @@ import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import top.nebula.cmi.Cmi;
-import top.nebula.cmi.common.recipe.waterpump.WaterPumpSeaWaterRecipe;
+import top.nebula.cmi.common.recipe.water_pump.WaterPumpSeaWaterRecipe;
 import top.nebula.cmi.common.register.ModBlocks;
 import top.nebula.cmi.compat.jei.CmiGuiTextures;
 import top.nebula.cmi.compat.jei.category.multiblock.WaterPumpMultiblock;

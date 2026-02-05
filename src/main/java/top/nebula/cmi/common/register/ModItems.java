@@ -7,11 +7,11 @@ import top.nebula.cmi.common.item.TestBrushItem;
 
 public class ModItems {
 	public static final ItemEntry<NuclearMechanismItem> NUCLEAR_MECHANISM;
-	public static final ItemEntry<TestBrushItem> TEST_BRUSH;
+//	public static final ItemEntry<TestBrushItem> TEST_BRUSH;
 
 	static {
-		TEST_BRUSH = Cmi.REGISTRATE.item("test_brush", TestBrushItem::new)
-				.register();
+//		TEST_BRUSH = Cmi.REGISTRATE.item("test_brush", TestBrushItem::new)
+//				.register();
 		NUCLEAR_MECHANISM = Cmi.REGISTRATE.item("nuclear_mechanism", NuclearMechanismItem::new)
 				.register();
 	}

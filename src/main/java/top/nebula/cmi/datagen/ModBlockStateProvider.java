@@ -18,7 +18,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		saplingBlock(ModBlocks.GOLD_SAPLING);
+//		saplingBlock(ModBlocks.GOLD_SAPLING);
 		simpleBlockWithItem(ModBlocks.WATER_PUMP.get(), new ModelFile.UncheckedModelFile(modLoc("block/water_pump")));
 	}
 

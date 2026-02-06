@@ -15,6 +15,7 @@ import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.recipe.water_pump.WaterPumpSeaWaterRecipe;
 import top.nebula.cmi.common.register.ModBlocks;
 import top.nebula.cmi.compat.jei.CmiGuiTextures;
+import top.nebula.cmi.compat.jei.ModJeiPlugin;
 import top.nebula.cmi.compat.jei.category.multiblock.WaterPumpMultiblock;
 import top.nebula.libs.client.ClientRenderUtils;
 import top.nebula.libs.compat.jei.categoty.SimpleJeiCategory;
@@ -32,8 +33,7 @@ public class WaterPumpSeaWaterCategory {
 		return ForgeRegistries.ITEMS.getValue(Cmi.loadResource("sea_water_bucket"));
 	});
 
-	public static final RecipeType<WaterPumpSeaWaterRecipe> WATER_PUMP_SEA_WATER_TYPE = RecipeType.create(
-			Cmi.MODID,
+	public static final RecipeType<WaterPumpSeaWaterRecipe> WATER_PUMP_SEA_WATER_TYPE = ModJeiPlugin.createRecipeType(
 			"water_pump_sea_water",
 			WaterPumpSeaWaterRecipe.class
 	);

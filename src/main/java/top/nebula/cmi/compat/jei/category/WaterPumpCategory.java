@@ -13,6 +13,7 @@ import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.recipe.water_pump.WaterPumpRecipe;
 import top.nebula.cmi.common.register.ModBlocks;
 import top.nebula.cmi.compat.jei.CmiGuiTextures;
+import top.nebula.cmi.compat.jei.ModJeiPlugin;
 import top.nebula.cmi.compat.jei.category.multiblock.WaterPumpMultiblock;
 import top.nebula.libs.client.ClientRenderUtils;
 import top.nebula.libs.compat.jei.categoty.SimpleJeiCategory;
@@ -21,8 +22,7 @@ import java.util.Collections;
 
 public class WaterPumpCategory {
 	private static final WaterPumpMultiblock WATER_PUMP_MB = new WaterPumpMultiblock();
-	public static final RecipeType<WaterPumpRecipe> WATER_PUMP_TYPE = RecipeType.create(
-			Cmi.MODID,
+	public static final RecipeType<WaterPumpRecipe> WATER_PUMP_TYPE = ModJeiPlugin.createRecipeType(
 			"water_pump",
 			WaterPumpRecipe.class
 	);

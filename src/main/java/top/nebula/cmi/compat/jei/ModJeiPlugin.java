@@ -5,6 +5,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -88,5 +89,9 @@ public class ModJeiPlugin implements IModPlugin {
 						registration.addRecipeCatalyst(stack, type);
 					});
 		});
+	}
+
+	public static <T> RecipeType<T> createRecipeType(String path, Class<? extends T> recipeClass) {
+		return RecipeType.create(Cmi.MODID, path, recipeClass);
 	}
 }

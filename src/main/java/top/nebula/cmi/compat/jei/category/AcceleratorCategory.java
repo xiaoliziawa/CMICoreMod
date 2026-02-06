@@ -20,6 +20,7 @@ import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.recipe.accelerator.AcceleratorRecipe;
+import top.nebula.cmi.compat.jei.ModJeiPlugin;
 import top.nebula.libs.compat.jei.categoty.SimpleJeiCategory;
 
 public class AcceleratorCategory {
@@ -33,8 +34,7 @@ public class AcceleratorCategory {
 		return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("create:precision_mechanism"));
 	});
 
-	public static final RecipeType<AcceleratorRecipe> ACCELERATOR_TYPE = RecipeType.create(
-			Cmi.MODID,
+	public static final RecipeType<AcceleratorRecipe> ACCELERATOR_TYPE = ModJeiPlugin.createRecipeType(
 			"accelerator",
 			AcceleratorRecipe.class
 	);

@@ -15,6 +15,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.recipe.void_dust_collector.VoidDustCollectorRecipe;
 import top.nebula.cmi.common.register.ModBlocks;
+import top.nebula.cmi.compat.jei.ModJeiPlugin;
 import top.nebula.cmi.compat.jei.category.multiblock.VoidDustCollectorMultiblock;
 import top.nebula.libs.compat.jei.categoty.SimpleJeiCategory;
 
@@ -27,8 +28,7 @@ public class VoidDustCollectorCategory {
 	});
 	private static final VoidDustCollectorMultiblock VOID_MB = new VoidDustCollectorMultiblock();
 
-	public static final RecipeType<VoidDustCollectorRecipe> VOID_DUST_COLLECTOR_TYPE = RecipeType.create(
-			Cmi.MODID,
+	public static final RecipeType<VoidDustCollectorRecipe> VOID_DUST_COLLECTOR_TYPE = ModJeiPlugin.createRecipeType(
 			"void_dust_collector",
 			VoidDustCollectorRecipe.class
 	);

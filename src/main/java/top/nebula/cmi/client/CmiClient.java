@@ -3,6 +3,7 @@ package top.nebula.cmi.client;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import top.nebula.cmi.client.block.resource.CmiBlockPartialModel;
+import top.nebula.cmi.client.block.resource.CmiSpriteShiftEntry;
 import top.nebula.cmi.client.ponder.CmiPonderIndex;
 
 public class CmiClient {
@@ -12,6 +13,7 @@ public class CmiClient {
 
 	public static void onClientSetup(FMLClientSetupEvent event) {
 		CmiBlockPartialModel.init();
+		CmiSpriteShiftEntry.init();
 		event.enqueueWork(CmiPonderIndex::register);
 	}
 }

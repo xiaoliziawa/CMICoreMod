@@ -21,8 +21,8 @@ public class ModRecipeType {
 		});
 	}
 
-	public static void register(IEventBus event) {
-		RECIPE_TYPES.register(event);
+	public static void register(IEventBus bus) {
+		RECIPE_TYPES.register(bus);
 		Cmi.LOGGER.info("CMI Core RecipeTypes Registered!");
 	}
 }

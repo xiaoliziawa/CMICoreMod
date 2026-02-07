@@ -7,6 +7,9 @@ import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorBlockEntity
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorRenderer;
 import top.nebula.cmi.common.block.advanced_spout.AdvancedSpoutBlockEntity;
 import top.nebula.cmi.common.block.advanced_spout.AdvancedSpoutRenderer;
+import top.nebula.cmi.common.block.belt_grinder.BeltGrinderBlockEntity;
+import top.nebula.cmi.common.block.belt_grinder.BeltGrinderInstance;
+import top.nebula.cmi.common.block.belt_grinder.BeltGrinderRenderer;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerBlockEntity;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerInstance;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerRenderer;
@@ -25,6 +28,7 @@ public class ModBlockEntityTypes {
 	public static final BlockEntityEntry<AcceleratorMotorBlockEntity> ACCELERATOR_MOTOR;
 	public static final BlockEntityEntry<AdvancedSpoutBlockEntity> ADVANCED_SPOUT;
 	public static final BlockEntityEntry<VoidDustCollectorBlockEnitiy> VOID_DUST_COLLECTOR;
+	public static final BlockEntityEntry<BeltGrinderBlockEntity> BELT_GRINDER;
 
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.blockEntity("test_gravel", TestGravelBlockEntity::new)
@@ -55,6 +59,11 @@ public class ModBlockEntityTypes {
 				.register();
 		VOID_DUST_COLLECTOR = Cmi.REGISTRATE.blockEntity("void_dust_collector", VoidDustCollectorBlockEnitiy::new)
 				.validBlock(ModBlocks.VOID_DUST_COLLECTOR)
+				.register();
+		BELT_GRINDER = Cmi.CREATE_REGISTRATE.blockEntity("mechanical_belt_grinder", BeltGrinderBlockEntity::new)
+				.instance(() -> BeltGrinderInstance::new)
+				.validBlocks(ModBlocks.BELT_GRINDER)
+				.renderer(() -> BeltGrinderRenderer::new)
 				.register();
 	}
 

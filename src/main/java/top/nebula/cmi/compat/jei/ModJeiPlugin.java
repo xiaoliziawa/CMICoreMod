@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import org.jetbrains.annotations.NotNull;
 import top.nebula.cmi.Cmi;
+import top.nebula.cmi.common.block.belt_grinder.GrindingRecipe;
 import top.nebula.cmi.common.recipe.accelerator.AcceleratorRecipe;
 import top.nebula.cmi.common.recipe.void_dust_collector.VoidDustCollectorRecipe;
 import top.nebula.cmi.common.recipe.water_pump.WaterPumpRecipe;
@@ -40,6 +41,7 @@ public class ModJeiPlugin implements IModPlugin {
 		registration.addRecipeCategories(WaterPumpCategory.builder(helper));
 		registration.addRecipeCategories(WaterPumpSeaWaterCategory.builder(helper));
 		registration.addRecipeCategories(VoidDustCollectorCategory.builder(helper));
+		registration.addRecipeCategories(GrindingCategory.builder(helper));
 	}
 
 	@Override
@@ -50,11 +52,13 @@ public class ModJeiPlugin implements IModPlugin {
 		List<WaterPumpRecipe> waterPumpRecipe = List.of(new WaterPumpRecipe());
 		List<WaterPumpSeaWaterRecipe> waterPumpSeaWaterRecipe = List.of(new WaterPumpSeaWaterRecipe());
 		List<VoidDustCollectorRecipe> voidDustCollectorRecipe = List.of(new VoidDustCollectorRecipe());
+		List<GrindingRecipe> grindingRecipe = manager.getAllRecipesFor(GrindingRecipe.);
 
 		registration.addRecipes(AcceleratorCategory.ACCELERATOR_TYPE, acceleratorRecipe);
 		registration.addRecipes(WaterPumpCategory.WATER_PUMP_TYPE, waterPumpRecipe);
 		registration.addRecipes(WaterPumpSeaWaterCategory.WATER_PUMP_SEA_WATER_TYPE, waterPumpSeaWaterRecipe);
 		registration.addRecipes(VoidDustCollectorCategory.VOID_DUST_COLLECTOR_TYPE, voidDustCollectorRecipe);
+		registration.addRecipes(GrindingCategory.GRINDING_TYPE, manager.getAllRecipesFor(GrindingRecipe.Type.INSTANCE));
 	}
 
 	@Override

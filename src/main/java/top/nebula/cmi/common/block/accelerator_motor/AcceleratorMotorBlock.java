@@ -39,7 +39,6 @@ public class AcceleratorMotorBlock extends DirectionalKineticBlock implements IB
 		return defaultBlockState().setValue(FACING, preferred);
 	}
 
-
 	@Override
 	public boolean hasShaftTowards(LevelReader level, BlockPos pos, BlockState state, Direction direction) {
 		return direction == state.getValue(FACING);

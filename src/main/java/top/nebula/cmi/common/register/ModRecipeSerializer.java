@@ -21,8 +21,8 @@ public class ModRecipeSerializer {
 		});
 	}
 
-	public static void register(IEventBus event) {
-		SERIALIZERS.register(event);
+	public static void register(IEventBus bus) {
+		SERIALIZERS.register(bus);
 		Cmi.LOGGER.info("CMI Core RecipeSerializers Registered!");
 	}
 }

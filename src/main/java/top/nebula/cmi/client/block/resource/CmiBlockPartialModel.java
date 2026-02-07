@@ -8,6 +8,7 @@ public class CmiBlockPartialModel {
 	public static final PartialModel SPOUT_TOP;
 	public static final PartialModel SPOUT_MIDDLE;
 	public static final PartialModel SPOUT_BOTTOM;
+	public static final PartialModel GRINDER_BELT;
 
 	static {
 		STEAM_HAMMER = addPartial("steam_hammer/head");
@@ -15,6 +16,8 @@ public class CmiBlockPartialModel {
 		SPOUT_TOP = addPartial("advanced_spout/top");
 		SPOUT_MIDDLE = addPartial("advanced_spout/middle");
 		SPOUT_BOTTOM = addPartial("advanced_spout/bottom");
+
+		GRINDER_BELT = addPartial("mechanical_belt_grinder/belt");
 	}
 
 	private static PartialModel addPartial(String path) {

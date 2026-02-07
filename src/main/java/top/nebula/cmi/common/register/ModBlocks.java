@@ -4,12 +4,16 @@ import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
 import com.simibubi.create.foundation.data.BlockStateGen;
 import com.simibubi.create.foundation.data.SharedProperties;
+import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.utility.Couple;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.registries.Registries;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorBlock;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorItem;
 import top.nebula.cmi.common.block.advanced_spout.AdvancedSpoutBlock;
+import top.nebula.cmi.common.block.belt_grinder.BeltGrinderBlock;
 import top.nebula.cmi.common.block.golden_sapling.GoldenSaplingBlock;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerBlock;
 import top.nebula.cmi.common.block.mars_geothermal_vent.MarsGeothermalVentBlock;
@@ -30,6 +34,7 @@ public class ModBlocks {
 	public static final BlockEntry<AcceleratorMotorBlock> ACCELERATOR_MOTOR;
 	public static final BlockEntry<AdvancedSpoutBlock> ADVANCED_SPOUT;
 	public static final BlockEntry<VoidDustCollectorBlock> VOID_DUST_COLLECTOR;
+	public static final BlockEntry<BeltGrinderBlock> BELT_GRINDER;
 
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.block("test_gravel", TestGravelBlock::new)
@@ -73,6 +78,16 @@ public class ModBlocks {
 				.register();
 		VOID_DUST_COLLECTOR = Cmi.REGISTRATE.block("void_dust_collector", VoidDustCollectorBlock::new)
 				.item(VoidDustCollectorItem::new)
+				.build()
+				.register();
+		BELT_GRINDER = Cmi.REGISTRATE.block("mechanical_belt_grinder", BeltGrinderBlock::new)
+				.initialProperties(SharedProperties::stone)
+				.addLayer(() -> RenderType::cutoutMipped)
+				.transform(BlockStressDefaults.setImpact(8.0))
+				.onRegisterAfter(Registries.ITEM, (block) -> {
+					ItemDescription.useKey(block, "block.cmi.mechanical_grinder");
+				})
+				.item()
 				.build()
 				.register();
 	}

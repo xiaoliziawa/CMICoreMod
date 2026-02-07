@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import top.nebula.cmi.client.CmiClient;
 import top.nebula.cmi.client.block.resource.CmiBlockPartialModel;
+import top.nebula.cmi.client.block.resource.CmiSpriteShiftEntry;
 import top.nebula.cmi.common.register.*;
 import top.nebula.cmi.compat.create.CmiStressValueProvider;
 import top.nebula.cmi.config.CommonConfig;
@@ -52,8 +53,10 @@ public class Cmi {
 		ModItems.register();
 		ModRecipeType.register(bus);
 		ModRecipeSerializer.register(bus);
+		ModCreateRecipe.register(bus);
 
 		CmiBlockPartialModel.init();
+		CmiSpriteShiftEntry.init();
 
 		bus.addListener(this::onCommonSetup);
 

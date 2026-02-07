@@ -52,7 +52,7 @@ public class ModJeiPlugin implements IModPlugin {
 		List<WaterPumpRecipe> waterPumpRecipe = List.of(new WaterPumpRecipe());
 		List<WaterPumpSeaWaterRecipe> waterPumpSeaWaterRecipe = List.of(new WaterPumpSeaWaterRecipe());
 		List<VoidDustCollectorRecipe> voidDustCollectorRecipe = List.of(new VoidDustCollectorRecipe());
-		List<GrindingRecipe> grindingRecipe = manager.getAllRecipesFor(GrindingRecipe.);
+		List<GrindingRecipe> grindingRecipe = manager.getAllRecipesFor(GrindingRecipe.Type.INSTANCE);
 
 		registration.addRecipes(AcceleratorCategory.ACCELERATOR_TYPE, acceleratorRecipe);
 		registration.addRecipes(WaterPumpCategory.WATER_PUMP_TYPE, waterPumpRecipe);
@@ -80,6 +80,10 @@ public class ModJeiPlugin implements IModPlugin {
 		registration.addRecipeCatalyst(
 				ModBlocks.VOID_DUST_COLLECTOR.asStack(),
 				VoidDustCollectorCategory.VOID_DUST_COLLECTOR_TYPE
+		);
+		registration.addRecipeCatalyst(
+				ModBlocks.BELT_GRINDER.asStack(),
+				GrindingCategory.GRINDING_TYPE
 		);
 
 		Map<String, ItemStack> createCatalysts = Map.of(

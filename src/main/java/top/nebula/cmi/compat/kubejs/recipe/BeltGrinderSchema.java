@@ -8,8 +8,8 @@ import dev.latvian.mods.kubejs.recipe.schema.RecipeSchema;
 
 public interface BeltGrinderSchema {
 	RecipeKey<OutputItem[]> RESULTS = ItemComponents.OUTPUT_ARRAY.key("results");
-	RecipeKey<InputItem[]> INPUT = ItemComponents.INPUT_ARRAY.key("input");
-	RecipeKey<Double> PROCESSING_TIME = NumberComponent.DOUBLE.key("processingTime").defaultOptional();
+	RecipeKey<InputItem[]> INPUT = ItemComponents.INPUT_ARRAY.key("ingredients");
+	RecipeKey<Double> PROCESSING_TIME = NumberComponent.DOUBLE.key("processingTime").optional(20d);
 
 	RecipeSchema SCHEMA = new RecipeSchema(INPUT, RESULTS, PROCESSING_TIME);
 }

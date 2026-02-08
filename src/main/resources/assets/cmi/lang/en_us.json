@@ -35,7 +35,7 @@
 	"jei.catalyst.cmi.water_pump.pos": "Core block at coordinate Y = 62",
 	"jei.category.cmi.void_dust_collector": "Void Dust Collector",
 	"jei.category.cmi.accelerator": "Mechanism Accelerator",
-	"jei.category.cmi.grinder": "Parallel grinding",
+	"jei.category.cmi.grinding": "Parallel grinding",
 	"jade.tip.cmi.powered.off": "State: off",
 	"jade.tip.cmi.powered.on": "State: on"
 }

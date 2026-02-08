@@ -12,12 +12,13 @@ import top.nebula.cmi.common.register.CmiBlocks;
 public class AnimatedBeltGrinder extends AnimatedKinetics {
 	@Override
 	public void draw(GuiGraphics graphics, int xOffset, int yOffset) {
-		PoseStack matrixStack = graphics.pose();
-		matrixStack.pushPose();
-		matrixStack.translate(xOffset, yOffset, 0);
-		matrixStack.translate(2, 22, 200);
-		matrixStack.mulPose(Axis.XP.rotationDegrees(-15.5f));
-		matrixStack.mulPose(Axis.YP.rotationDegrees(22.5f + 90f));
+		PoseStack pose = graphics.pose();
+		pose.pushPose();
+		pose.translate(xOffset, yOffset, 0);
+		pose.translate(2, 22, 200);
+		pose.mulPose(Axis.XP.rotationDegrees(-15.5f));
+		pose.mulPose(Axis.YP.rotationDegrees(22.5f + 90f));
+
 		int scale = 25;
 
 		blockElement(shaft(Direction.Axis.X))
@@ -36,6 +37,6 @@ public class AnimatedBeltGrinder extends AnimatedKinetics {
 				.scale(scale)
 				.render(graphics);
 
-		matrixStack.popPose();
+		pose.popPose();
 	}
 }

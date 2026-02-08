@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.void_dust_collector.VoidDustCollectorBlock;
-import top.nebula.cmi.common.register.ModBlocks;
+import top.nebula.cmi.common.register.CmiBlocks;
 
 public class VoidDustCollectorMultiblock extends AnimatedKinetics {
 	private static final Lazy<Block> VOID_SPRING = Lazy.of(() -> {
@@ -31,8 +31,8 @@ public class VoidDustCollectorMultiblock extends AnimatedKinetics {
 		matrixStack.mulPose(Axis.XP.rotationDegrees(-15.5F));
 		matrixStack.mulPose(Axis.YP.rotationDegrees(22.5F));
 
-		int scale = 25;
-		defaultBlockElement(ModBlocks.VOID_DUST_COLLECTOR.get().defaultBlockState()
+		int scale = 23;
+		defaultBlockElement(CmiBlocks.VOID_DUST_COLLECTOR.get().defaultBlockState()
 				.setValue(VoidDustCollectorBlock.WORKING, true)
 				.setValue(VoidDustCollectorBlock.FACING, Direction.SOUTH))
 				.atLocal(0.0F, 1.0F, 0.0F)

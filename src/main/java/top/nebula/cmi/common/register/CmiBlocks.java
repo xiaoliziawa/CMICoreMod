@@ -23,7 +23,7 @@ import top.nebula.cmi.common.block.void_dust_collector.VoidDustCollectorItem;
 import top.nebula.cmi.common.block.water_pump.WaterPumpBlock;
 import top.nebula.cmi.common.block.steam_hammer.SteamHammerItem;
 
-public class ModBlocks {
+public class CmiBlocks {
 	public static final BlockEntry<TestGravelBlock> TEST_GRAVEL;
 	public static final BlockEntry<GoldenSaplingBlock> GOLD_SAPLING;
 	public static final BlockEntry<MarsGeothermalVentBlock> MARS_GEO;

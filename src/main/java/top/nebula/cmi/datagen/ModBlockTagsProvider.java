@@ -9,7 +9,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import top.nebula.cmi.Cmi;
-import top.nebula.cmi.common.register.ModBlocks;
+import top.nebula.cmi.common.register.CmiBlocks;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -21,10 +21,10 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 	@Override
 	public void addTags(HolderLookup.@NotNull Provider provider) {
 		tag(BlockTags.MINEABLE_WITH_AXE)
-				.add(ModBlocks.WATER_PUMP.get());
+				.add(CmiBlocks.WATER_PUMP.get());
 		tag(BlockTags.MINEABLE_WITH_PICKAXE)
-				.add(ModBlocks.WATER_PUMP.get());
+				.add(CmiBlocks.WATER_PUMP.get());
 		tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
-				.add(ModBlocks.WATER_PUMP.get());
+				.add(CmiBlocks.WATER_PUMP.get());
 	}
 }

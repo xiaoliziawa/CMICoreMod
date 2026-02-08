@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.entity.BrushableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import top.nebula.cmi.Cmi;
-import top.nebula.cmi.common.register.ModItems;
+import top.nebula.cmi.common.register.CmiItems;
 
 public class TestGravelBlockEntity extends BrushableBlockEntity {
 	public TestGravelBlockEntity(BlockEntityType<? extends TestGravelBlockEntity> type, BlockPos pos, BlockState state) {
@@ -31,7 +31,7 @@ public class TestGravelBlockEntity extends BrushableBlockEntity {
 		}
 
 		// 设置战利品表
-		if (player.getMainHandItem().is(ModItems.TEST_BRUSH.get())) {
+		if (player.getMainHandItem().is(CmiItems.TEST_BRUSH.get())) {
 			ResourceLocation customLootTables = Cmi.loadResource("archaeology/custom_brush_loot");
 			this.setLootTable(customLootTables, gameTime);
 		} else {

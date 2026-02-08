@@ -9,7 +9,7 @@ import top.nebula.cmi.common.recipe.accelerator.AcceleratorRecipe;
 
 import java.util.function.Supplier;
 
-public class ModRecipeType {
+public class CmiRecipeType {
 	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES;
 	public static final Supplier<RecipeType<AcceleratorRecipe>> ACCELERATOR;
 

@@ -37,7 +37,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import top.nebula.cmi.common.register.ModCreateRecipe;
+import top.nebula.cmi.common.register.CmiCreateRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -189,10 +189,9 @@ public class BeltGrinderBlockEntity extends KineticBlockEntity {
 		}
 
 		Vec3 outPos = VecHelper.getCenterOf(worldPosition)
-				.add(itemMovement.scale(.5f)
-						.add(0, .5, 0));
-		Vec3 outMotion = itemMovement.scale(.0625)
-				.add(0, .125, 0);
+				.add(itemMovement.scale(.5f).add(0, .5, 0));
+		Vec3 outMotion = itemMovement.scale(.0625).add(0, .125, 0);
+
 		for (int slot = 0; slot < inv.getSlots(); slot++) {
 			ItemStack stack = inv.getStackInSlot(slot);
 			if (stack.isEmpty()) {
@@ -251,13 +250,17 @@ public class BeltGrinderBlockEntity extends KineticBlockEntity {
 	}
 
 	private List<? extends Recipe<?>> getRecipes() {
-		Optional<GrindingRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inv.getStackInSlot(0),
-				ModCreateRecipe.GRINDING.getType(), GrindingRecipe.class);
+		Optional<GrindingRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(
+				level,
+				inv.getStackInSlot(0),
+				CmiCreateRecipe.GRINDING.getType(),
+				GrindingRecipe.class
+		);
 		if (assemblyRecipe.isPresent() && filtering.test(assemblyRecipe.get().getResultItem(level.registryAccess()))) {
 			return ImmutableList.of(assemblyRecipe.get());
 		}
 
-		Predicate<Recipe<?>> types = RecipeConditions.isOfType(ModCreateRecipe.GRINDING.getType(), com.simibubi.create.AllRecipeTypes.SANDPAPER_POLISHING.getType());
+		Predicate<Recipe<?>> types = RecipeConditions.isOfType(CmiCreateRecipe.GRINDING.getType(), com.simibubi.create.AllRecipeTypes.SANDPAPER_POLISHING.getType());
 
 		List<Recipe<?>> startedSearch = RecipeFinder.get(grindingRecipesKey, level, types);
 		return startedSearch.stream()

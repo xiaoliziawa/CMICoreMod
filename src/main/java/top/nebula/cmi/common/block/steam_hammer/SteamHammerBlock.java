@@ -11,7 +11,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import top.nebula.cmi.common.register.ModBlockEntityTypes;
+import top.nebula.cmi.common.register.CmiBlockEntityTypes;
 
 public class SteamHammerBlock extends MechanicalPressBlock {
 	public SteamHammerBlock(Properties properties) {
@@ -23,7 +23,7 @@ public class SteamHammerBlock extends MechanicalPressBlock {
 
 	@Override
 	public BlockEntityType<? extends SteamHammerBlockEntity> getBlockEntityType() {
-		return ModBlockEntityTypes.HYDRAULIC_PRESS.get();
+		return CmiBlockEntityTypes.HYDRAULIC_PRESS.get();
 	}
 
 	@Override

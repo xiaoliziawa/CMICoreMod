@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.Fluid;
@@ -13,10 +12,11 @@ import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.recipe.water_pump.WaterPumpSeaWaterRecipe;
-import top.nebula.cmi.common.register.ModBlocks;
+import top.nebula.cmi.common.register.CmiBlocks;
 import top.nebula.cmi.compat.jei.CmiGuiTextures;
-import top.nebula.cmi.compat.jei.ModJeiPlugin;
+import top.nebula.cmi.compat.jei.api.CmiJeiRecipeType;
 import top.nebula.cmi.compat.jei.category.multiblock.WaterPumpMultiblock;
+import top.nebula.cmi.utils.CmiLang;
 import top.nebula.libs.client.ClientRenderUtils;
 import top.nebula.libs.compat.jei.categoty.SimpleJeiCategory;
 
@@ -33,17 +33,12 @@ public class WaterPumpSeaWaterCategory {
 		return ForgeRegistries.ITEMS.getValue(Cmi.loadResource("sea_water_bucket"));
 	});
 
-	public static final RecipeType<WaterPumpSeaWaterRecipe> WATER_PUMP_SEA_WATER_TYPE = ModJeiPlugin.createRecipeType(
-			"water_pump_sea_water",
-			WaterPumpSeaWaterRecipe.class
-	);
-
 	public static SimpleJeiCategory<WaterPumpSeaWaterRecipe> builder(IGuiHelper helper) {
-		return SimpleJeiCategory.builder(WATER_PUMP_SEA_WATER_TYPE)
-				.setTitle(Component.translatable("jei.category.cmi.water_pump_sea_water"))
+		return SimpleJeiCategory.builder(CmiJeiRecipeType.SEA_WATER_PUMP)
+				.setTitle(CmiLang.JeiLang.setCategory("water_pump_sea_water"))
 				.setSize(178, 72)
 				.setIcon(() -> {
-					return helper.createDrawableItemStack(ModBlocks.WATER_PUMP.get().asItem().getDefaultInstance());
+					return helper.createDrawableItemStack(CmiBlocks.WATER_PUMP.get().asItem().getDefaultInstance());
 				})
 				.setBackground(helper.createBlankDrawable(0, 0))
 				.setRecipe((builder, recipe, group) -> {

@@ -8,7 +8,6 @@ import com.simibubi.create.compat.jei.category.animations.AnimatedKinetics;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -20,7 +19,8 @@ import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.recipe.accelerator.AcceleratorRecipe;
-import top.nebula.cmi.compat.jei.ModJeiPlugin;
+import top.nebula.cmi.compat.jei.api.CmiJeiRecipeType;
+import top.nebula.cmi.utils.CmiLang;
 import top.nebula.libs.compat.jei.categoty.SimpleJeiCategory;
 
 public class AcceleratorCategory {
@@ -34,14 +34,9 @@ public class AcceleratorCategory {
 		return ForgeRegistries.ITEMS.getValue(ResourceLocation.parse("create:precision_mechanism"));
 	});
 
-	public static final RecipeType<AcceleratorRecipe> ACCELERATOR_TYPE = ModJeiPlugin.createRecipeType(
-			"accelerator",
-			AcceleratorRecipe.class
-	);
-
 	public static SimpleJeiCategory<AcceleratorRecipe> builder(IGuiHelper helper) {
-		return SimpleJeiCategory.builder(ACCELERATOR_TYPE)
-				.setTitle(Component.translatable("jei.category.cmi.accelerator"))
+		return SimpleJeiCategory.builder(CmiJeiRecipeType.ACCELERATOR)
+				.setTitle(CmiLang.JeiLang.setCategory("accelerator"))
 				.setSize(178, 72)
 				.setIcon(() -> {
 					return new DoubleItemIcon(

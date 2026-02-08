@@ -9,7 +9,7 @@ import top.nebula.cmi.common.recipe.accelerator.AcceleratorRecipe;
 
 import java.util.function.Supplier;
 
-public class ModRecipeSerializer {
+public class CmiRecipeSerializer {
 	public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS;
 	public static final Supplier<RecipeSerializer<AcceleratorRecipe>> ACCELERATOR;
 

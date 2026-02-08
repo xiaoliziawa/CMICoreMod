@@ -5,10 +5,11 @@ import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import top.nebula.cmi.common.block.belt_grinder.GrindingRecipe;
-import top.nebula.cmi.compat.jei.ModJeiPlugin;
+import top.nebula.cmi.common.register.CmiBlocks;
+import top.nebula.cmi.compat.jei.api.CmiJeiRecipeType;
 import top.nebula.cmi.compat.jei.category.animations.AnimatedBeltGrinder;
+import top.nebula.cmi.utils.CmiLang;
 import top.nebula.libs.compat.jei.categoty.SimpleJeiCategory;
 
 import java.util.List;
@@ -16,13 +17,12 @@ import java.util.List;
 public abstract class GrindingCategory {
 	private static final AnimatedBeltGrinder ANIMATED_BELT_GRINDER = new AnimatedBeltGrinder();
 
-	public static final RecipeType<GrindingRecipe> GRINDING_TYPE = ModJeiPlugin.createRecipeType(
-			"grinding",
-			GrindingRecipe.class
-	);
-
 	public static SimpleJeiCategory<GrindingRecipe> builder(IGuiHelper helper) {
-		return SimpleJeiCategory.builder(GRINDING_TYPE)
+		return SimpleJeiCategory.builder(CmiJeiRecipeType.GRINDING)
+				.setTitle(CmiLang.JeiLang.setCategory("grinding"))
+				.setSize(177, 60)
+				.setBackground(helper.createBlankDrawable(177, 60))
+				.setIcon(() -> helper.createDrawableItemStack(CmiBlocks.BELT_GRINDER.asStack()))
 				.setRecipe((builder, recipe, group) -> {
 					builder.addSlot(RecipeIngredientRole.INPUT, 44, 5)
 							.setBackground(CreateRecipeCategory.getRenderedSlot(), -1, -1)
@@ -43,8 +43,7 @@ public abstract class GrindingCategory {
 				})
 				.setDraw((recipe, view, graphics, mouseX, mouseY) -> {
 					AllGuiTextures.JEI_DOWN_ARROW.render(graphics, 70, 6);
-					AllGuiTextures.JEI_SHADOW.render(graphics, 72 - 17, 42 + 13);
-
+					AllGuiTextures.JEI_SHADOW.render(graphics, 55, 55);
 					ANIMATED_BELT_GRINDER.draw(graphics, 72, 42);
 				})
 				.build();

@@ -3,7 +3,7 @@ package top.nebula.cmi.datagen;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import top.nebula.cmi.Cmi;
-import top.nebula.cmi.common.register.ModItems;
+import top.nebula.cmi.common.register.CmiItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -18,7 +18,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		simpleItem(ModItems.NUCLEAR_MECHANISM);
+		simpleItem(CmiItems.NUCLEAR_MECHANISM);
 	}
 
 	private ItemModelBuilder simpleItem(ItemEntry<? extends Item> item) {

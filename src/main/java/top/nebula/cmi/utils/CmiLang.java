@@ -3,6 +3,7 @@ package top.nebula.cmi.utils;
 import com.simibubi.create.foundation.utility.Components;
 import com.simibubi.create.foundation.utility.Lang;
 import com.simibubi.create.foundation.utility.LangBuilder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import top.nebula.cmi.Cmi;
 
@@ -63,5 +64,11 @@ public class CmiLang {
 
 	public static MutableComponent translateDirect(String langKey, Object... args) {
 		return Components.translatable(String.format("%s.%s", Cmi.MODID, langKey), Lang.resolveBuilders(args));
+	}
+
+	public static class JeiLang {
+		public static MutableComponent setCategory(String key) {
+			return Component.translatable(String.format("jei.category.%s.%s", Cmi.MODID, key));
+		}
 	}
 }

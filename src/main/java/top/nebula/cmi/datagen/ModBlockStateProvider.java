@@ -1,7 +1,7 @@
 package top.nebula.cmi.datagen;
 
 import top.nebula.cmi.Cmi;
-import top.nebula.cmi.common.register.ModBlocks;
+import top.nebula.cmi.common.register.CmiBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -19,7 +19,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 //		saplingBlock(ModBlocks.GOLD_SAPLING);
-		simpleBlockWithItem(ModBlocks.WATER_PUMP.get(), new ModelFile.UncheckedModelFile(modLoc("block/water_pump")));
+		simpleBlockWithItem(CmiBlocks.WATER_PUMP.get(), new ModelFile.UncheckedModelFile(modLoc("block/water_pump")));
 	}
 
 	private void saplingBlock(Supplier<? extends Block> block) {

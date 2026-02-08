@@ -5,7 +5,6 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -20,7 +19,9 @@ import top.nebula.cmi.common.recipe.accelerator.AcceleratorRecipe;
 import top.nebula.cmi.common.recipe.void_dust_collector.VoidDustCollectorRecipe;
 import top.nebula.cmi.common.recipe.water_pump.WaterPumpRecipe;
 import top.nebula.cmi.common.recipe.water_pump.WaterPumpSeaWaterRecipe;
-import top.nebula.cmi.common.register.ModBlocks;
+import top.nebula.cmi.common.register.CmiBlocks;
+import top.nebula.cmi.common.register.CmiCreateRecipe;
+import top.nebula.cmi.compat.jei.api.CmiJeiRecipeType;
 import top.nebula.cmi.compat.jei.category.*;
 
 import java.util.List;
@@ -52,13 +53,13 @@ public class ModJeiPlugin implements IModPlugin {
 		List<WaterPumpRecipe> waterPumpRecipe = List.of(new WaterPumpRecipe());
 		List<WaterPumpSeaWaterRecipe> waterPumpSeaWaterRecipe = List.of(new WaterPumpSeaWaterRecipe());
 		List<VoidDustCollectorRecipe> voidDustCollectorRecipe = List.of(new VoidDustCollectorRecipe());
-		List<GrindingRecipe> grindingRecipe = manager.getAllRecipesFor(GrindingRecipe.Type.INSTANCE);
+		List<GrindingRecipe> grindingRecipe = manager.getAllRecipesFor(CmiCreateRecipe.GRINDING.getType());
 
-		registration.addRecipes(AcceleratorCategory.ACCELERATOR_TYPE, acceleratorRecipe);
-		registration.addRecipes(WaterPumpCategory.WATER_PUMP_TYPE, waterPumpRecipe);
-		registration.addRecipes(WaterPumpSeaWaterCategory.WATER_PUMP_SEA_WATER_TYPE, waterPumpSeaWaterRecipe);
-		registration.addRecipes(VoidDustCollectorCategory.VOID_DUST_COLLECTOR_TYPE, voidDustCollectorRecipe);
-		registration.addRecipes(GrindingCategory.GRINDING_TYPE, manager.getAllRecipesFor(GrindingRecipe.Type.INSTANCE));
+		registration.addRecipes(CmiJeiRecipeType.ACCELERATOR, acceleratorRecipe);
+		registration.addRecipes(CmiJeiRecipeType.WATER_PUMP, waterPumpRecipe);
+		registration.addRecipes(CmiJeiRecipeType.SEA_WATER_PUMP, waterPumpSeaWaterRecipe);
+		registration.addRecipes(CmiJeiRecipeType.VOID_DUST_COLLECTOR, voidDustCollectorRecipe);
+		registration.addRecipes(CmiJeiRecipeType.GRINDING, grindingRecipe);
 	}
 
 	@Override
@@ -67,28 +68,28 @@ public class ModJeiPlugin implements IModPlugin {
 
 		registration.addRecipeCatalyst(
 				AcceleratorCategory.ACCELERATOR_ITEM.get().getDefaultInstance(),
-				AcceleratorCategory.ACCELERATOR_TYPE
+				CmiJeiRecipeType.ACCELERATOR
 		);
 		registration.addRecipeCatalyst(
-				ModBlocks.WATER_PUMP.asStack(),
-				WaterPumpCategory.WATER_PUMP_TYPE
+				CmiBlocks.WATER_PUMP.asStack(),
+				CmiJeiRecipeType.WATER_PUMP
 		);
 		registration.addRecipeCatalyst(
-				ModBlocks.WATER_PUMP.asStack(),
-				WaterPumpSeaWaterCategory.WATER_PUMP_SEA_WATER_TYPE
+				CmiBlocks.WATER_PUMP.asStack(),
+				CmiJeiRecipeType.SEA_WATER_PUMP
 		);
 		registration.addRecipeCatalyst(
-				ModBlocks.VOID_DUST_COLLECTOR.asStack(),
-				VoidDustCollectorCategory.VOID_DUST_COLLECTOR_TYPE
+				CmiBlocks.VOID_DUST_COLLECTOR.asStack(),
+				CmiJeiRecipeType.VOID_DUST_COLLECTOR
 		);
 		registration.addRecipeCatalyst(
-				ModBlocks.BELT_GRINDER.asStack(),
-				GrindingCategory.GRINDING_TYPE
+				CmiBlocks.BELT_GRINDER.asStack(),
+				CmiJeiRecipeType.GRINDING
 		);
 
 		Map<String, ItemStack> createCatalysts = Map.of(
-				"pressing", ModBlocks.STEAM_HAMMER.asStack(),
-				"spout_filling", ModBlocks.ADVANCED_SPOUT.asStack()
+				"pressing", CmiBlocks.STEAM_HAMMER.asStack(),
+				"spout_filling", CmiBlocks.ADVANCED_SPOUT.asStack()
 		);
 
 		createCatalysts.forEach((recipeId, stack) -> {
@@ -97,9 +98,5 @@ public class ModJeiPlugin implements IModPlugin {
 						registration.addRecipeCatalyst(stack, type);
 					});
 		});
-	}
-
-	public static <T> RecipeType<T> createRecipeType(String path, Class<? extends T> recipeClass) {
-		return RecipeType.create(Cmi.MODID, path, recipeClass);
 	}
 }

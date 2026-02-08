@@ -17,7 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import top.nebula.cmi.common.register.ModBlocks;
+import top.nebula.cmi.common.register.CmiBlocks;
 import top.nebula.cmi.config.CommonConfig;
 
 import java.util.List;
@@ -58,7 +58,7 @@ public class AcceleratorMotorBlockEntity extends GeneratingKineticBlockEntity {
 
 	@Override
 	public float getGeneratedSpeed() {
-		if (!ModBlocks.ACCELERATOR_MOTOR.has(getBlockState())) {
+		if (!CmiBlocks.ACCELERATOR_MOTOR.has(getBlockState())) {
 			return 0;
 		}
 		return convertToDirection(generatedSpeed.getValue(), getBlockState().getValue(AcceleratorMotorBlock.FACING));

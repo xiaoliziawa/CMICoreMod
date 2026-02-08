@@ -21,7 +21,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import top.nebula.cmi.common.register.ModBlockEntityTypes;
+import top.nebula.cmi.common.register.CmiBlockEntityTypes;
 
 public class MercuryGeothermalVentBlock extends BaseEntityBlock {
 	public static final IntegerProperty SMOKE_TYPE = IntegerProperty.create("smoke_type", 0, 3);
@@ -79,7 +79,7 @@ public class MercuryGeothermalVentBlock extends BaseEntityBlock {
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
 		if (level.isClientSide) {
 			return state.getValue(SMOKE_TYPE) > 0 && state.getValue(SPAWNING_PARTICLES) ?
-					createTickerHelper(type, ModBlockEntityTypes.MERCURY_GEO.get(),
+					createTickerHelper(type, CmiBlockEntityTypes.MERCURY_GEO.get(),
 							MercuryGeothermalVentBlockEntity::particleTick) : null;
 		} else {
 			return null;
@@ -93,6 +93,6 @@ public class MercuryGeothermalVentBlock extends BaseEntityBlock {
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-		return new MercuryGeothermalVentBlockEntity(ModBlockEntityTypes.MERCURY_GEO.get(), pos, state);
+		return new MercuryGeothermalVentBlockEntity(CmiBlockEntityTypes.MERCURY_GEO.get(), pos, state);
 	}
 }

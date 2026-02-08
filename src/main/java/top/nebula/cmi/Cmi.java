@@ -48,12 +48,12 @@ public class Cmi {
 
 		CREATE_REGISTRATE.registerEventListeners(bus);
 
-		ModBlocks.register();
-		ModBlockEntityTypes.register();
-		ModItems.register();
-		ModRecipeType.register(bus);
-		ModRecipeSerializer.register(bus);
-		ModCreateRecipe.register(bus);
+		CmiBlocks.register();
+		CmiBlockEntityTypes.register();
+		CmiItems.register();
+		CmiRecipeType.register(bus);
+		CmiRecipeSerializer.register(bus);
+		CmiCreateRecipe.register(bus);
 
 		CmiBlockPartialModel.init();
 		CmiSpriteShiftEntry.init();

@@ -19,7 +19,7 @@ import top.nebula.cmi.common.block.test_gravel.TestGravelBlockEntity;
 import top.nebula.cmi.common.block.void_dust_collector.VoidDustCollectorBlockEnitiy;
 import top.nebula.cmi.common.block.water_pump.WaterPumpBlockEntity;
 
-public class ModBlockEntityTypes {
+public class CmiBlockEntityTypes {
 	public static final BlockEntityEntry<TestGravelBlockEntity> TEST_GRAVEL;
 	public static final BlockEntityEntry<MarsGeothermalVentBlockEntity> MARS_GEO;
 	public static final BlockEntityEntry<MercuryGeothermalVentBlockEntity> MERCURY_GEO;
@@ -32,37 +32,37 @@ public class ModBlockEntityTypes {
 
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.blockEntity("test_gravel", TestGravelBlockEntity::new)
-				.validBlock(ModBlocks.TEST_GRAVEL)
+				.validBlock(CmiBlocks.TEST_GRAVEL)
 				.register();
 		MARS_GEO = Cmi.REGISTRATE.blockEntity("mars_geothermal_vent", MarsGeothermalVentBlockEntity::new)
-				.validBlock(ModBlocks.MARS_GEO)
+				.validBlock(CmiBlocks.MARS_GEO)
 				.register();
 		MERCURY_GEO = Cmi.REGISTRATE.blockEntity("mercury_geothermal_vent", MercuryGeothermalVentBlockEntity::new)
-				.validBlock(ModBlocks.MERCURY_GEO)
+				.validBlock(CmiBlocks.MERCURY_GEO)
 				.register();
 		WATER_PUMP = Cmi.REGISTRATE.blockEntity("water_pump", WaterPumpBlockEntity::new)
-				.validBlock(ModBlocks.WATER_PUMP)
+				.validBlock(CmiBlocks.WATER_PUMP)
 				.register();
 		HYDRAULIC_PRESS = Cmi.CREATE_REGISTRATE.blockEntity("hydraulic_press", SteamHammerBlockEntity::new)
 				.instance(() -> SteamHammerInstance::new)
 				.renderer(() -> SteamHammerRenderer::new)
-				.validBlock(ModBlocks.STEAM_HAMMER)
+				.validBlock(CmiBlocks.STEAM_HAMMER)
 				.register();
 		ACCELERATOR_MOTOR = Cmi.CREATE_REGISTRATE.blockEntity("accelerator_motor", AcceleratorMotorBlockEntity::new)
 				.instance(() -> HalfShaftInstance::new, false)
-				.validBlocks(ModBlocks.ACCELERATOR_MOTOR)
+				.validBlocks(CmiBlocks.ACCELERATOR_MOTOR)
 				.renderer(() -> AcceleratorMotorRenderer::new)
 				.register();
 		ADVANCED_SPOUT = Cmi.CREATE_REGISTRATE.blockEntity("advanced_spout", AdvancedSpoutBlockEntity::new)
-				.validBlocks(ModBlocks.ADVANCED_SPOUT)
+				.validBlocks(CmiBlocks.ADVANCED_SPOUT)
 				.renderer(() -> AdvancedSpoutRenderer::new)
 				.register();
 		VOID_DUST_COLLECTOR = Cmi.REGISTRATE.blockEntity("void_dust_collector", VoidDustCollectorBlockEnitiy::new)
-				.validBlock(ModBlocks.VOID_DUST_COLLECTOR)
+				.validBlock(CmiBlocks.VOID_DUST_COLLECTOR)
 				.register();
 		BELT_GRINDER = Cmi.CREATE_REGISTRATE.blockEntity("mechanical_belt_grinder", BeltGrinderBlockEntity::new)
 				.instance(() -> BeltGrinderInstance::new)
-				.validBlocks(ModBlocks.BELT_GRINDER)
+				.validBlocks(CmiBlocks.BELT_GRINDER)
 				.renderer(() -> BeltGrinderRenderer::new)
 				.register();
 	}

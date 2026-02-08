@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import top.nebula.cmi.client.block.resource.CmiBlockPartialModel;
 import top.nebula.cmi.common.block.belt_grinder.BeltGrinderBlock;
-import top.nebula.cmi.common.register.ModBlocks;
+import top.nebula.cmi.common.register.CmiBlocks;
 
 public class AnimatedBeltGrinder extends AnimatedKinetics {
 	@Override
@@ -20,18 +20,18 @@ public class AnimatedBeltGrinder extends AnimatedKinetics {
 		matrixStack.mulPose(Axis.YP.rotationDegrees(22.5f + 90f));
 		int scale = 25;
 
-		defaultBlockElement(shaft(Direction.Axis.X))
+		blockElement(shaft(Direction.Axis.X))
 				.rotateBlock(-getCurrentAngle(), 0, 0)
 				.scale(scale)
 				.render(graphics);
 
-		defaultBlockElement(ModBlocks.BELT_GRINDER.getDefaultState()
+		blockElement(CmiBlocks.BELT_GRINDER.getDefaultState()
 				.setValue(BeltGrinderBlock.HORIZONTAL_FACING, Direction.WEST))
 				.rotateBlock(0, 0, 0)
 				.scale(scale)
 				.render(graphics);
 
-		defaultBlockElement(CmiBlockPartialModel.GRINDER_BELT)
+		blockElement(CmiBlockPartialModel.GRINDER_BELT)
 				.rotateBlock(0, -90, -90)
 				.scale(scale)
 				.render(graphics);

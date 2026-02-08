@@ -6,17 +6,16 @@ import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.registries.ForgeRegistries;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.recipe.void_dust_collector.VoidDustCollectorRecipe;
-import top.nebula.cmi.common.register.ModBlocks;
-import top.nebula.cmi.compat.jei.ModJeiPlugin;
+import top.nebula.cmi.common.register.CmiBlocks;
+import top.nebula.cmi.compat.jei.api.CmiJeiRecipeType;
 import top.nebula.cmi.compat.jei.category.multiblock.VoidDustCollectorMultiblock;
+import top.nebula.cmi.utils.CmiLang;
 import top.nebula.libs.compat.jei.categoty.SimpleJeiCategory;
 
 public class VoidDustCollectorCategory {
@@ -28,19 +27,14 @@ public class VoidDustCollectorCategory {
 	});
 	private static final VoidDustCollectorMultiblock VOID_MB = new VoidDustCollectorMultiblock();
 
-	public static final RecipeType<VoidDustCollectorRecipe> VOID_DUST_COLLECTOR_TYPE = ModJeiPlugin.createRecipeType(
-			"void_dust_collector",
-			VoidDustCollectorRecipe.class
-	);
-
 	public static SimpleJeiCategory<VoidDustCollectorRecipe> builder(IGuiHelper helper) {
-		return SimpleJeiCategory.builder(VOID_DUST_COLLECTOR_TYPE)
-				.setTitle(Component.translatable("jei.category.cmi.void_dust_collector"))
+		return SimpleJeiCategory.builder(CmiJeiRecipeType.VOID_DUST_COLLECTOR)
+				.setTitle(CmiLang.JeiLang.setCategory("void_dust_collector"))
 				.setSize(178, 72)
 				.setIcon(() -> {
 					return new DoubleItemIcon(
 							() -> VOID_SPRING.get().asItem().getDefaultInstance(),
-							() -> ModBlocks.VOID_DUST_COLLECTOR.get().asItem().getDefaultInstance()
+							() -> CmiBlocks.VOID_DUST_COLLECTOR.get().asItem().getDefaultInstance()
 					);
 				})
 				.setBackground(helper.createBlankDrawable(0, 0))
@@ -50,7 +44,7 @@ public class VoidDustCollectorCategory {
 							.addItemStack(VOID_DUST.get().getDefaultInstance());
 					builder.addInvisibleIngredients(RecipeIngredientRole.INPUT)
 							.addItemStack(VOID_SPRING.get().asItem().getDefaultInstance())
-							.addItemStack(ModBlocks.VOID_DUST_COLLECTOR.get().asItem().getDefaultInstance());
+							.addItemStack(CmiBlocks.VOID_DUST_COLLECTOR.get().asItem().getDefaultInstance());
 				})
 				.setDraw((recipe, view, graphics, mouseX, mouseY) -> {
 					AllGuiTextures.JEI_SHADOW.render(graphics, 50, 50);

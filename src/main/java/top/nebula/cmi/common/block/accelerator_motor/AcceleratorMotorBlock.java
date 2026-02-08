@@ -16,7 +16,7 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import top.nebula.cmi.common.register.ModBlockEntityTypes;
+import top.nebula.cmi.common.register.CmiBlockEntityTypes;
 
 public class AcceleratorMotorBlock extends DirectionalKineticBlock implements IBE<AcceleratorMotorBlockEntity> {
 	public AcceleratorMotorBlock(Properties properties) {
@@ -66,6 +66,6 @@ public class AcceleratorMotorBlock extends DirectionalKineticBlock implements IB
 
 	@Override
 	public BlockEntityType<? extends AcceleratorMotorBlockEntity> getBlockEntityType() {
-		return ModBlockEntityTypes.ACCELERATOR_MOTOR.get();
+		return CmiBlockEntityTypes.ACCELERATOR_MOTOR.get();
 	}
 }

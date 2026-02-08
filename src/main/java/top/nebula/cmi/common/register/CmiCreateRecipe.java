@@ -14,7 +14,7 @@ import net.minecraftforge.registries.RegistryObject;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.belt_grinder.GrindingRecipe;
 
-public class ModCreateRecipe {
+public class CmiCreateRecipe {
 	private static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS;
 	private static final DeferredRegister<RecipeType<?>> TYPES;
 

@@ -5,15 +5,15 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 import top.nebula.cmi.common.recipe.water_pump.WaterPumpRecipe;
-import top.nebula.cmi.common.register.ModBlocks;
+import top.nebula.cmi.common.register.CmiBlocks;
 import top.nebula.cmi.compat.jei.CmiGuiTextures;
-import top.nebula.cmi.compat.jei.ModJeiPlugin;
+import top.nebula.cmi.compat.jei.api.CmiJeiRecipeType;
 import top.nebula.cmi.compat.jei.category.multiblock.WaterPumpMultiblock;
+import top.nebula.cmi.utils.CmiLang;
 import top.nebula.libs.client.ClientRenderUtils;
 import top.nebula.libs.compat.jei.categoty.SimpleJeiCategory;
 
@@ -21,17 +21,13 @@ import java.util.Collections;
 
 public class WaterPumpCategory {
 	private static final WaterPumpMultiblock WATER_PUMP_MB = new WaterPumpMultiblock();
-	public static final RecipeType<WaterPumpRecipe> WATER_PUMP_TYPE = ModJeiPlugin.createRecipeType(
-			"water_pump",
-			WaterPumpRecipe.class
-	);
 
 	public static SimpleJeiCategory<WaterPumpRecipe> builder(IGuiHelper helper) {
-		return SimpleJeiCategory.builder(WATER_PUMP_TYPE)
-				.setTitle(Component.translatable("jei.category.cmi.water_pump"))
+		return SimpleJeiCategory.builder(CmiJeiRecipeType.WATER_PUMP)
+				.setTitle(CmiLang.JeiLang.setCategory("water_pump"))
 				.setSize(178, 72)
 				.setIcon(() -> {
-					return helper.createDrawableItemStack(ModBlocks.WATER_PUMP.get().asItem().getDefaultInstance());
+					return helper.createDrawableItemStack(CmiBlocks.WATER_PUMP.get().asItem().getDefaultInstance());
 				})
 				.setBackground(helper.createBlankDrawable(0, 0))
 				.setRecipe((builder, recipe, group) -> {

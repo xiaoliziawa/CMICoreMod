@@ -5,7 +5,7 @@ import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.item.NuclearMechanismItem;
 import top.nebula.cmi.common.item.TestBrushItem;
 
-public class ModItems {
+public class CmiItems {
 	public static final ItemEntry<NuclearMechanismItem> NUCLEAR_MECHANISM;
 	public static final ItemEntry<TestBrushItem> TEST_BRUSH;
 

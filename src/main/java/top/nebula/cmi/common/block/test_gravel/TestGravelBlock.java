@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import top.nebula.cmi.common.register.ModBlockEntityTypes;
+import top.nebula.cmi.common.register.CmiBlockEntityTypes;
 
 public class TestGravelBlock extends BaseEntityBlock implements EntityBlock {
 	public TestGravelBlock(Properties properties) {
@@ -34,7 +34,7 @@ public class TestGravelBlock extends BaseEntityBlock implements EntityBlock {
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-		return new TestGravelBlockEntity(ModBlockEntityTypes.TEST_GRAVEL.get(), pos, state);
+		return new TestGravelBlockEntity(CmiBlockEntityTypes.TEST_GRAVEL.get(), pos, state);
 	}
 
 	@Nullable

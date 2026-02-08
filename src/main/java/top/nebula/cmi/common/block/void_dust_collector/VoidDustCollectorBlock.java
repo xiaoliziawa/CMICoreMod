@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
-import top.nebula.cmi.common.register.ModBlockEntityTypes;
+import top.nebula.cmi.common.register.CmiBlockEntityTypes;
 
 public class VoidDustCollectorBlock extends Block implements IBE<VoidDustCollectorBlockEnitiy> {
 	public static final BooleanProperty WORKING = BooleanProperty.create("working");
@@ -69,6 +69,6 @@ public class VoidDustCollectorBlock extends Block implements IBE<VoidDustCollect
 
 	@Override
 	public BlockEntityType<? extends VoidDustCollectorBlockEnitiy> getBlockEntityType() {
-		return ModBlockEntityTypes.VOID_DUST_COLLECTOR.get();
+		return CmiBlockEntityTypes.VOID_DUST_COLLECTOR.get();
 	}
 }

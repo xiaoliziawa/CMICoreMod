@@ -7,15 +7,14 @@ import com.simibubi.create.content.processing.recipe.ProcessingRecipeSerializer;
 import com.simibubi.create.content.processing.sequenced.IAssemblyRecipe;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
-import top.nebula.cmi.common.register.ModBlocks;
-import top.nebula.cmi.common.register.ModCreateRecipe;
+import top.nebula.cmi.common.register.CmiBlocks;
+import top.nebula.cmi.common.register.CmiCreateRecipe;
 import top.nebula.cmi.compat.jei.category.CmiSequencedAssemblySubCategory;
 import top.nebula.cmi.utils.CmiLang;
 
@@ -25,14 +24,7 @@ import java.util.function.Supplier;
 
 public class GrindingRecipe extends ProcessingRecipe<RecipeWrapper> implements IAssemblyRecipe {
 	public GrindingRecipe(ProcessingRecipeBuilder.ProcessingRecipeParams params) {
-		super(ModCreateRecipe.GRINDING, params);
-	}
-
-	public static class Type implements RecipeType<GrindingRecipe> {
-		private Type() {
-		}
-
-		public static final GrindingRecipe.Type INSTANCE = new GrindingRecipe.Type();
+		super(CmiCreateRecipe.GRINDING, params);
 	}
 
 	public static final ProcessingRecipeSerializer<GrindingRecipe> SERIALIZER = new ProcessingRecipeSerializer<>(GrindingRecipe::new);
@@ -68,7 +60,7 @@ public class GrindingRecipe extends ProcessingRecipe<RecipeWrapper> implements I
 
 	@Override
 	public void addRequiredMachines(Set<ItemLike> list) {
-		list.add(ModBlocks.BELT_GRINDER.get());
+		list.add(CmiBlocks.BELT_GRINDER.get());
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import top.nebula.cmi.common.register.ModBlocks;
+import top.nebula.cmi.common.register.CmiBlocks;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AddCreativeModeTabs {
@@ -19,13 +19,13 @@ public class AddCreativeModeTabs {
 	@SubscribeEvent
 	public static void buildContents(BuildCreativeModeTabContentsEvent event) {
 		if (event.getTabKey() == KUBEJS_TAB) {
-			event.accept(ModBlocks.MARS_GEO.asItem());
-			event.accept(ModBlocks.MERCURY_GEO.asItem());
-			event.accept(ModBlocks.WATER_PUMP.asItem());
-			event.accept(ModBlocks.ACCELERATOR_MOTOR.asItem());
-			event.accept(ModBlocks.STEAM_HAMMER.asItem());
-			event.accept(ModBlocks.ADVANCED_SPOUT.asItem());
-			event.accept(ModBlocks.VOID_DUST_COLLECTOR.asItem());
+			event.accept(CmiBlocks.MARS_GEO.asItem());
+			event.accept(CmiBlocks.MERCURY_GEO.asItem());
+			event.accept(CmiBlocks.WATER_PUMP.asItem());
+			event.accept(CmiBlocks.ACCELERATOR_MOTOR.asItem());
+			event.accept(CmiBlocks.STEAM_HAMMER.asItem());
+			event.accept(CmiBlocks.ADVANCED_SPOUT.asItem());
+			event.accept(CmiBlocks.VOID_DUST_COLLECTOR.asItem());
 		}
 	}
 }

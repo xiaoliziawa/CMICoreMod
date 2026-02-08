@@ -36,7 +36,6 @@ public class GrindingRecipe extends ProcessingRecipe<RecipeWrapper> implements I
 	}
 
 	public static final ProcessingRecipeSerializer<GrindingRecipe> SERIALIZER = new ProcessingRecipeSerializer<>(GrindingRecipe::new);
-	public static final ProcessingRecipeSerializer INSTANCE = new ProcessingRecipeSerializer();
 
 	@Override
 	public boolean matches(RecipeWrapper inv, @NotNull Level worldIn) {

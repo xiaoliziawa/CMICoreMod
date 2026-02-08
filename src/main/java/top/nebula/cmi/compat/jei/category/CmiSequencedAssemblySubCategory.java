@@ -6,7 +6,7 @@ import com.simibubi.create.content.processing.sequenced.SequencedRecipe;
 import net.minecraft.client.gui.GuiGraphics;
 import top.nebula.cmi.compat.jei.category.animations.AnimatedBeltGrinder;
 
-public abstract class CmiSequencedAssemblySubCategory  extends SequencedAssemblySubCategory {
+public abstract class CmiSequencedAssemblySubCategory extends SequencedAssemblySubCategory {
 	public CmiSequencedAssemblySubCategory(int width) {
 		super(width);
 	}

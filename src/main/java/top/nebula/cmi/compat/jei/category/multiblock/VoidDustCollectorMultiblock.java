@@ -31,7 +31,7 @@ public class VoidDustCollectorMultiblock extends AnimatedKinetics {
 		matrixStack.mulPose(Axis.XP.rotationDegrees(-15.5F));
 		matrixStack.mulPose(Axis.YP.rotationDegrees(22.5F));
 
-		int scale = 23;
+		int scale = 25;
 		defaultBlockElement(ModBlocks.VOID_DUST_COLLECTOR.get().defaultBlockState()
 				.setValue(VoidDustCollectorBlock.WORKING, true)
 				.setValue(VoidDustCollectorBlock.FACING, Direction.SOUTH))

@@ -126,8 +126,9 @@ public class BeltGrinderRenderer extends SafeBlockEntityRenderer<BeltGrinderBloc
 		float processingSpeed = Mth.clamp(Math.abs(be.getSpeed()) / 32, 1, 128);
 		if (moving) {
 			offset = Mth.clamp(offset + ((-partialTicks + .5f) * processingSpeed) / be.inv.recipeDuration, 0.125f, 1f);
-			if (!be.inv.appliedRecipe)
+			if (!be.inv.appliedRecipe) {
 				offset += 1;
+			}
 			offset /= 2;
 		}
 

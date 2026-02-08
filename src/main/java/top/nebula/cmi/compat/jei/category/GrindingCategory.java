@@ -13,12 +13,8 @@ import top.nebula.libs.compat.jei.categoty.SimpleJeiCategory;
 
 import java.util.List;
 
-public abstract class GrindingCategory extends CreateRecipeCategory<GrindingRecipe> {
+public abstract class GrindingCategory {
 	private static final AnimatedBeltGrinder ANIMATED_BELT_GRINDER = new AnimatedBeltGrinder();
-
-	public GrindingCategory(Info<GrindingRecipe> info) {
-		super(info);
-	}
 
 	public static final RecipeType<GrindingRecipe> GRINDING_TYPE = ModJeiPlugin.createRecipeType(
 			"grinding",
@@ -29,7 +25,7 @@ public abstract class GrindingCategory extends CreateRecipeCategory<GrindingReci
 		return SimpleJeiCategory.builder(GRINDING_TYPE)
 				.setRecipe((builder, recipe, group) -> {
 					builder.addSlot(RecipeIngredientRole.INPUT, 44, 5)
-							.setBackground(getRenderedSlot(), -1, -1)
+							.setBackground(CreateRecipeCategory.getRenderedSlot(), -1, -1)
 							.addIngredients(recipe.getIngredients().get(0));
 
 					List<ProcessingOutput> results = recipe.getRollableResults();
@@ -37,10 +33,11 @@ public abstract class GrindingCategory extends CreateRecipeCategory<GrindingReci
 					for (ProcessingOutput output : results) {
 						int xOffset = i % 2 == 0 ? 0 : 19;
 						int yOffset = (i / 2) * -19;
+
 						builder.addSlot(RecipeIngredientRole.OUTPUT, 118 + xOffset, 48 + yOffset)
-								.setBackground(getRenderedSlot(output), -1, -1)
+								.setBackground(CreateRecipeCategory.getRenderedSlot(output), -1, -1)
 								.addItemStack(output.getStack())
-								.addTooltipCallback(addStochasticTooltip(output));
+								.addTooltipCallback(CreateRecipeCategory.addStochasticTooltip(output));
 						i++;
 					}
 				})

@@ -7,7 +7,6 @@ import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.utility.Couple;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.Registries;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.common.block.accelerator_motor.AcceleratorMotorBlock;
@@ -82,7 +81,6 @@ public class ModBlocks {
 				.register();
 		BELT_GRINDER = Cmi.REGISTRATE.block("mechanical_belt_grinder", BeltGrinderBlock::new)
 				.initialProperties(SharedProperties::stone)
-				.addLayer(() -> RenderType::cutoutMipped)
 				.transform(BlockStressDefaults.setImpact(8.0))
 				.onRegisterAfter(Registries.ITEM, (block) -> {
 					ItemDescription.useKey(block, "block.cmi.mechanical_grinder");

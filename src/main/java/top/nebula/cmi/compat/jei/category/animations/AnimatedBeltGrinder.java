@@ -20,18 +20,18 @@ public class AnimatedBeltGrinder extends AnimatedKinetics {
 		matrixStack.mulPose(Axis.YP.rotationDegrees(22.5f + 90f));
 		int scale = 25;
 
-		blockElement(shaft(Direction.Axis.X))
+		defaultBlockElement(shaft(Direction.Axis.X))
 				.rotateBlock(-getCurrentAngle(), 0, 0)
 				.scale(scale)
 				.render(graphics);
 
-		blockElement(ModBlocks.BELT_GRINDER.getDefaultState()
+		defaultBlockElement(ModBlocks.BELT_GRINDER.getDefaultState()
 				.setValue(BeltGrinderBlock.HORIZONTAL_FACING, Direction.WEST))
 				.rotateBlock(0, 0, 0)
 				.scale(scale)
 				.render(graphics);
 
-		blockElement(CmiBlockPartialModel.GRINDER_BELT)
+		defaultBlockElement(CmiBlockPartialModel.GRINDER_BELT)
 				.rotateBlock(0, -90, -90)
 				.scale(scale)
 				.render(graphics);

@@ -5,13 +5,15 @@ import dev.latvian.mods.kubejs.recipe.schema.RegisterRecipeSchemasEvent;
 import dev.latvian.mods.kubejs.script.BindingsEvent;
 import top.nebula.cmi.Cmi;
 import top.nebula.cmi.compat.kubejs.recipe.AcceleratorSchema;
+import top.nebula.cmi.compat.kubejs.recipe.BeltGrinderSchema;
 import top.nebula.cmi.utils.CmiLang;
 
 public class ModKubeJSPlugin extends KubeJSPlugin {
 	@Override
 	public void registerRecipeSchemas(RegisterRecipeSchemasEvent event) {
 		event.namespace(Cmi.MODID)
-				.register("accelerator", AcceleratorSchema.SCHEMA);
+				.register("accelerator", AcceleratorSchema.SCHEMA)
+				.register("belt_grinder", BeltGrinderSchema.SCHEMA);
 	}
 
 	public void registerBindings(BindingsEvent event) {

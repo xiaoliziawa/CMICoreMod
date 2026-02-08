@@ -47,8 +47,7 @@ public class BeltGrinderRenderer extends SafeBlockEntityRenderer<BeltGrinderBloc
 		float time = renderTick * Direction.AxisDirection.POSITIVE.getStep();
 
 		float spriteSize = beltShift.getTarget()
-				.getV1()
-				- beltShift.getTarget()
+				.getV1() - beltShift.getTarget()
 				.getV0();
 
 		double scroll = speed * time / (31.5 * 16);

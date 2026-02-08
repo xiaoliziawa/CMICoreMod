@@ -1,17 +1,10 @@
 package top.nebula.cmi.common.block.belt_grinder;
 
-import com.jozufozu.flywheel.util.AnimationTickHolder;
 import com.simibubi.create.AllShapes;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
-import com.simibubi.create.content.kinetics.drill.DrillBlock;
 import com.simibubi.create.foundation.block.IBE;
-import com.simibubi.create.foundation.utility.VecHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -24,14 +17,11 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import top.nebula.cmi.common.register.CmiBlockEntityTypes;
-import top.nebula.cmi.common.register.CmiDamageType;
 
 public class BeltGrinderBlock extends HorizontalKineticBlock implements IBE<BeltGrinderBlockEntity> {
 	public BeltGrinderBlock(Properties properties) {
@@ -88,47 +78,6 @@ public class BeltGrinderBlock extends HorizontalKineticBlock implements IBE<Belt
 	}
 
 	@Override
-	public void entityInside(@NotNull BlockState state, @NotNull Level worldIn, @NotNull BlockPos pos, @NotNull Entity entityIn) {
-		if (entityIn instanceof ItemEntity) {
-			return;
-		}
-		if (entityIn instanceof Player player)
-			if (player.isCreative()) {
-				return;
-			}
-		if (!new AABB(pos).deflate(.1f).intersects(entityIn.getBoundingBox())) {
-			return;
-		}
-
-		withBlockEntityDo(worldIn, pos, be -> {
-			float speed = Mth.abs(be.getSpeed());
-			if (be.getSpeed() == 0) {
-				return;
-			}
-			Level level = entityIn.level();
-			for (ItemStack armor : entityIn.getArmorSlots()) {
-				if (armor.isEmpty() || !armor.isDamageableItem() || armor.getDamageValue() >= armor.getMaxDamage()) {
-					entityIn.hurt(CmiDamageType.grinder(level), (float) DrillBlock.getDamage(speed));
-				}
-
-				if (AnimationTickHolder.getTicks() % Math.round((-10f * speed) / 32f + 90) == 0) {
-					armor.hurt(1, entityIn.level().getRandom(), null);
-				}
-
-				if (!armor.isEmpty()) {
-					float pitch = (speed / 256f) + .8f;
-					entityIn.playSound(SoundEvents.GRINDSTONE_USE, .3f, entityIn.level().random.nextFloat() * 0.2F + pitch);
-					RandomSource random = level.getRandom();
-					Vec3 center = VecHelper.getCenterOf(be.getBlockPos());
-					Vec3 vec3 = center.add(VecHelper.offsetRandomly(Vec3.ZERO, random, .25f).multiply(1, 0, 1));
-					level.addParticle(ParticleTypes.CRIT, vec3.x, vec3.y + .4f, vec3.z, 0, 0, 0);
-				}
-				return;
-			}
-		});
-	}
-
-	@Override
 	public void updateEntityAfterFallOn(@NotNull BlockGetter worldIn, @NotNull Entity entityIn) {
 		super.updateEntityAfterFallOn(worldIn, entityIn);
 		if (!(entityIn instanceof ItemEntity)) {
@@ -139,7 +88,7 @@ public class BeltGrinderBlock extends HorizontalKineticBlock implements IBE<Belt
 		}
 
 		BlockPos pos = entityIn.blockPosition();
-		withBlockEntityDo(entityIn.level(), pos, be -> {
+		withBlockEntityDo(entityIn.level(), pos, (be) -> {
 			if (be.getSpeed() == 0) {
 				return;
 			}

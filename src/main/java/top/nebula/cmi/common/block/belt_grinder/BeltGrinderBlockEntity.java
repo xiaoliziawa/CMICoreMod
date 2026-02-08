@@ -234,8 +234,9 @@ public class BeltGrinderBlockEntity extends KineticBlockEntity {
 
 		if (valid) {
 			recipeIndex++;
-			if (recipeIndex >= recipes.size())
+			if (recipeIndex >= recipes.size()) {
 				recipeIndex = 0;
+			}
 		}
 
 		Recipe<?> recipe = recipes.get(recipeIndex);

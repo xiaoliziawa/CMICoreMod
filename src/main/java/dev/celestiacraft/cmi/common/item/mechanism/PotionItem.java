@@ -48,6 +48,7 @@ public class PotionItem extends MechanismItem {
 				player.addEffect(instance);
 			});
 			player.playNotifySound(AllSoundEvents.CRAFTER_CRAFT.getMainEvent(), SoundSource.VOICE, 2, 1);
+			player.swing(event.getHand(), true);
 		}
 	}
 }

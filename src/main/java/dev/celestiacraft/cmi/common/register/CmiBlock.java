@@ -143,7 +143,7 @@ public class CmiBlock {
 					provider.getVariantBuilder(context.get())
 							.forAllStatesExcept((state) -> {
 								BlockModelProvider models = provider.models();
-								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
 								return ConfiguredModel.builder()
 										.modelFile(models.getExistingFile(provider.modLoc("block/steam_hammer/block")))
 										.rotationY((int) facing.toYRot())
@@ -195,8 +195,9 @@ public class CmiBlock {
 					provider.getVariantBuilder(context.get())
 							.forAllStatesExcept((state) -> {
 								BlockModelProvider models = provider.models();
+								boolean powered = state.getValue(BlockStateProperties.POWERED);
 								return ConfiguredModel.builder()
-										.modelFile(models.getExistingFile(provider.modLoc("block/advanced_spout/block")))
+										.modelFile(models.getExistingFile(provider.modLoc(powered ? "block/advanced_spout/block" : "block/advanced_spout/block_off")))
 										.build();
 							});
 				})
@@ -214,8 +215,11 @@ public class CmiBlock {
 					provider.getVariantBuilder(context.get())
 							.forAllStatesExcept((state) -> {
 								BlockModelProvider models = provider.models();
+								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
+								boolean working = state.getValue(VoidDustCollectorBlock.WORKING);
 								return ConfiguredModel.builder()
-										.modelFile(models.getExistingFile(provider.modLoc("block/void_dust_collector/off")))
+										.modelFile(models.getExistingFile(provider.modLoc(working ? "block/void_dust_collector/on" : "block/void_dust_collector/off")))
+										.rotationY((int) facing.toYRot())
 										.build();
 							});
 				})
@@ -235,7 +239,7 @@ public class CmiBlock {
 					provider.getVariantBuilder(context.get())
 							.forAllStatesExcept((state) -> {
 								BlockModelProvider models = provider.models();
-								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
 								return ConfiguredModel.builder()
 										.modelFile(models.getExistingFile(provider.modLoc("block/mechanical_belt_grinder/block")))
 										.rotationY((int) facing.toYRot())

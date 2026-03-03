@@ -24,6 +24,8 @@ import dev.celestiacraft.cmi.common.block.void_dust_collector.VoidDustCollectorI
 import dev.celestiacraft.cmi.common.block.water_pump.WaterPumpBlock;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerItem;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.common.Tags;
@@ -141,8 +143,10 @@ public class CmiBlock {
 					provider.getVariantBuilder(context.get())
 							.forAllStatesExcept((state) -> {
 								BlockModelProvider models = provider.models();
+								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
 								return ConfiguredModel.builder()
 										.modelFile(models.getExistingFile(provider.modLoc("block/steam_hammer/block")))
+										.rotationY((int) facing.toYRot())
 										.build();
 							});
 				})
@@ -163,8 +167,16 @@ public class CmiBlock {
 					provider.getVariantBuilder(context.get())
 							.forAllStatesExcept((state) -> {
 								BlockModelProvider models = provider.models();
+								Direction facing = state.getValue(BlockStateProperties.FACING);
+								if (facing.getAxis() == Direction.Axis.Y) {
+									return ConfiguredModel.builder()
+											.modelFile(models.getExistingFile(provider.modLoc("block/accelerator_motor/block_vertical")))
+											.rotationX(facing == Direction.DOWN ? 180 : 0)
+											.build();
+								}
 								return ConfiguredModel.builder()
 										.modelFile(models.getExistingFile(provider.modLoc("block/accelerator_motor/block")))
+										.rotationY((int) facing.toYRot())
 										.build();
 							});
 				})

@@ -47,7 +47,7 @@ public class PotionItem extends MechanismItem {
 				MobEffectInstance instance = new MobEffectInstance(effect, 300, 8);
 				player.addEffect(instance);
 			});
-			player.playNotifySound(AllSoundEvents.CRAFTER_CLICK.getMainEvent(), SoundSource.VOICE, 2, 1);
+			player.playNotifySound(AllSoundEvents.CRAFTER_CRAFT.getMainEvent(), SoundSource.VOICE, 2, 1);
 		}
 	}
 }

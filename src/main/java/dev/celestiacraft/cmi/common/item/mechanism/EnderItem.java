@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.core.jmx.Server;
 import org.jetbrains.annotations.NotNull;
 
 @Mod.EventBusSubscriber(modid = Cmi.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -116,8 +117,7 @@ public class EnderItem extends MechanismItem {
 		BlockState state = context.getLevel().getBlockState(pos);
 
 		if (!context.getLevel().isClientSide()) {
-			Level level = null;
-			level = context.getLevel();
+			ServerLevel level = (ServerLevel) context.getLevel();
 			if (hasTag && isAccelerator(state)) {
 				CompoundTag tag = mechanism.getTag();
 				double destinationX = tag.getInt("x");
@@ -130,22 +130,24 @@ public class EnderItem extends MechanismItem {
 					if (level.dimension().location().toString().equals(destinationDim)) {
 						level.playSound(
 								null,
-								pos.getX(),
-								pos.getY(),
-								pos.getZ(),
+								player.getX(),
+								player.getY(),
+								player.getZ(),
 								SoundEvents.PORTAL_TRAVEL,
 								SoundSource.PLAYERS,
 								0.3F,
 								1.0F
 						);
-						level.addParticle(
+						level.sendParticles(
 								ParticleTypes.DRAGON_BREATH,
-								pos.getX(),
+								pos.getX() + 0.5,
 								pos.getY() + 1,
-								pos.getZ(),
+								pos.getZ() + 0.5,
+								50,
 								0.5,
 								0.5,
-								0.5
+								0.5,
+								0.1
 						);
 						player.teleportTo(destinationX + 0.5, destinationY, destinationZ + 0.5);
 						player.getCooldowns().addCooldown(mechanism.getItem(), 40);

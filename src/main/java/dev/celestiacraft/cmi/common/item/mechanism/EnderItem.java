@@ -117,7 +117,7 @@ public class EnderItem extends MechanismItem {
 
 		if (!context.getLevel().isClientSide()) {
 			Level level = null;
-			level = context.getPlayer().level();
+			level = context.getLevel();
 			if (hasTag && isAccelerator(state)) {
 				CompoundTag tag = mechanism.getTag();
 				double destinationX = tag.getInt("x");

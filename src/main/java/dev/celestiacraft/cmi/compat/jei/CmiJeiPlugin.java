@@ -37,7 +37,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
-import dev.celestiacraft.cmi.compat.jei.category.*;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -137,7 +136,7 @@ public class CmiJeiPlugin implements IModPlugin {
 		});
 	}
 
-	public class CmiFanJeiPlugin implements IModPlugin {
+	public static class CmiFanJeiPlugin implements IModPlugin {
 
 		private static final ResourceLocation ID = Create.asResource("jei_plugin");
 
@@ -184,7 +183,7 @@ public class CmiJeiPlugin implements IModPlugin {
 		}
 
 		@Override
-		public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
+		public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
 			allCategories.forEach(c -> c.registerCatalysts(registration));
 		}
 
@@ -194,14 +193,13 @@ public class CmiJeiPlugin implements IModPlugin {
 		}
 
 		@Override
-		public <T> void registerFluidSubtypes(ISubtypeRegistration registration, IPlatformFluidHelper<T> platformFluidHelper) {
+		public <T> void registerFluidSubtypes(ISubtypeRegistration registration, @NotNull IPlatformFluidHelper<T> platformFluidHelper) {
 			PotionFluidSubtypeInterpreter interpreter = new PotionFluidSubtypeInterpreter();
 			PotionFluid potionFluid = AllFluids.POTION.get();
 			registration.registerSubtypeInterpreter(ForgeTypes.FLUID_STACK, potionFluid.getSource(), interpreter);
 			registration.registerSubtypeInterpreter(ForgeTypes.FLUID_STACK, potionFluid.getFlowing(), interpreter);
 		}
 
-		@SuppressWarnings({"unchecked", "rawtypes"})
 		@Override
 		public void registerGuiHandlers(IGuiHandlerRegistration registration) {
 			registration.addGenericGuiContainerHandler(AbstractSimiContainerScreen.class, new SlotMover());
@@ -214,7 +212,7 @@ public class CmiJeiPlugin implements IModPlugin {
 
 		private class CategoryBuilder<T extends Recipe<?>> {
 			private final Class<? extends T> recipeClass;
-			private Predicate<CRecipes> predicate = cRecipes -> true;
+			private final Predicate<CRecipes> predicate = cRecipes -> true;
 
 			private IDrawable background;
 			private IDrawable icon;
@@ -236,7 +234,9 @@ public class CmiJeiPlugin implements IModPlugin {
 			}
 
 			public CmiFanJeiPlugin.CategoryBuilder<T> addTypedRecipes(Supplier<RecipeType<? extends T>> recipeType) {
-				return addRecipeListConsumer(recipes -> CmiFanJeiPlugin.<T>consumeTypedRecipes(recipes::add, recipeType.get()));
+				return addRecipeListConsumer((recipes) -> {
+					CreateJEI.<T>consumeTypedRecipes(recipes::add, recipeType.get());
+				});
 			}
 
 			public CmiFanJeiPlugin.CategoryBuilder<T> catalystStack(Supplier<ItemStack> supplier) {
@@ -269,8 +269,9 @@ public class CmiJeiPlugin implements IModPlugin {
 				if (predicate.test(AllConfigs.server().recipes)) {
 					recipesSupplier = () -> {
 						List<T> recipes = new ArrayList<>();
-						for (Consumer<List<T>> consumer : recipeListConsumers)
+						for (Consumer<List<T>> consumer : recipeListConsumers) {
 							consumer.accept(recipes);
+						}
 						return recipes;
 					};
 				} else {
@@ -279,19 +280,11 @@ public class CmiJeiPlugin implements IModPlugin {
 
 				CreateRecipeCategory.Info<T> info = new CreateRecipeCategory.Info<>(
 						new mezz.jei.api.recipe.RecipeType<>(Create.asResource(name), recipeClass),
-						Lang.translateDirect("recipe." + name), background, icon, recipesSupplier, catalysts);
+						Lang.translateDirect("recipe." + name), background, icon, recipesSupplier, catalysts
+				);
 				CreateRecipeCategory<T> category = factory.create(info);
 				allCategories.add(category);
 				return category;
-			}
-		}
-
-		public static <T extends Recipe<?>> void consumeTypedRecipes(Consumer<T> consumer, RecipeType<?> type) {
-			Map<ResourceLocation, Recipe<?>> map = Minecraft.getInstance()
-					.getConnection()
-					.getRecipeManager().recipes.get(type);
-			if (map != null) {
-				map.values().forEach(recipe -> consumer.accept((T) recipe));
 			}
 		}
 	}

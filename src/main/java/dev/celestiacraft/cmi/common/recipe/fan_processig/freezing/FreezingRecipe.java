@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.common.recipe.freezing;
+package dev.celestiacraft.cmi.common.recipe.fan_processig.freezing;
 
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
@@ -23,11 +23,11 @@ public class FreezingRecipe extends ProcessingRecipe<FreezingWrapper> {
 
 	@Override
 	protected int getMaxInputCount() {
-		return 64;
+		return 1;
 	}
 
 	@Override
 	protected int getMaxOutputCount() {
-		return 64;
+		return 12;
 	}
 }

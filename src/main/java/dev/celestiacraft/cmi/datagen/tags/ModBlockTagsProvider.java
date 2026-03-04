@@ -1,8 +1,10 @@
 package dev.celestiacraft.cmi.datagen.tags;
 
 import dev.celestiacraft.cmi.Cmi;
+import dev.celestiacraft.cmi.tag.ModBlockTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
@@ -17,5 +19,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
 	@Override
 	protected void addTags(HolderLookup.@NotNull Provider provider) {
+		tag(ModBlockTags.FREEZING_CATALYST)
+				.add(Blocks.POWDER_SNOW)
+				.add(Blocks.POWDER_SNOW_CAULDRON);
 	}
 }

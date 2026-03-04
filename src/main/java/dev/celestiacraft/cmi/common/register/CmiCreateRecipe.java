@@ -4,7 +4,7 @@ import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeSerializer;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
-import dev.celestiacraft.cmi.common.recipe.freezing.FreezingRecipe;
+import dev.celestiacraft.cmi.common.recipe.fan_processig.freezing.FreezingRecipe;
 import lombok.Getter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;

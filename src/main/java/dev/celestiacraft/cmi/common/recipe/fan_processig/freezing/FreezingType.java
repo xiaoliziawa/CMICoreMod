@@ -94,10 +94,13 @@ public class FreezingType implements FanProcessingType {
 			return;
 		}
 
-		if (entity instanceof EnderMan
-				|| entity.getType() == EntityType.SNOW_GOLEM
-				|| entity.getType() == EntityType.BLAZE) {
-			entity.hurt(entity.damageSources().drown(), 2);
+		if (entity.canFreeze()) {
+			entity.isInPowderSnow = true;
+			entity.setTicksFrozen(Math.max(entity.getTicksRequiredToFreeze(), entity.getTicksFrozen() + 2));
+		}
+
+		if (entity.getType() == EntityType.BLAZE) {
+			entity.hurt(entity.damageSources().freeze(), 2);
 		}
 		if (entity.isOnFire()) {
 			entity.clearFire();
@@ -109,10 +112,6 @@ public class FreezingType implements FanProcessingType {
 					0.7F,
 					1.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.4F
 			);
-		}
-
-		if (entity.canFreeze()) {
-			entity.setIsInPowderSnow(true);
 		}
 	}
 }

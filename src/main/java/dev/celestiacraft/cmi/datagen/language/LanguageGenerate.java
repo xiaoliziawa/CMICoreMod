@@ -69,4 +69,8 @@ public class LanguageGenerate {
 	public static void addJeiCategoryLang(String key, String english, String chinese) {
 		addLanguage("jei.category", key, english, chinese);
 	}
+
+	public static void addRecipeLang(String key, String english, String chinese) {
+		addCustomLang(String.format("cmi.recipe.%s", key), english, chinese);
+	}
 }

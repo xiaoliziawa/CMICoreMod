@@ -9,11 +9,13 @@ import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.config.CRecipes;
 import dev.celestiacraft.cmi.common.recipe.fan_processig.freezing.FreezingRecipe;
 import dev.celestiacraft.cmi.compat.jei.category.*;
+import earth.terrarium.adastra.common.registry.ModItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +28,6 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.common.block.belt_grinder.GrindingRecipe;
@@ -56,6 +57,7 @@ public class CmiJeiPlugin implements IModPlugin {
 
 	@Override
 	public void registerCategories(@NotNull IRecipeCategoryRegistration registration) {
+		loadCategories();
 		IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
 
 		registration.addRecipeCategories(AcceleratorCategory.builder(helper));
@@ -63,6 +65,8 @@ public class CmiJeiPlugin implements IModPlugin {
 		registration.addRecipeCategories(WaterPumpSeaWaterCategory.builder(helper));
 		registration.addRecipeCategories(VoidDustCollectorCategory.builder(helper));
 		registration.addRecipeCategories(GrindingCategory.builder(helper));
+
+		registration.addRecipeCategories(ALL_CATEGORIES.toArray(IRecipeCategory[]::new));
 	}
 
 	@Override
@@ -80,6 +84,10 @@ public class CmiJeiPlugin implements IModPlugin {
 		registration.addRecipes(CmiJeiRecipeType.SEA_WATER_PUMP, waterPumpSeaWaterRecipe);
 		registration.addRecipes(CmiJeiRecipeType.VOID_DUST_COLLECTOR, voidDustCollectorRecipe);
 		registration.addRecipes(CmiJeiRecipeType.GRINDING, grindingRecipe);
+
+		ALL_CATEGORIES.forEach((category) -> {
+			category.registerRecipes(registration);
+		});
 	}
 
 	@Override
@@ -122,17 +130,23 @@ public class CmiJeiPlugin implements IModPlugin {
 						registration.addRecipeCatalyst(stack, type);
 					});
 		});
+
+		ALL_CATEGORIES.forEach((category) -> {
+			category.registerCatalysts(registration);
+		});
 	}
 
 	private void loadCategories() {
 		ALL_CATEGORIES.clear();
+
 		CreateRecipeCategory<FreezingRecipe> freezing = builder(FreezingRecipe.class)
 				.addTypedRecipes(CmiCreateRecipe.FREEZING)
 				.catalyst(AllBlocks.ENCASED_FAN::asItem)
-				.catalyst(Blocks.POWDER_SNOW::asItem)
+				.catalyst(Items.POWDER_SNOW_BUCKET::asItem)
+				.catalyst(ModItems.CRYO_FUEL_BUCKET::get)
 				.doubleItemIcon(AllBlocks.ENCASED_FAN.asItem(), Items.POWDER_SNOW_BUCKET)
 				.emptyBackground(178, 72)
-				.build("fan_freezing", FanFreezingCategory::new);
+				.build("freezing", FanFreezingCategory::new);
 	}
 
 	private <T extends Recipe<?>> CmiCreateJeiPlugin<T> builder(Class<? extends T> recipeClass) {

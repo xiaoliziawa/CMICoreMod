@@ -51,5 +51,10 @@ public class OtherLanguage extends LanguageGenerate {
 				"State: on",
 				"状态: 开"
 		);
+		addRecipeLang(
+				"freezing",
+				"Freezing",
+				"冷冻"
+		);
 	}
 }

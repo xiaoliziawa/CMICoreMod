@@ -22,7 +22,6 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 	protected void addTags(HolderLookup.@NotNull Provider provider) {
 		tag(ModBlockTags.FREEZING_CATALYST)
 				.add(ModBlocks.CRYO_FUEL.get())
-				.add(Blocks.POWDER_SNOW)
-				.add(Blocks.POWDER_SNOW_CAULDRON);
+				.add(Blocks.POWDER_SNOW);
 	}
 }

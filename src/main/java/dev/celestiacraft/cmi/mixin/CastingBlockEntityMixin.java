@@ -66,7 +66,7 @@ public class CastingBlockEntityMixin implements IFanProcessingTarget {
 		// 累加小数部分
 		cmi$remainder += remainer;
 
-		// 累计进度超过1，额外处理1次
+		// 累计进度超过1, 额外处理1次
 		if (cmi$remainder > 1) {
 			cmi$remainder--;
 			integer++;

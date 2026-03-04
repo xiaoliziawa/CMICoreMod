@@ -16,7 +16,9 @@
 		"MixerStateAccessor",
 		"ChemicalLogicAccessor",
 		"ChemicalStateAccessor",
-		"ChemicalStateMixin"
+		"ChemicalStateMixin",
+		"AirCurrentMixin",
+		"CastingBlockEntityMixin"
 	],
 	"client": [
 	],

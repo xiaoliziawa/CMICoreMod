@@ -1,45 +1,32 @@
 package dev.celestiacraft.cmi.compat.jei;
 
-import com.simibubi.create.AllFluids;
-import com.simibubi.create.AllItems;
+import com.simibubi.create.AllBlocks;
 import com.simibubi.create.Create;
 import com.simibubi.create.compat.jei.*;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
-import com.simibubi.create.compat.jei.category.ProcessingViaFanCategory;
-import com.simibubi.create.content.equipment.blueprint.BlueprintScreen;
-import com.simibubi.create.content.fluids.potion.PotionFluid;
-import com.simibubi.create.content.logistics.filter.AbstractFilterScreen;
-import com.simibubi.create.content.redstone.link.controller.LinkedControllerScreen;
-import com.simibubi.create.content.trains.schedule.ScheduleScreen;
-import com.simibubi.create.foundation.gui.menu.AbstractSimiContainerScreen;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
-import com.simibubi.create.foundation.utility.Lang;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.config.CRecipes;
 import dev.celestiacraft.cmi.common.recipe.fan_processig.freezing.FreezingRecipe;
 import dev.celestiacraft.cmi.compat.jei.category.*;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.constants.RecipeTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
-import mezz.jei.api.helpers.IPlatformFluidHelper;
-import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.registration.*;
-import mezz.jei.api.runtime.IIngredientManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.ItemLike;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.common.block.belt_grinder.GrindingRecipe;
@@ -51,16 +38,17 @@ import dev.celestiacraft.cmi.common.register.CmiBlock;
 import dev.celestiacraft.cmi.common.register.CmiCreateRecipe;
 import dev.celestiacraft.cmi.compat.jei.api.CmiJeiRecipeType;
 
-import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-import java.util.List;
-import java.util.Map;
 
 @JeiPlugin
 public class CmiJeiPlugin implements IModPlugin {
+	private static final List<CreateRecipeCategory<?>> ALL_CATEGORIES = new ArrayList<>();
+
 	@Override
 	public @NotNull ResourceLocation getPluginUid() {
 		return Cmi.loadResource("jei_plugin");
@@ -136,156 +124,109 @@ public class CmiJeiPlugin implements IModPlugin {
 		});
 	}
 
-	public static class CmiFanJeiPlugin implements IModPlugin {
+	private void loadCategories() {
+		ALL_CATEGORIES.clear();
+		CreateRecipeCategory<FreezingRecipe> freezing = builder(FreezingRecipe.class)
+				.addTypedRecipes(CmiCreateRecipe.FREEZING)
+				.catalyst(AllBlocks.ENCASED_FAN::asItem)
+				.catalyst(Blocks.POWDER_SNOW::asItem)
+				.doubleItemIcon(AllBlocks.ENCASED_FAN.asItem(), Items.POWDER_SNOW_BUCKET)
+				.emptyBackground(178, 72)
+				.build("fan_freezing", FanFreezingCategory::new);
+	}
 
-		private static final ResourceLocation ID = Create.asResource("jei_plugin");
+	private <T extends Recipe<?>> CmiCreateJeiPlugin<T> builder(Class<? extends T> recipeClass) {
+		return new CmiCreateJeiPlugin<>(recipeClass);
+	}
 
-		private final List<CreateRecipeCategory<?>> allCategories = new ArrayList<>();
-		private IIngredientManager ingredientManager;
+	private static class CmiCreateJeiPlugin<T extends Recipe<?>> {
+		private final Class<? extends T> recipeClass;
+		private final Predicate<CRecipes> predicate = (recipes) -> true;
 
-		private void loadCategories() {
-			allCategories.clear();
+		private IDrawable background;
+		private IDrawable icon;
 
-			CreateRecipeCategory<?>
+		private final List<Consumer<List<T>>> recipeListConsumers = new ArrayList<>();
+		private final List<Supplier<? extends ItemStack>> catalysts = new ArrayList<>();
 
-					freezing = builder(FreezingRecipe.class)
-					.addTypedRecipes(CmiCreateRecipe.FREEZING)
-					.catalystStack(ProcessingViaFanCategory.getFan("fan_freezing"))
-					.doubleItemIcon(AllItems.PROPELLER.get(), Items.POWDER_SNOW_BUCKET)
-					.emptyBackground(178, 72)
-					.build("fan_freezing", FanFreezingCategory::new);
-
+		public CmiCreateJeiPlugin(Class<? extends T> recipeClass) {
+			this.recipeClass = recipeClass;
 		}
 
-		private <T extends Recipe<?>> CmiFanJeiPlugin.CategoryBuilder<T> builder(Class<? extends T> recipeClass) {
-			return new CmiFanJeiPlugin.CategoryBuilder<>(recipeClass);
+		public CmiCreateJeiPlugin<T> addRecipeListConsumer(Consumer<List<T>> consumer) {
+			recipeListConsumers.add(consumer);
+			return this;
 		}
 
-		@Override
-		@Nonnull
-		public ResourceLocation getPluginUid() {
-			return ID;
+		public CmiCreateJeiPlugin<T> addTypedRecipes(IRecipeTypeInfo recipeTypeEntry) {
+			return addTypedRecipes(recipeTypeEntry::getType);
 		}
 
-		@Override
-		public void registerCategories(IRecipeCategoryRegistration registration) {
-			loadCategories();
-			registration.addRecipeCategories(allCategories.toArray(IRecipeCategory[]::new));
+		public CmiCreateJeiPlugin<T> addTypedRecipes(Supplier<RecipeType<? extends T>> recipeType) {
+			return addRecipeListConsumer((recipes) -> {
+				CreateJEI.<T>consumeTypedRecipes(recipes::add, recipeType.get());
+			});
 		}
 
-		@Override
-		public void registerRecipes(IRecipeRegistration registration) {
-			ingredientManager = registration.getIngredientManager();
-
-			allCategories.forEach(c -> c.registerRecipes(registration));
-
-			registration.addRecipes(RecipeTypes.CRAFTING, ToolboxColoringRecipeMaker.createRecipes().toList());
+		public CmiCreateJeiPlugin<T> catalystStack(Supplier<ItemStack> supplier) {
+			catalysts.add(supplier);
+			return this;
 		}
 
-		@Override
-		public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
-			allCategories.forEach(c -> c.registerCatalysts(registration));
+		public CmiCreateJeiPlugin<T> catalyst(Supplier<ItemLike> item) {
+			return catalystStack(() -> item.get().asItem().getDefaultInstance());
 		}
 
-		@Override
-		public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-			registration.addRecipeTransferHandler(new BlueprintTransferHandler(), RecipeTypes.CRAFTING);
+		public CmiCreateJeiPlugin<T> icon(IDrawable icon) {
+			this.icon = icon;
+			return this;
 		}
 
-		@Override
-		public <T> void registerFluidSubtypes(ISubtypeRegistration registration, @NotNull IPlatformFluidHelper<T> platformFluidHelper) {
-			PotionFluidSubtypeInterpreter interpreter = new PotionFluidSubtypeInterpreter();
-			PotionFluid potionFluid = AllFluids.POTION.get();
-			registration.registerSubtypeInterpreter(ForgeTypes.FLUID_STACK, potionFluid.getSource(), interpreter);
-			registration.registerSubtypeInterpreter(ForgeTypes.FLUID_STACK, potionFluid.getFlowing(), interpreter);
+		public CmiCreateJeiPlugin<T> itemIcon(ItemLike item) {
+			icon(new ItemIcon(() -> item.asItem().getDefaultInstance()));
+			return this;
 		}
 
-		@Override
-		public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-			registration.addGenericGuiContainerHandler(AbstractSimiContainerScreen.class, new SlotMover());
-
-			registration.addGhostIngredientHandler(AbstractFilterScreen.class, new GhostIngredientHandler());
-			registration.addGhostIngredientHandler(BlueprintScreen.class, new GhostIngredientHandler());
-			registration.addGhostIngredientHandler(LinkedControllerScreen.class, new GhostIngredientHandler());
-			registration.addGhostIngredientHandler(ScheduleScreen.class, new GhostIngredientHandler());
+		public CmiCreateJeiPlugin<T> doubleItemIcon(ItemLike item1, ItemLike item2) {
+			icon(new DoubleItemIcon(() -> new ItemStack(item1), () -> new ItemStack(item2)));
+			return this;
 		}
 
-		private class CategoryBuilder<T extends Recipe<?>> {
-			private final Class<? extends T> recipeClass;
-			private final Predicate<CRecipes> predicate = cRecipes -> true;
+		public CmiCreateJeiPlugin<T> background(IDrawable background) {
+			this.background = background;
+			return this;
+		}
 
-			private IDrawable background;
-			private IDrawable icon;
+		public CmiCreateJeiPlugin<T> emptyBackground(int width, int height) {
+			background(new EmptyBackground(width, height));
+			return this;
+		}
 
-			private final List<Consumer<List<T>>> recipeListConsumers = new ArrayList<>();
-			private final List<Supplier<? extends ItemStack>> catalysts = new ArrayList<>();
-
-			public CategoryBuilder(Class<? extends T> recipeClass) {
-				this.recipeClass = recipeClass;
+		public CreateRecipeCategory<T> build(String name, CreateRecipeCategory.Factory<T> factory) {
+			Supplier<List<T>> recipesSupplier;
+			if (predicate.test(AllConfigs.server().recipes)) {
+				recipesSupplier = () -> {
+					List<T> recipes = new ArrayList<>();
+					for (Consumer<List<T>> consumer : recipeListConsumers) {
+						consumer.accept(recipes);
+					}
+					return recipes;
+				};
+			} else {
+				recipesSupplier = () -> Collections.emptyList();
 			}
 
-			public CmiFanJeiPlugin.CategoryBuilder<T> addRecipeListConsumer(Consumer<List<T>> consumer) {
-				recipeListConsumers.add(consumer);
-				return this;
-			}
-
-			public CmiFanJeiPlugin.CategoryBuilder<T> addTypedRecipes(IRecipeTypeInfo recipeTypeEntry) {
-				return addTypedRecipes(recipeTypeEntry::getType);
-			}
-
-			public CmiFanJeiPlugin.CategoryBuilder<T> addTypedRecipes(Supplier<RecipeType<? extends T>> recipeType) {
-				return addRecipeListConsumer((recipes) -> {
-					CreateJEI.<T>consumeTypedRecipes(recipes::add, recipeType.get());
-				});
-			}
-
-			public CmiFanJeiPlugin.CategoryBuilder<T> catalystStack(Supplier<ItemStack> supplier) {
-				catalysts.add(supplier);
-				return this;
-			}
-
-			public CmiFanJeiPlugin.CategoryBuilder<T> icon(IDrawable icon) {
-				this.icon = icon;
-				return this;
-			}
-
-			public CmiFanJeiPlugin.CategoryBuilder<T> doubleItemIcon(ItemLike item1, ItemLike item2) {
-				icon(new DoubleItemIcon(() -> new ItemStack(item1), () -> new ItemStack(item2)));
-				return this;
-			}
-
-			public CmiFanJeiPlugin.CategoryBuilder<T> background(IDrawable background) {
-				this.background = background;
-				return this;
-			}
-
-			public CmiFanJeiPlugin.CategoryBuilder<T> emptyBackground(int width, int height) {
-				background(new EmptyBackground(width, height));
-				return this;
-			}
-
-			public CreateRecipeCategory<T> build(String name, CreateRecipeCategory.Factory<T> factory) {
-				Supplier<List<T>> recipesSupplier;
-				if (predicate.test(AllConfigs.server().recipes)) {
-					recipesSupplier = () -> {
-						List<T> recipes = new ArrayList<>();
-						for (Consumer<List<T>> consumer : recipeListConsumers) {
-							consumer.accept(recipes);
-						}
-						return recipes;
-					};
-				} else {
-					recipesSupplier = () -> Collections.emptyList();
-				}
-
-				CreateRecipeCategory.Info<T> info = new CreateRecipeCategory.Info<>(
-						new mezz.jei.api.recipe.RecipeType<>(Create.asResource(name), recipeClass),
-						Lang.translateDirect("recipe." + name), background, icon, recipesSupplier, catalysts
-				);
-				CreateRecipeCategory<T> category = factory.create(info);
-				allCategories.add(category);
-				return category;
-			}
+			CreateRecipeCategory.Info<T> info = new CreateRecipeCategory.Info<>(
+					new mezz.jei.api.recipe.RecipeType<>(Cmi.loadResource(name), recipeClass),
+					Component.translatable(Cmi.MODID + ".recipe." + name),
+					background,
+					icon,
+					recipesSupplier,
+					catalysts
+			);
+			CreateRecipeCategory<T> category = factory.create(info);
+			ALL_CATEGORIES.add(category);
+			return category;
 		}
 	}
 }

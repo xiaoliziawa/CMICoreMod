@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @JeiPlugin
-public class ModJeiPlugin implements IModPlugin {
+public class CmiJeiPlugin implements IModPlugin {
 	@Override
 	public @NotNull ResourceLocation getPluginUid() {
 		return Cmi.loadResource("jei_plugin");

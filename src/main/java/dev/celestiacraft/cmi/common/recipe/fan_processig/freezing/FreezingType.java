@@ -15,6 +15,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -109,6 +110,10 @@ public class FreezingType implements FanProcessingType {
 					0.7F,
 					1.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.4F
 			);
+		}
+
+		if (entity.canFreeze()) {
+			entity.setIsInPowderSnow(true);
 		}
 	}
 }

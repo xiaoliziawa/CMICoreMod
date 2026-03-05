@@ -72,7 +72,9 @@ public class CmiLang {
 	}
 
 	public static void isShiftDown(@NotNull List<Component> tooltip) {
-		Lang.translate("tooltip.holdForDescription", Component.literal("Shift").withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY))
+		MutableComponent shift = Component.literal("Shift")
+				.withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY);
+		Lang.translate("tooltip.holdForDescription", shift)
 				.style(ChatFormatting.DARK_GRAY)
 				.addTo(tooltip);
 	}

@@ -45,6 +45,8 @@ public class CastingBlockEntityMixin implements IFanProcessingTarget {
 	 * 提升 = (转速 / 64) 的平方根 * 因子 * 100 %
 	 * <p>
 	 * 64 转速就是 2 倍速, 256 转速就是 3 倍速
+	 * <p>
+	 * 因此如果想要提高速度只需要将 factor 调大就行
 	 *
 	 * @param type  风扇处理类型(具体查看：{@linkplain AllFanProcessingTypes})
 	 * @param speed 生成气流的风扇速度(0.0f至最大风扇速度)

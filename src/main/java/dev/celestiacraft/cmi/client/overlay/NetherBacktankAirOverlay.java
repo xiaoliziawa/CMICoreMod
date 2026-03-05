@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
@@ -18,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.common.ForgeMod;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class NetherBacktankAirOverlay implements IGuiOverlay {
 		if (player.level().dimension() != Level.NETHER) {
 			return;
 		}
-		if (player.isEyeInFluid(FluidTags.WATER) || player.isInLava()) {
+		if (player.isEyeInFluidType(ForgeMod.WATER_TYPE.get()) || player.isInLava()) {
 			return;
 		}
 		if (!player.getPersistentData().contains("VisualBacktankAir")) {

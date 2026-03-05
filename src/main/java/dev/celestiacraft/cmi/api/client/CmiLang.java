@@ -3,9 +3,14 @@ package dev.celestiacraft.cmi.api.client;
 import com.simibubi.create.foundation.utility.Components;
 import com.simibubi.create.foundation.utility.Lang;
 import com.simibubi.create.foundation.utility.LangBuilder;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import dev.celestiacraft.cmi.Cmi;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * CMI 模组的语言工具类, 基于 Create 的 {@link Lang} 和 {@link LangBuilder} 。
@@ -64,6 +69,12 @@ public class CmiLang {
 
 	public static MutableComponent translateDirect(String langKey, Object... args) {
 		return Components.translatable(String.format("%s.%s", Cmi.MODID, langKey), Lang.resolveBuilders(args));
+	}
+
+	public static void isShiftDown(@NotNull List<Component> tooltip) {
+		Lang.translate("tooltip.holdForDescription", Component.literal("Shift").withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY))
+				.style(ChatFormatting.DARK_GRAY)
+				.addTo(tooltip);
 	}
 
 	public static class JeiLang {

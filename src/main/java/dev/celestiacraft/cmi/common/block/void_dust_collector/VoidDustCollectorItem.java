@@ -1,7 +1,6 @@
 package dev.celestiacraft.cmi.common.block.void_dust_collector;
 
 import com.simibubi.create.foundation.item.TooltipHelper;
-import com.simibubi.create.foundation.utility.Lang;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -27,9 +26,7 @@ public class VoidDustCollectorItem extends BlockItem {
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-		Lang.translate("tooltip.holdForDescription", Component.literal("Shift").withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY))
-				.style(ChatFormatting.DARK_GRAY)
-				.addTo(tooltip);
+		CmiLang.isShiftDown(tooltip);
 
 		if (Screen.hasShiftDown()) {
 			int energyConsumption = CommonConfig.VOID_DUST_COLLECTOR_ENERGY_CONSUMPTION.get();

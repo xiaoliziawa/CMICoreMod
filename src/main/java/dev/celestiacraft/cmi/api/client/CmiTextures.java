@@ -14,13 +14,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class CmiTextures {
 	public static class Items {
-		public static <T extends Item> NonNullBiConsumer<DataGenContext<Item, T>, RegistrateItemModelProvider> setSimpleTexture(ResourceLocation texture) {
+		public static <T extends Item> NonNullBiConsumer<DataGenContext<Item, T>, RegistrateItemModelProvider> setTexture(ResourceLocation texture) {
 			return (context, provider) -> {
 				provider.generated(context::getEntry, texture);
 			};
 		}
 
-		public static <T extends Item> NonNullBiConsumer<DataGenContext<Item, T>, RegistrateItemModelProvider> setSimpleTexture(String texture) {
+		public static <T extends Item> NonNullBiConsumer<DataGenContext<Item, T>, RegistrateItemModelProvider> setTexture(String texture) {
 			return (context, provider) -> {
 				provider.generated(context::getEntry, provider.modLoc(texture));
 			};

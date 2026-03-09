@@ -17,7 +17,9 @@ public class PlayerJoinEvent {
 		if (!event.getEntity().level().isClientSide()) {
 			ServerPlayer player = (ServerPlayer) event.getEntity();
 			long seed = player.server.overworld().getSeed();
-			PacketDistributor.PacketTarget target = PacketDistributor.PLAYER.with(() -> player);
+			PacketDistributor.PacketTarget target = PacketDistributor.PLAYER.with(() -> {
+				return player;
+			});
 
 			CmiNetwork.CHANNEL.send(target, new SeedPacket(seed));
 		}

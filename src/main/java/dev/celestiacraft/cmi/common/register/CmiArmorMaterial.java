@@ -19,7 +19,12 @@ public class CmiArmorMaterial implements ArmorMaterial {
 	private final Supplier<Ingredient> material;
 
 	// 原版基础耐久
-	private static final int[] BASE_DURABILITY = new int[]{11, 16, 15, 13};
+	private static final int[] BASE_DURABILITY = new int[]{
+			11,
+			16,
+			15,
+			13
+	};
 
 	private CmiArmorMaterial(String name, int maxDamageFactor, int[] defense, int enchantability, Supplier<SoundEvent> sound, float toughness, float knockbackResistance, Supplier<Ingredient> material) {
 		this.name = name;
@@ -59,7 +64,7 @@ public class CmiArmorMaterial implements ArmorMaterial {
 
 	@Override
 	public @NotNull String getName() {
-		return "cmi:" + name;
+		return "cmi:%s".formatted(name);
 	}
 
 	@Override
@@ -73,6 +78,11 @@ public class CmiArmorMaterial implements ArmorMaterial {
 	}
 
 	private static int[] armor(int helmet, int chestplate, int leggings, int boots) {
-		return new int[]{boots, leggings, chestplate, helmet};
+		return new int[]{
+				boots,
+				leggings,
+				chestplate,
+				helmet
+		};
 	}
 }

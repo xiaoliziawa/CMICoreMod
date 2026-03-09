@@ -52,7 +52,6 @@ public class Citron {
 		return Integer.parseInt(part);
 	}
 
-
 	/**
 	 * 读取value.txt文件
 	 *

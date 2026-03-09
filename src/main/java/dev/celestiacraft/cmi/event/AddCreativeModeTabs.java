@@ -9,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,12 +24,10 @@ public class AddCreativeModeTabs {
 			ResourceLocation.parse("kubejs:tab")
 	);
 
-	private static final Lazy<Item> REDSTONE_MECHANISM = Lazy.of(() -> {
-		return ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath(
-				"vintageimprovements",
-				"redstone_module"
-		));
-	});
+	private static final Item REDSTONE_MECHANISM = ForgeRegistries.ITEMS.getValue(ResourceLocation.fromNamespaceAndPath(
+			"vintageimprovements",
+			"redstone_module"
+	));
 
 	@SubscribeEvent
 	public static void buildContents(BuildCreativeModeTabContentsEvent event) {
@@ -52,7 +49,7 @@ public class AddCreativeModeTabs {
 
 		if (event.getTabKey() == CmiCreativeTab.MECHANISMS) {
 			event.accept(AllItems.PRECISION_MECHANISM.get());
-			event.accept(REDSTONE_MECHANISM.get());
+			event.accept(REDSTONE_MECHANISM);
 		}
 	}
 }

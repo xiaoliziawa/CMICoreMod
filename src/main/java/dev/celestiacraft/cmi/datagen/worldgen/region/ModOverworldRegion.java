@@ -1,8 +1,8 @@
-package dev.celestiacraft.cmi.worldgen.region;
+package dev.celestiacraft.cmi.datagen.worldgen.region;
 
 import com.mojang.datafixers.util.Pair;
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.worldgen.biome.ModBiomes;
+import dev.celestiacraft.cmi.datagen.worldgen.biome.ModBiomes;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;

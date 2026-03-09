@@ -7,6 +7,19 @@ import java.util.List;
 
 public class ItemLanguage extends LanguageGenerate {
 	public static void addLang() {
+		mechLang();
+		addItemLanguage(
+				"mystic_pomelo",
+				"Mystic Pomelo",
+				"神秘的柚子"
+		);
+	}
+
+	private static @NotNull List<String> setInfo(String id, String en, String zh) {
+		return List.of(id, en, zh);
+	}
+
+	private static void mechLang() {
 		List<List<String>> mechList = List.of(
 				setInfo("wooden", "Storage", "存储"),
 				setInfo("stone", "Heat", "热能"),
@@ -65,9 +78,5 @@ public class ItemLanguage extends LanguageGenerate {
 
 			addItemLanguage(incompleteKey, incompleteEn, incompleteZh);
 		});
-	}
-
-	private static @NotNull List<String> setInfo(String id, String en, String zh) {
-		return List.of(id, en, zh);
 	}
 }

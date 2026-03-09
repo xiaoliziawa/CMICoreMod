@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.worldgen;
+package dev.celestiacraft.cmi.datagen.worldgen;
 
 import dev.celestiacraft.cmi.Cmi;
 import net.minecraft.core.registries.Registries;

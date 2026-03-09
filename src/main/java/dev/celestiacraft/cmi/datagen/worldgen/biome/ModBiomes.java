@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.worldgen.biome;
+package dev.celestiacraft.cmi.datagen.worldgen.biome;
 
 import dev.celestiacraft.cmi.Cmi;
 import net.minecraft.core.registries.Registries;

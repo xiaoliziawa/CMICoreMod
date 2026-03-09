@@ -1,7 +1,7 @@
-package dev.celestiacraft.cmi.worldgen;
+package dev.celestiacraft.cmi.datagen.worldgen;
 
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.worldgen.biome.ModBiomes;
+import dev.celestiacraft.cmi.datagen.worldgen.biome.ModBiomes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;

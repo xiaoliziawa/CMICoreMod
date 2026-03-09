@@ -1,7 +1,7 @@
-package dev.celestiacraft.cmi.worldgen.surfacerule;
+package dev.celestiacraft.cmi.datagen.worldgen.surfacerule;
 
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.worldgen.biome.ModBiomes;
+import dev.celestiacraft.cmi.datagen.worldgen.biome.ModBiomes;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;

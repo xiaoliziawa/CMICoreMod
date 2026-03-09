@@ -6,13 +6,15 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import dev.celestiacraft.cmi.network.ClientSeedHandler;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.jetbrains.annotations.NotNull;
@@ -23,21 +25,25 @@ import java.nio.file.Path;
 
 public class MysticPomeloItem extends Item implements IUIHolder.ItemUI {
 	public MysticPomeloItem(Properties properties) {
-		super(properties.stacksTo(1));
+		super(properties.stacksTo(1)
+				.fireResistant());
 	}
 
 	/**
 	 * Open UI
 	 *
-	 * @param context
+	 * @param level
+	 * @param player
+	 * @param hand
 	 * @return
 	 */
 	@Override
-	public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
-		if (context.getPlayer() instanceof ServerPlayer player) {
-			HeldItemUIFactory.INSTANCE.openUI(player, context.getHand());
+	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
+		if (player instanceof ServerPlayer serverPlayer) {
+			HeldItemUIFactory.INSTANCE.openUI(serverPlayer, hand);
 		}
-		return InteractionResult.SUCCESS;
+
+		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 
 	/**
@@ -125,35 +131,32 @@ public class MysticPomeloItem extends Item implements IUIHolder.ItemUI {
 
 	public WidgetGroup createUI(Level level) {
 		WidgetGroup group = new WidgetGroup();
-		group.setSize(180, 120);
+		group.setSize(180, 180);
 		group.setBackground(ResourceBorderTexture.BORDERED_BACKGROUND);
 
 		LabelWidget label = new LabelWidget();
 		label.setSelfPosition(10, 10);
 
-		String text = String.format(
-				"""
-								1
-								x : %d + %s
-								y : %d - %s
+		String text = String.format("""
+						1
+						x : %d + %d
+						y : %d - %d
 						
-								2
-								x : %d + %s
-								y : %d - %s
+						2
+						x : %d + %d
+						y : %d - %d
 						
-								3
-								x : %d + %s
-								y : %d - %s
-						""",
+						3
+						x : %d + %d
+						y : %d - %d""",
+				getSeedSegment(level, 0), ClientSeedHandler.getValue(1),
+				getSeedSegment(level, 1), ClientSeedHandler.getValue(2),
 
-				getSeedSegment(level, 0), getValue("%VALUE0%"),
-				getSeedSegment(level, 1), getValue("%VALUE1%"),
+				getSeedSegment(level, 2), ClientSeedHandler.getValue(3),
+				getSeedSegment(level, 3), ClientSeedHandler.getValue(4),
 
-				getSeedSegment(level, 2), getValue("%VALUE2%"),
-				getSeedSegment(level, 3), getValue("%VALUE3%"),
-
-				getSeedSegment(level, 4), getValue("%VALUE4%"),
-				getSeedSegment(level, 5), getValue("%VALUE5%")
+				getSeedSegment(level, 4), ClientSeedHandler.getValue(5),
+				getSeedSegment(level, 5), ClientSeedHandler.getValue(6)
 		);
 
 		label.setText(Component.literal(text).getString());

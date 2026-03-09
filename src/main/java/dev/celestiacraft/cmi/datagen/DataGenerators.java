@@ -7,7 +7,7 @@ import dev.celestiacraft.cmi.datagen.language.locale.English;
 import dev.celestiacraft.cmi.datagen.tags.ModBlockTagsProvider;
 import dev.celestiacraft.cmi.datagen.tags.ModFluidTagsProvider;
 import dev.celestiacraft.cmi.datagen.tags.ModItemTagsProvider;
-import dev.celestiacraft.cmi.worldgen.WorldGenProvider;
+import dev.celestiacraft.cmi.datagen.worldgen.WorldGenProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;

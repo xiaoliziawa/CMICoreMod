@@ -1,18 +1,45 @@
-package dev.celestiacraft.cmi.event;
+package dev.celestiacraft.cmi.common.item;
 
+import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
+import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.loading.FMLPaths;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Citron {
+public class MysticPomeloItem extends Item implements IUIHolder.ItemUI {
+	public MysticPomeloItem(Properties properties) {
+		super(properties.stacksTo(1));
+	}
+
+	/**
+	 * Open UI
+	 *
+	 * @param context
+	 * @return
+	 */
+	@Override
+	public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
+		if (context.getPlayer() instanceof ServerPlayer player) {
+			HeldItemUIFactory.INSTANCE.openUI(player, context.getHand());
+		}
+		return InteractionResult.SUCCESS;
+	}
+
 	/**
 	 * 获取世界种子
 	 *
@@ -106,18 +133,18 @@ public class Citron {
 
 		String text = String.format(
 				"""
-						1
-						x : %d + %s
-						y : %d - %s
-				
-						2
-						x : %d + %s
-						y : %d - %s
-				
-						3
-						x : %d + %s
-						y : %d - %s
-				""",
+								1
+								x : %d + %s
+								y : %d - %s
+						
+								2
+								x : %d + %s
+								y : %d - %s
+						
+								3
+								x : %d + %s
+								y : %d - %s
+						""",
 
 				getSeedSegment(level, 0), getValue("%VALUE0%"),
 				getSeedSegment(level, 1), getValue("%VALUE1%"),
@@ -133,5 +160,10 @@ public class Citron {
 		group.addWidget(label);
 
 		return group;
+	}
+
+	@Override
+	public ModularUI createUI(Player player, HeldItemUIFactory.HeldItemHolder holder) {
+		return new ModularUI(createUI(player.level()), holder, player);
 	}
 }

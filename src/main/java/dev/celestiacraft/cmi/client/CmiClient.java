@@ -16,6 +16,9 @@ public class CmiClient {
 	public static void onClientSetup(FMLClientSetupEvent event) {
 		CmiBlockPartialModel.init();
 		CmiSpriteShiftEntry.init();
-		event.enqueueWork(CmiPonderIndex::register);
+
+		event.enqueueWork(() -> {
+			CmiPonderIndex.register();
+		});
 	}
 }

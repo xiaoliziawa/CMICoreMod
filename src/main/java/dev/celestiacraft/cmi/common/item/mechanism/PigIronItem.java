@@ -17,10 +17,16 @@ public class PigIronItem extends MechanismItem {
 	public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
 		ItemStack result = super.finishUsingItem(stack, level, entity);
 
-		if (entity instanceof Player player) {
-			if (!level.isClientSide() && !player.getAbilities().instabuild) {
-				result.grow(1);
-			}
+		if (level.isClientSide()) {
+			return null;
+		}
+
+		if (!(entity instanceof Player player)) {
+			return null;
+		}
+
+		if (!player.isCreative()) {
+			stack.grow(1);
 		}
 
 		return result;

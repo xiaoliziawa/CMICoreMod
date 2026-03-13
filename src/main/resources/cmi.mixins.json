@@ -18,7 +18,9 @@
 		"ChemicalStateAccessor",
 		"ChemicalStateMixin",
 		"AirCurrentMixin",
-		"CastingBlockEntityMixin"
+		"CastingBlockEntityMixin",
+		"RoverMixin",
+		"VehicleItemMixin"
 	],
 	"client": [
 	],

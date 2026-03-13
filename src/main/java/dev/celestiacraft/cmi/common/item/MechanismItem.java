@@ -134,7 +134,7 @@ public abstract class MechanismItem extends Item {
 	protected InteractionResult useOtherItem(@NotNull Item item, @NotNull UseOnContext context) {
 		ItemStack stack = item.getDefaultInstance();
 
-		BlockHitResult hit = new BlockHitResult(
+		BlockHitResult result = new BlockHitResult(
 				context.getClickLocation(),
 				context.getClickedFace(),
 				context.getClickedPos(),
@@ -146,7 +146,7 @@ public abstract class MechanismItem extends Item {
 				context.getPlayer(),
 				context.getHand(),
 				stack,
-				hit
+				result
 		);
 
 		return item.useOn(newContext);

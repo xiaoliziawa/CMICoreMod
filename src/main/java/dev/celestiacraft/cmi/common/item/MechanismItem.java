@@ -154,14 +154,20 @@ public abstract class MechanismItem extends Item {
 
 	@Override
 	public @NotNull ItemStack finishUsingItem(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity) {
-		ItemStack result = super.finishUsingItem(stack, level, entity);
-
-		if (!useAfterConsume() && entity instanceof Player player && !player.isCreative()) {
-			result.setCount(result.getCount() + 1);
-			return result;
+		if (useAfterConsume()) {
+			return super.finishUsingItem(stack, level, entity);
 		}
 
-		return result;
+		if (!(entity instanceof Player player)) {
+			return super.finishUsingItem(stack, level, entity);
+		}
+
+		if (player.isCreative()) {
+			return super.finishUsingItem(stack, level, entity);
+		}
+
+		super.finishUsingItem(stack.copy(), level, entity);
+		return stack;
 	}
 
 	/**

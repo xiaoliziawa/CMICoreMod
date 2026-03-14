@@ -3,7 +3,7 @@ package dev.celestiacraft.cmi.common.item.mechanism;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.common.item.MechanismItem;
 import dev.celestiacraft.cmi.common.register.CmiMechanism;
-import dev.celestiacraft.libs.compat.curios.CuriosUtils;
+import dev.celestiacraft.libs.compat.curios.ICuriosHelper;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +24,7 @@ public class SmartItem extends MechanismItem {
 			return;
 		}
 
-		if (!CuriosUtils.hasItem(player, CmiMechanism.SMART.get())) {
+		if (!ICuriosHelper.hasItem(player, CmiMechanism.SMART.get())) {
 			return;
 		}
 

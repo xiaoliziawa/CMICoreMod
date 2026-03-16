@@ -212,7 +212,8 @@ public class WaterPumpBlockEntity extends BlockEntity implements IHaveGoggleInfo
 
 	private boolean isOcean() {
 		if (this.level != null) {
-			return this.level.getBiome(this.getBlockPos()).is(BiomeTags.IS_OCEAN) && this.getBlockPos().getY() == 62;
+			return this.level.getBiome(this.getBlockPos()).is(BiomeTags.IS_OCEAN) &&
+					this.getBlockPos().getY() == 62;
 		}
 		return false;
 	}

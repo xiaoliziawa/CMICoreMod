@@ -1,10 +1,8 @@
 package dev.celestiacraft.cmi.common.block.test_multiblock;
 
-import com.lowdragmc.lowdraglib.test.TestBlockEntity;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.block.IBE;
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.common.block.water_pump.WaterPumpBlockEntity;
 import dev.celestiacraft.cmi.common.register.CmiBlock;
 import dev.celestiacraft.cmi.common.register.CmiBlockEntityTypes;
 import net.minecraft.core.BlockPos;

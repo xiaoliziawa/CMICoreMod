@@ -189,7 +189,7 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 
 			@Override
 			public @NotNull FluidStack getFluidInTank(int tank) {
-				return fluidHandler.getFluidInTank(tank);
+				return fluid;
 			}
 
 			@Override
@@ -200,8 +200,7 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 			@Override
 			public boolean isFluidValid(int tank, @NotNull FluidStack stack) {
 				if (isStructureValid()) {
-					fluidHandler.getFluidInTank(tank);
-					return stack.isFluidEqual(fluidHandler.getFluidInTank(tank));
+					return stack.isFluidEqual(fluid);  // Check if the fluid type matches
 				} else {
 					return false;
 				}
@@ -209,15 +208,23 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 
 			@Override
 			public int fill(FluidStack stack, FluidAction action) {
-				if (!isStructureValid() || !isFluidValid(0, stack)) {
+				if (!isStructureValid()) {
 					return 0;
 				}
-				if (level != null) {
-					level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+				if (!isFluidValid(0, stack)) {
+					return 0;
 				}
-				int filled = Math.min(stack.getAmount(), 32000 - fluid.getAmount());
-				fluid.setAmount(stack.getAmount() + filled);
-				return filled;
+				int fillable = Math.min(stack.getAmount(), 32000 - fluid.getAmount());
+				if (fillable > 0) {
+					if (action == FluidAction.EXECUTE) {
+						fluid.setAmount(fluid.getAmount() + fillable);
+						setChanged();
+						if (level != null) {
+							level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+						}
+					}
+				}
+				return fillable;
 			}
 
 			@Override
@@ -229,7 +236,7 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 					level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 				}
 				int drained = Math.min(stack.getAmount(), fluid.getAmount());
-				fluid.setAmount(fluid.getAmount() - drained);
+				fluid.setAmount(fluid.getAmount() - drained);  // Correct fluid draining
 				return new FluidStack(fluid, drained);
 			}
 
@@ -242,6 +249,7 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 					level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 				}
 				int drained = Math.min(maxDrain, fluid.getAmount());
+				fluid.setAmount(fluid.getAmount() - drained);  // Correct fluid draining
 				return new FluidStack(fluid, drained);
 			}
 		};

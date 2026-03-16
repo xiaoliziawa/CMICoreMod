@@ -20,7 +20,6 @@ import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.libs.NebulaLibs;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@SuppressWarnings("ALL")
 @Mod.EventBusSubscriber(modid = Cmi.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ParchmentRightClick {
 	record PlayerPos(double x, double y, double z) {

@@ -18,7 +18,6 @@ import dev.celestiacraft.cmi.common.register.CmiBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-@SuppressWarnings("ALL")
 @Mod.EventBusSubscriber(modid = Cmi.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class WaterPumpBlock extends Block implements IBE<WaterPumpBlockEntity> {
 	public WaterPumpBlock(Properties properties) {

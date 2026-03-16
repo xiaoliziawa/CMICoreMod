@@ -19,6 +19,7 @@ import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerBlock;
 import dev.celestiacraft.cmi.common.block.mars_geothermal_vent.MarsGeothermalVentBlock;
 import dev.celestiacraft.cmi.common.block.mercury_geothermal_vent.MercuryGeothermalVentBlock;
 import dev.celestiacraft.cmi.common.block.test_gravel.TestGravelBlock;
+import dev.celestiacraft.cmi.common.block.test_multiblock.TestMultiblockBlock;
 import dev.celestiacraft.cmi.common.block.void_dust_collector.VoidDustCollectorBlock;
 import dev.celestiacraft.cmi.common.block.void_dust_collector.VoidDustCollectorItem;
 import dev.celestiacraft.cmi.common.block.water_pump.WaterPumpBlock;
@@ -42,6 +43,7 @@ public class CmiBlock {
 	public static final BlockEntry<VoidDustCollectorBlock> VOID_DUST_COLLECTOR;
 	public static final BlockEntry<BeltGrinderBlock> BELT_GRINDER;
 	public static final BlockEntry<AcceleratorBlock> ACCELERATOR;
+	public static final BlockEntry<TestMultiblockBlock> TEST_MULTIBLOCK;
 
 	static {
 		ACCELERATOR = Cmi.REGISTRATE.block("accelerator", AcceleratorBlock::new)
@@ -242,6 +244,26 @@ public class CmiBlock {
 								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
 								return ConfiguredModel.builder()
 										.modelFile(models.getExistingFile(provider.modLoc("block/mechanical_belt_grinder/block")))
+										.rotationY((int) facing.toYRot())
+										.build();
+							});
+				})
+				.register();
+		TEST_MULTIBLOCK = Cmi.REGISTRATE.block("test_multiblock_controller", TestMultiblockBlock::new)
+				.initialProperties(SharedProperties::stone)
+				.item()
+				.model((context, provider) -> {
+					provider.withExistingParent(context.getName(), provider.modLoc("block/test_multiblock_controller"));
+				})
+				.build()
+				.blockstate((context, provider) -> {
+					provider.getVariantBuilder(context.get())
+							.forAllStatesExcept((state) -> {
+								BlockModelProvider models = provider.models();
+								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
+								boolean working = state.getValue(VoidDustCollectorBlock.WORKING);
+								return ConfiguredModel.builder()
+										.modelFile(models.getExistingFile(provider.modLoc(working ? "block/void_dust_collector/on" : "block/void_dust_collector/off")))
 										.rotationY((int) facing.toYRot())
 										.build();
 							});

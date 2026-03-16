@@ -1,6 +1,5 @@
 package dev.celestiacraft.cmi.common.block.test_multiblock;
 
-import cpw.mods.util.Lazy;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.common.register.CmiBlock;
 import net.minecraft.core.BlockPos;
@@ -12,6 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import vazkii.patchouli.api.IMultiblock;
 
 import javax.annotation.Nullable;
-import java.util.function.Supplier;
 
 public class TestMultiblockBlockEntity extends BlockEntity implements IMultiblockProvider {
 	public TestMultiblockBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
@@ -57,7 +56,7 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 
 	private final CapabilityHandler capabilityHandler = new CapabilityHandler();
 
-	private final MultiblockHandler MULTIBLOCK = MultiblockHandler.builder(this, (Supplier<IMultiblock>) STRUCTURE)
+	private final MultiblockHandler MULTIBLOCK = MultiblockHandler.builder(this, STRUCTURE)
 			.translationKey(String.format("multiblock.building.%s.test_multiblock", Cmi.MODID))
 			.renderOffset(0, -1, 0)
 			.cacheTicks(20)

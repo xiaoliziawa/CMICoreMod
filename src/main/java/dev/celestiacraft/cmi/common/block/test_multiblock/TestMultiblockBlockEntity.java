@@ -1,13 +1,13 @@
 package dev.celestiacraft.cmi.common.block.test_multiblock;
 
 import dev.celestiacraft.cmi.Cmi;
+import dev.celestiacraft.cmi.api.register.multiblock.MultiblockControllerBlockEntity;
 import dev.celestiacraft.cmi.common.register.CmiMultiblock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -23,32 +23,23 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class TestMultiblockBlockEntity extends BlockEntity implements IMultiblockProvider {
+public class TestMultiblockBlockEntity extends MultiblockControllerBlockEntity {
 	public TestMultiblockBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-		super(type, pos, state);
+		super(type, pos, state, CmiMultiblock.TEST_MULTIBLOCK);
 	}
 
 	private int energyStored = 0;
-
 	private FluidStack fluid = FluidStack.EMPTY;
-
 	private final CapabilityHandler capabilityHandler = new CapabilityHandler();
 
-	private final MultiblockHandler MULTIBLOCK = MultiblockHandler.builder(this, CmiMultiblock.TEST_MULTIBLOCK)
-			.translationKey(String.format("multiblock.building.%s.test_multiblock", Cmi.MODID))
-			.renderOffset(0, -1, 0)
-			.cacheTicks(20)
-			.build();
-
 	@Override
-	public MultiblockHandler getMultiblockHandler() {
-		return MULTIBLOCK;
+	protected String getMultiblockKey() {
+		return String.format("multiblock.building.%s.test_multiblock", Cmi.MODID);
 	}
 
 	@Override
-	public void setRemoved() {
-		cancelShowMultiblock();
-		super.setRemoved();
+	protected int getRenderOffsetY() {
+		return -1;
 	}
 
 	@Override
@@ -178,11 +169,17 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 
 			@Override
 			public int fill(FluidStack stack, FluidAction action) {
-				if (!isStructureValid() || stack.isEmpty()) return 0;
-				if (!isFluidValid(0, stack)) return 0;
+				if (!isStructureValid() || stack.isEmpty()) {
+					return 0;
+				}
+				if (!isFluidValid(0, stack)) {
+					return 0;
+				}
 
 				int fillable = Math.min(stack.getAmount(), 32000 - fluid.getAmount());
-				if (fillable <= 0) return 0;
+				if (fillable <= 0) {
+					return 0;
+				}
 
 				if (action == FluidAction.EXECUTE) {
 					if (fluid.isEmpty()) {
@@ -202,8 +199,12 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 
 			@Override
 			public @NotNull FluidStack drain(FluidStack stack, FluidAction action) {
-				if (!isStructureValid() || stack.isEmpty()) return FluidStack.EMPTY;
-				if (!stack.isFluidEqual(fluid)) return FluidStack.EMPTY;
+				if (!isStructureValid() || stack.isEmpty()) {
+					return FluidStack.EMPTY;
+				}
+				if (!stack.isFluidEqual(fluid)) {
+					return FluidStack.EMPTY;
+				}
 
 				return drain(stack.getAmount(), action);
 			}

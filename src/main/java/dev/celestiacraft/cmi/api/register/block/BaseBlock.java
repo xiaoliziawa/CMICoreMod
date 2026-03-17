@@ -1,6 +1,6 @@
 package dev.celestiacraft.cmi.api.register.block;
 
-import dev.celestiacraft.cmi.api.register.interaction.UseContext;
+import dev.celestiacraft.cmi.api.interaction.UseContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

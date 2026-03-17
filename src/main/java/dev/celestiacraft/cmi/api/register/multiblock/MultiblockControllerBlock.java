@@ -3,7 +3,7 @@ package dev.celestiacraft.cmi.api.register.multiblock;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.block.IBE;
 import dev.celestiacraft.cmi.api.register.block.BaseBlock;
-import dev.celestiacraft.cmi.api.register.interaction.UseContext;
+import dev.celestiacraft.cmi.api.interaction.UseContext;
 import dev.celestiacraft.libs.compat.patchouli.multiblock.IMultiblockProvider;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -44,11 +44,11 @@ public abstract class MultiblockControllerBlock<T extends BlockEntity & IMultibl
 			return InteractionResult.PASS;
 		}
 
-		if (isTrigger(context) && context.hand == InteractionHand.MAIN_HAND && !context.player.isShiftKeyDown()) {
-			T be = getBlockEntity(context.level, context.pos);
+		if (isTrigger(context) && context.getHand() == InteractionHand.MAIN_HAND && !context.getPlayer().isShiftKeyDown()) {
+			T be = getBlockEntity(context.getLevel(), context.getPos());
 
 			if (be != null) {
-				context.player.swing(context.hand);
+				context.getPlayer().swing(context.getHand());
 				be.showMultiblock();
 				return InteractionResult.SUCCESS;
 			}
@@ -58,7 +58,7 @@ public abstract class MultiblockControllerBlock<T extends BlockEntity & IMultibl
 	}
 
 	/**
-	 * 是否为扳手
+	 * 是否为触发器
 	 *
 	 * <p>
 	 * 默认使用 Create 的扳手标签

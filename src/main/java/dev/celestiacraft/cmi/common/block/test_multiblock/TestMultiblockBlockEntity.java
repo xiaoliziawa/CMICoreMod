@@ -112,10 +112,10 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
+	public void load(@NotNull CompoundTag tag) {
 		super.load(tag);
 		energyStored = tag.getInt("Energy");
-		fluid = FluidStack.loadFluidStackFromNBT(tag.getCompound("Fluid"));
+		tag.put("Fluid", fluid.writeToNBT(new CompoundTag()));
 		capabilityHandler.itemHandler.deserializeNBT(tag.getCompound("Inventory"));
 	}
 
@@ -181,7 +181,6 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 		});
 
 		private final IFluidHandler fluidHandler = new IFluidHandler() {
-
 			@Override
 			public int getTanks() {
 				return 1;
@@ -189,7 +188,7 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 
 			@Override
 			public @NotNull FluidStack getFluidInTank(int tank) {
-				return fluid;
+				return fluid.copy();
 			}
 
 			@Override
@@ -199,58 +198,63 @@ public class TestMultiblockBlockEntity extends BlockEntity implements IMultibloc
 
 			@Override
 			public boolean isFluidValid(int tank, @NotNull FluidStack stack) {
-				if (isStructureValid()) {
-					return stack.isFluidEqual(fluid);  // Check if the fluid type matches
-				} else {
-					return false;
-				}
+				return isStructureValid() && (fluid.isEmpty() || stack.isFluidEqual(fluid));
 			}
 
 			@Override
 			public int fill(FluidStack stack, FluidAction action) {
-				if (!isStructureValid()) {
-					return 0;
-				}
-				if (!isFluidValid(0, stack)) {
-					return 0;
-				}
+				if (!isStructureValid() || stack.isEmpty()) return 0;
+				if (!isFluidValid(0, stack)) return 0;
+
 				int fillable = Math.min(stack.getAmount(), 32000 - fluid.getAmount());
-				if (fillable > 0) {
-					if (action == FluidAction.EXECUTE) {
-						fluid.setAmount(fluid.getAmount() + fillable);
-						setChanged();
-						if (level != null) {
-							level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
-						}
+				if (fillable <= 0) return 0;
+
+				if (action == FluidAction.EXECUTE) {
+					if (fluid.isEmpty()) {
+						fluid = new FluidStack(stack, fillable);
+					} else {
+						fluid.grow(fillable);
+					}
+
+					setChanged();
+					if (level != null) {
+						level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
 					}
 				}
+
 				return fillable;
 			}
 
 			@Override
 			public @NotNull FluidStack drain(FluidStack stack, FluidAction action) {
-				if (!isStructureValid() || !isFluidValid(0, stack)) {
-					return FluidStack.EMPTY;
-				}
-				if (level != null) {
-					level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
-				}
-				int drained = Math.min(stack.getAmount(), fluid.getAmount());
-				fluid.setAmount(fluid.getAmount() - drained);  // Correct fluid draining
-				return new FluidStack(fluid, drained);
+				if (!isStructureValid() || stack.isEmpty()) return FluidStack.EMPTY;
+				if (!stack.isFluidEqual(fluid)) return FluidStack.EMPTY;
+
+				return drain(stack.getAmount(), action);
 			}
 
 			@Override
 			public @NotNull FluidStack drain(int maxDrain, FluidAction action) {
-				if (!isStructureValid()) {
+				if (!isStructureValid() || maxDrain <= 0 || fluid.isEmpty()) {
 					return FluidStack.EMPTY;
 				}
-				if (level != null) {
-					level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
-				}
+
 				int drained = Math.min(maxDrain, fluid.getAmount());
-				fluid.setAmount(fluid.getAmount() - drained);  // Correct fluid draining
-				return new FluidStack(fluid, drained);
+				FluidStack result = new FluidStack(fluid, drained);
+
+				if (action == FluidAction.EXECUTE) {
+					fluid.shrink(drained);
+					if (fluid.getAmount() <= 0) {
+						fluid = FluidStack.EMPTY;
+					}
+
+					setChanged();
+					if (level != null) {
+						level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+					}
+				}
+
+				return result;
 			}
 		};
 

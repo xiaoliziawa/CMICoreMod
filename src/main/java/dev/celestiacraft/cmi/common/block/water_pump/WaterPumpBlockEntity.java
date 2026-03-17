@@ -1,24 +1,16 @@
 package dev.celestiacraft.cmi.common.block.water_pump;
 
-import blusunrize.immersiveengineering.common.blocks.wooden.TreatedWoodStyles;
-import blusunrize.immersiveengineering.common.register.IEBlocks;
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import dev.celestiacraft.cmi.common.register.CmiMultiblock;
 import dev.celestiacraft.libs.compat.patchouli.multiblock.IMultiblockProvider;
 import dev.celestiacraft.libs.compat.patchouli.multiblock.MultiblockHandler;
-import dev.celestiacraft.libs.compat.patchouli.multiblock.PropertyImmutableMap;
-import dev.celestiacraft.libs.compat.patchouli.multiblock.StructureBuilder;
-import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.properties.Half;
-import net.minecraft.world.level.block.state.properties.StairsShape;
 import net.minecraftforge.registries.ForgeRegistries;
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.common.register.CmiBlock;
 import dev.celestiacraft.cmi.api.client.CmiLang;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,7 +24,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import vazkii.patchouli.api.IMultiblock;
 
 import java.util.List;
 
@@ -45,93 +36,8 @@ public class WaterPumpBlockEntity extends BlockEntity implements IHaveGoggleInfo
 		return ForgeRegistries.FLUIDS.getValue(Cmi.loadResource("sea_water"));
 	});
 
-	private static final ResourceLocation STAIRS =
-			ResourceLocation.parse("immersiveengineering:stairs_treated_wood_horizontal");
-
-	private static final Lazy<IMultiblock> STRUCTURE = Lazy.of(() -> {
-		return StructureBuilder.create(new String[][]{
-						{
-								// 四个角为脚手架, 四边为楼梯, 中心镂空
-								"DFD",
-								"G H",
-								"DID"
-						},
-						{
-								// 木栅栏
-								"C C",
-								"   ",
-								"C C"
-						},
-						{
-								// 木栅栏
-								"C C",
-								"   ",
-								"C C"
-						},
-						{
-								// 木板 + 水泵
-								"AAA",
-								"A0A",
-								"AAA"
-						}
-				})
-				// 木板
-				.define('A', (builder) -> {
-					builder.block(IEBlocks.WoodenDecoration.TREATED_WOOD.get(TreatedWoodStyles.HORIZONTAL).get());
-				})
-				// 水泵
-				.define('0', (builder) -> {
-					builder.block(CmiBlock.WATER_PUMP.get());
-				})
-				// 木栅栏
-				.define('C', (builder) -> {
-					builder.block(IEBlocks.WoodenDecoration.TREATED_FENCE.get());
-				})
-				// 脚手架
-				.define('D', (builder) -> {
-					builder.block(IEBlocks.WoodenDecoration.TREATED_SCAFFOLDING.get());
-				})
-				// 空位
-				.define(' ', (builder) -> {
-					builder.any();
-				})
-				// 北边楼梯(上方), 朝南
-				.define('F', (builder) -> {
-					builder.map(ForgeRegistries.BLOCKS.getValue(STAIRS), PropertyImmutableMap.create()
-							.add(StairBlock.FACING, Direction.WEST)
-							.add(StairBlock.HALF, Half.TOP)
-							.add(StairBlock.SHAPE, StairsShape.STRAIGHT)
-							.build());
-				})
-				// 西边楼梯(左边), 朝东
-				.define('G', (builder) -> {
-					builder.map(ForgeRegistries.BLOCKS.getValue(STAIRS), PropertyImmutableMap.create()
-							.add(StairBlock.FACING, Direction.NORTH)
-							.add(StairBlock.HALF, Half.TOP)
-							.add(StairBlock.SHAPE, StairsShape.STRAIGHT)
-							.build());
-				})
-				// 东边楼梯(右边), 朝西
-				.define('H', (builder) -> {
-					builder.map(ForgeRegistries.BLOCKS.getValue(STAIRS), PropertyImmutableMap.create()
-							.add(StairBlock.FACING, Direction.SOUTH)
-							.add(StairBlock.HALF, Half.TOP)
-							.add(StairBlock.SHAPE, StairsShape.STRAIGHT)
-							.build());
-				})
-				// 南边楼梯(下方), 朝北
-				.define('I', (builder) -> {
-					builder.map(ForgeRegistries.BLOCKS.getValue(STAIRS), PropertyImmutableMap.create()
-							.add(StairBlock.FACING, Direction.EAST)
-							.add(StairBlock.HALF, Half.TOP)
-							.add(StairBlock.SHAPE, StairsShape.STRAIGHT)
-							.build());
-				})
-				.build();
-	});
-
 	// 多方块处理器：封装验证缓存(20tick) + 渲染切换逻辑
-	private final MultiblockHandler MULTIBLOCK = MultiblockHandler.builder(this, STRUCTURE)
+	private final MultiblockHandler MULTIBLOCK = MultiblockHandler.builder(this, CmiMultiblock.WATER_PUMP)
 			.translationKey(String.format("multiblock.building.%s.water_pump", Cmi.MODID))
 			.renderOffset(0, -1, 0)
 			.cacheTicks(20)

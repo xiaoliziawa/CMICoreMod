@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.compat.jei.DoubleItemIcon;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
-import dev.celestiacraft.cmi.utils.ModResource;
+import dev.celestiacraft.cmi.utils.ModResources;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.network.chat.Component;
@@ -30,15 +30,15 @@ public class WaterPumpSeaWaterCategory {
 				.setIcon(() -> {
 					return new DoubleItemIcon(
 							() -> CmiBlock.WATER_PUMP.get().asItem().getDefaultInstance(),
-							() -> ForgeRegistries.FLUIDS.getValue(ModResource.SEA_WATER).getBucket().getDefaultInstance()
+							() -> ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER).getBucket().getDefaultInstance()
 					);
 				})
 				.setBackground(0, 0)
 				.setRecipe((builder, recipe, group) -> {
 					builder.addSlot(RecipeIngredientRole.OUTPUT, 150, 30)
 							.setBackground(CreateRecipeCategory.getRenderedSlot(), -1, -1)
-							.addFluidStack(ForgeRegistries.FLUIDS.getValue(ModResource.SEA_WATER), Integer.MAX_VALUE)
-							.addItemStack(ForgeRegistries.FLUIDS.getValue(ModResource.SEA_WATER).getBucket().getDefaultInstance());
+							.addFluidStack(ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER), Integer.MAX_VALUE)
+							.addItemStack(ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER).getBucket().getDefaultInstance());
 				})
 				.setTooltips((recipe, view, mouseX, mouseY) -> {
 					if (ClientRenderUtils.isCursorInsideBounds(86, 21, 14, 14, mouseX, mouseY)) {

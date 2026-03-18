@@ -3,7 +3,7 @@ package dev.celestiacraft.cmi.common.block.water_pump;
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import dev.celestiacraft.cmi.api.register.multiblock.MultiblockControllerBlockEntity;
 import dev.celestiacraft.cmi.common.register.CmiMultiblock;
-import dev.celestiacraft.cmi.utils.ModResource;
+import dev.celestiacraft.cmi.utils.ModResources;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.ForgeRegistries;
 import dev.celestiacraft.cmi.Cmi;
@@ -49,7 +49,7 @@ public class WaterPumpBlockEntity extends MultiblockControllerBlockEntity implem
 		public @NotNull FluidStack getFluidInTank(int amount) {
 			if (isStructureValid()) {
 				if (isOcean()) {
-					return new FluidStack(ForgeRegistries.FLUIDS.getValue(ModResource.SEA_WATER), Integer.MAX_VALUE);
+					return new FluidStack(ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER), Integer.MAX_VALUE);
 				}
 				return new FluidStack(Fluids.WATER, Integer.MAX_VALUE);
 			}
@@ -75,7 +75,7 @@ public class WaterPumpBlockEntity extends MultiblockControllerBlockEntity implem
 		public @NotNull FluidStack drain(FluidStack fluidStack, FluidAction fluidAction) {
 			if (isStructureValid()) {
 				if (isOcean()) {
-					if (fluidStack.getFluid() == ForgeRegistries.FLUIDS.getValue(ModResource.SEA_WATER)) {
+					if (fluidStack.getFluid() == ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER)) {
 						return fluidStack;
 					}
 				} else if (fluidStack.getFluid() == Fluids.WATER) {
@@ -90,7 +90,7 @@ public class WaterPumpBlockEntity extends MultiblockControllerBlockEntity implem
 		public @NotNull FluidStack drain(int amount, FluidAction fluidAction) {
 			if (isStructureValid()) {
 				if (isOcean()) {
-					return new FluidStack(ForgeRegistries.FLUIDS.getValue(ModResource.SEA_WATER), amount);
+					return new FluidStack(ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER), amount);
 				}
 				return new FluidStack(Fluids.WATER, amount);
 			}

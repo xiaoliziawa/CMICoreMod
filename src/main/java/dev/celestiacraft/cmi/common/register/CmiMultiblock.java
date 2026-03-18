@@ -2,6 +2,7 @@ package dev.celestiacraft.cmi.common.register;
 
 import blusunrize.immersiveengineering.common.blocks.wooden.TreatedWoodStyles;
 import blusunrize.immersiveengineering.common.register.IEBlocks;
+import dev.celestiacraft.cmi.api.register.multiblock.MultiblockControllerBlock;
 import dev.celestiacraft.cmi.common.block.test_multiblock.TestMultiblockBlock;
 import dev.celestiacraft.cmi.utils.ModResources;
 import dev.celestiacraft.libs.compat.patchouli.multiblock.PropertyImmutableMap;
@@ -108,8 +109,9 @@ public class CmiMultiblock {
 					builder.tag(Tags.Blocks.COBBLESTONE);
 				})
 				.define('0', (builder) -> {
-					builder.map(CmiBlock.TEST_MULTIBLOCK.get(), PropertyImmutableMap.create()
-							.add(TestMultiblockBlock.FACING, Direction.NORTH)
+					TestMultiblockBlock block = CmiBlock.TEST_MULTIBLOCK.get();
+					builder.map(block, PropertyImmutableMap.create()
+							.add(MultiblockControllerBlock.getFacingProperty(block), Direction.NORTH)
 							.build());
 				}));
 	}

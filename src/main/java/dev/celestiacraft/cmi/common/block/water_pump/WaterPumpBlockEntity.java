@@ -34,11 +34,6 @@ public class WaterPumpBlockEntity extends MultiblockControllerBlockEntity implem
 		return String.format("multiblock.building.%s.water_pump", Cmi.MODID);
 	}
 
-	@Override
-	protected int getRenderOffsetY() {
-		return -1;
-	}
-
 	private final IFluidHandler fluidHandler = new IFluidHandler() {
 		@Override
 		public int getTanks() {

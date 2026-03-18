@@ -187,7 +187,7 @@ public abstract class MultiblockControllerBlockEntity extends BlockEntity implem
 	 * }</pre>
 	 */
 	protected int getRenderOffsetY() {
-		return 0;
+		return -1;
 	}
 
 	/**

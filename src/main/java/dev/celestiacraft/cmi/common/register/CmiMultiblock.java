@@ -104,7 +104,7 @@ public class CmiMultiblock {
 								"AAA"
 						}
 				})
-				// 木板
+				// 外壳
 				.define('A', (builder) -> {
 					builder.block(Blocks.COBBLESTONE);
 				})

@@ -353,6 +353,4 @@ public abstract class MultiblockControllerBlock<T extends BlockEntity & IMultibl
 		}
 		return null;
 	}
-
-	protected abstract MultiblockControllerBlockFacing useuseFacingType();
 }

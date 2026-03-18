@@ -43,20 +43,23 @@ public abstract class HeatConditionMixin implements StringRepresentable {
 	}
 
 	@Inject(method = "testBlazeBurner", at = @At("HEAD"), remap = false, cancellable = true)
-	public void testBlazeBurner(BlazeBurnerBlock.HeatLevel level, CallbackInfoReturnable<Boolean> cir) {
+	public void testBlazeBurner(BlazeBurnerBlock.HeatLevel level, CallbackInfoReturnable<Boolean> returnable) {
 		if (this.equals(HeatCondition.SUPERHEATED)) {
-			cir.setReturnValue(level == BlazeBurnerBlock.HeatLevel.SEETHING);
+			returnable.setReturnValue(level == BlazeBurnerBlock.HeatLevel.SEETHING);
 			return;
 		}
 
 		if (this.equals(HeatCondition.HEATED)) {
-			cir.setReturnValue(level == BlazeBurnerBlock.HeatLevel.FADING || level == BlazeBurnerBlock.HeatLevel.KINDLED || level == BlazeBurnerBlock.HeatLevel.SEETHING);
+			returnable.setReturnValue(level == BlazeBurnerBlock.HeatLevel.FADING
+					|| level == BlazeBurnerBlock.HeatLevel.KINDLED
+					|| level == BlazeBurnerBlock.HeatLevel.SEETHING);
 			return;
 		}
 
 		if (this.equals(CMI$GRILLED)) {
-			cir.setReturnValue(level == BlazeBurnerBlock.HeatLevel.valueOf("GRILLED") || level == BlazeBurnerBlock.HeatLevel.FADING ||
-					level == BlazeBurnerBlock.HeatLevel.KINDLED || level == BlazeBurnerBlock.HeatLevel.SEETHING);
+			returnable.setReturnValue(level == BlazeBurnerBlock.HeatLevel.valueOf("GRILLED")
+					|| level == BlazeBurnerBlock.HeatLevel.FADING
+					|| level == BlazeBurnerBlock.HeatLevel.KINDLED || level == BlazeBurnerBlock.HeatLevel.SEETHING);
 		}
 	}
 

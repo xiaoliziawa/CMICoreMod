@@ -4,8 +4,10 @@ import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.block.IBE;
 import dev.celestiacraft.cmi.api.interaction.UseContext;
 import dev.celestiacraft.cmi.api.register.block.BaseBlock;
+import dev.celestiacraft.cmi.common.register.CmiItem;
 import dev.celestiacraft.libs.compat.patchouli.multiblock.IMultiblockProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -76,17 +78,36 @@ public abstract class MultiblockControllerBlock<T extends BlockEntity & IMultibl
 	 */
 	@Override
 	protected InteractionResult useOn(UseContext context) {
-		if (!context.isClient()) {
-			return InteractionResult.PASS;
+		// 客户端: 渲染结构
+		if (context.isClient()) {
+			if (isTrigger(context)
+					&& context.getHand() == InteractionHand.MAIN_HAND
+					&& !context.getPlayer().isShiftKeyDown()) {
+
+				T be = getBlockEntity(context.getLevel(), context.getPos());
+
+				if (be != null) {
+					context.getPlayer().swing(context.getHand());
+					be.showMultiblock();
+					return InteractionResult.SUCCESS;
+				}
+			}
 		}
 
-		if (isTrigger(context) && context.getHand() == InteractionHand.MAIN_HAND && !context.getPlayer().isShiftKeyDown()) {
-			T be = getBlockEntity(context.getLevel(), context.getPos());
+		// 服务端: 调试结构
+		if (!context.isClient()) {
+			if (context.getItem().is(CmiItem.MULTIBLOCK_DEBUG_ITEM.get())
+					&& context.getHand() == InteractionHand.MAIN_HAND) {
 
-			if (be != null) {
-				context.getPlayer().swing(context.getHand());
-				be.showMultiblock();
-				return InteractionResult.SUCCESS;
+				T be = getBlockEntity(context.getLevel(), context.getPos());
+
+				if (be != null && be.isStructureValid()) {
+					context.getPlayer().displayClientMessage(
+							Component.literal("结构有效"),
+							true
+					);
+					return InteractionResult.SUCCESS;
+				}
 			}
 		}
 

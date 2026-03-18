@@ -38,11 +38,6 @@ public class TestMultiblockBlockEntity extends MultiblockControllerBlockEntity {
 	}
 
 	@Override
-	protected int getRenderOffsetY() {
-		return -1;
-	}
-
-	@Override
 	public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction direction) {
 		if (capability == ForgeCapabilities.ITEM_HANDLER) {
 			// 结构不全不给输入输出

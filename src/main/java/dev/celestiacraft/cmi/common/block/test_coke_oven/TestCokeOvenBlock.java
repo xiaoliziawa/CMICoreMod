@@ -1,19 +1,19 @@
 package dev.celestiacraft.cmi.common.block.test_coke_oven;
 
-import dev.celestiacraft.cmi.api.register.multiblock.MultiblockControllerBlock;
-import dev.celestiacraft.cmi.api.register.multiblock.MultiblockControllerBlockFacing;
+import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlock;
+import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockFacing;
 import dev.celestiacraft.cmi.common.register.CmiBlockEntityTypes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-public class TestCokeOvenBlock extends MultiblockControllerBlock<TestCokeOvenBlockEntity> {
+public class TestCokeOvenBlock extends ControllerBlock<TestCokeOvenBlockEntity> {
 	public TestCokeOvenBlock(Properties properties) {
 		super(Properties.copy(Blocks.STONE));
 	}
 
 	@Override
-	protected MultiblockControllerBlockFacing useFacingType() {
-		return MultiblockControllerBlockFacing.HORIZONTAL;
+	protected ControllerBlockFacing useFacingType() {
+		return ControllerBlockFacing.HORIZONTAL;
 	}
 
 	@Override

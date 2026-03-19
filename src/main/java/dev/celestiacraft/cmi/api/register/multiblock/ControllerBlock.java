@@ -58,8 +58,8 @@ import org.jetbrains.annotations.NotNull;
  * 无需手动处理事件注册或基础交互逻辑
  * </p>
  */
-public abstract class MultiblockControllerBlock<T extends BlockEntity & IMultiblockProvider> extends BaseBlock implements IBE<T> {
-	public MultiblockControllerBlock(Properties properties) {
+public abstract class ControllerBlock<T extends BlockEntity & IMultiblockProvider> extends BaseBlock implements IBE<T> {
+	public ControllerBlock(Properties properties) {
 		super(properties);
 
 		Property<Direction> property = getFacingProperty();
@@ -178,8 +178,8 @@ public abstract class MultiblockControllerBlock<T extends BlockEntity & IMultibl
 	 *
 	 * @return 使用的方向类型, 默认 {@code NONE}
 	 */
-	protected MultiblockControllerBlockFacing useFacingType() {
-		return MultiblockControllerBlockFacing.NONE;
+	protected ControllerBlockFacing useFacingType() {
+		return ControllerBlockFacing.NONE;
 	}
 
 	/**
@@ -286,7 +286,7 @@ public abstract class MultiblockControllerBlock<T extends BlockEntity & IMultibl
 
 		Direction facing = context.getHorizontalDirection().getOpposite();
 
-		if (useFacingType() == MultiblockControllerBlockFacing.FACING) {
+		if (useFacingType() == ControllerBlockFacing.FACING) {
 			if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
 				facing = context.getNearestLookingDirection().getOpposite();
 			}
@@ -362,14 +362,14 @@ public abstract class MultiblockControllerBlock<T extends BlockEntity & IMultibl
 	 * 从 Block 实例中提取方向属性(用于结构系统)
 	 *
 	 * <p>
-	 * 若 Block 为 {@link MultiblockControllerBlock}, 则返回其方向属性
+	 * 若 Block 为 {@link ControllerBlock}, 则返回其方向属性
 	 * </p>
 	 *
 	 * @param block 方块实例
 	 * @return 对应方向属性, 否则为 {@code null}
 	 */
 	public static Property<Direction> getFacingProperty(Block block) {
-		if (block instanceof MultiblockControllerBlock<?> multiblockControllerBlock) {
+		if (block instanceof ControllerBlock<?> multiblockControllerBlock) {
 			return multiblockControllerBlock.getFacingPropertyForStructure();
 		}
 		return null;

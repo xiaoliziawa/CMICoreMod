@@ -3,7 +3,7 @@ package dev.celestiacraft.cmi.common.block.water_pump;
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.api.client.CmiLang;
-import dev.celestiacraft.cmi.api.register.multiblock.MultiblockControllerBlockEntity;
+import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockEntity;
 import dev.celestiacraft.cmi.common.register.CmiMultiblock;
 import dev.celestiacraft.cmi.utils.ModResources;
 import net.minecraft.core.BlockPos;
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class WaterPumpBlockEntity extends MultiblockControllerBlockEntity implements IHaveGoggleInformation {
+public class WaterPumpBlockEntity extends ControllerBlockEntity implements IHaveGoggleInformation {
 	public WaterPumpBlockEntity(BlockEntityType<? extends WaterPumpBlockEntity> type, BlockPos pos, BlockState state) {
 		super(type, pos, state, CmiMultiblock.WATER_PUMP);
 	}

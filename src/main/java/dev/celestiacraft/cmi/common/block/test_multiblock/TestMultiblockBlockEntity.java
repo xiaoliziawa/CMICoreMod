@@ -1,7 +1,7 @@
 package dev.celestiacraft.cmi.common.block.test_multiblock;
 
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.api.register.multiblock.MultiblockControllerBlockEntity;
+import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockEntity;
 import dev.celestiacraft.cmi.common.register.CmiMultiblock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,10 +18,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import dev.celestiacraft.libs.compat.patchouli.multiblock.*;
 import org.jetbrains.annotations.NotNull;
 
-public class TestMultiblockBlockEntity extends MultiblockControllerBlockEntity {
+public class TestMultiblockBlockEntity extends ControllerBlockEntity {
 	public TestMultiblockBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state, CmiMultiblock.TEST_MULTIBLOCK);
 	}

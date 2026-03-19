@@ -71,7 +71,7 @@ import java.util.function.Supplier;
  * }
  * }</pre>
  */
-public abstract class MultiblockControllerBlockEntity extends BlockEntity implements IMultiblockProvider {
+public abstract class ControllerBlockEntity extends BlockEntity implements IMultiblockProvider {
 	/**
 	 * 多方块处理器
 	 *
@@ -121,7 +121,7 @@ public abstract class MultiblockControllerBlockEntity extends BlockEntity implem
 	 * @param state     方块状态
 	 * @param structure 多方块结构提供器
 	 */
-	protected MultiblockControllerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Supplier<IMultiblock> structure) {
+	protected ControllerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Supplier<IMultiblock> structure) {
 		super(type, pos, state);
 
 		this.multiblock = MultiblockHandler.builder(this, structure).translationKey(getMultiblockKey()).renderOffset(getRenderOffsetX(), getRenderOffsetY(), getRenderOffsetZ()).cacheTicks(getCacheTicks()).build();

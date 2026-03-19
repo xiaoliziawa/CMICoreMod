@@ -1,6 +1,13 @@
 package dev.celestiacraft.cmi.common.block.void_dust_collector;
 
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import dev.celestiacraft.cmi.Cmi;
+import dev.celestiacraft.cmi.api.client.CmiLang;
+import dev.celestiacraft.cmi.common.block.void_dust_collector.capability.VDCEnergyStorage;
+import dev.celestiacraft.cmi.common.block.void_dust_collector.capability.VDCItemHandler;
+import dev.celestiacraft.cmi.common.block.void_dust_collector.capability.VDCItmeCapability;
+import dev.celestiacraft.cmi.config.CommonConfig;
+import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -18,12 +25,8 @@ import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.config.CommonConfig;
-import dev.celestiacraft.cmi.api.client.CmiLang;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -42,11 +45,10 @@ public class VoidDustCollectorBlockEnitiy extends BlockEntity implements IHaveGo
 		return ForgeRegistries.ITEMS.getValue(Cmi.loadResource("void_dust"));
 	}).get().getDefaultInstance();
 
+	@Getter
 	private int energyStored = 0;
 	private int workTimer = 0;
 	private int workTimeRequired = 0;
-
-	private final ForgeCapabilityHandler capabilityHandler = new ForgeCapabilityHandler();
 
 	public VoidDustCollectorBlockEnitiy(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -65,7 +67,7 @@ public class VoidDustCollectorBlockEnitiy extends BlockEntity implements IHaveGo
 			return;
 		}
 
-		ItemStack stack = capabilityHandler.itemHandler.getStackInSlot(0);
+		ItemStack stack = itemHandler.getStackInSlot(0);
 
 		boolean canWork = energyStored >= 1000 &&
 				level.getBlockState(worldPosition.below()).is(BLOCKS_BELOW) &&
@@ -106,7 +108,7 @@ public class VoidDustCollectorBlockEnitiy extends BlockEntity implements IHaveGo
 		// 完成一次生成
 		if (workTimer >= workTimeRequired) {
 			ItemStack output = OUTPUT_ITEM.copy();
-			capabilityHandler.itemHandler.insertItem(0, output, false);
+			itemHandler.insertItem(0, output, false);
 
 			workTimer = 0;
 			workTimeRequired = 0;
@@ -114,18 +116,34 @@ public class VoidDustCollectorBlockEnitiy extends BlockEntity implements IHaveGo
 		}
 	}
 
+	public int getCapacity() {
+		return CAPACITY;
+	}
+
+	public int getMaxReceive() {
+		return MAX_RECEIVE;
+	}
+
+	public void addEnergy(int amount) {
+		this.energyStored += amount;
+		setChanged();
+
+		if (level != null) {
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+		}
+	}
+
 	@Override
 	public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction direction) {
 		if (capability == ForgeCapabilities.ITEM_HANDLER) {
-			// 上方不给抽
 			if (direction == Direction.UP) {
 				return LazyOptional.empty();
 			}
-			return capabilityHandler.itemCapability.cast();
+			return itemCap.cast();
 		}
 
 		if (capability == ForgeCapabilities.ENERGY) {
-			return capabilityHandler.energyCap.cast();
+			return energyCap.cast();
 		}
 
 		return super.getCapability(capability, direction);
@@ -142,7 +160,19 @@ public class VoidDustCollectorBlockEnitiy extends BlockEntity implements IHaveGo
 	@Override
 	public void invalidateCaps() {
 		super.invalidateCaps();
-		capabilityHandler.invalidate();
+		itemCap.invalidate();
+		energyCap.invalidate();
+	}
+
+	@Override
+	public void reviveCaps() {
+		super.reviveCaps();
+
+		this.itemHandler = new VDCItmeCapability(this);
+		this.itemCap = LazyOptional.of(() -> new VDCItemHandler(itemHandler));
+
+		this.energyHandler = new VDCEnergyStorage(this);
+		this.energyCap = LazyOptional.of(() -> energyHandler);
 	}
 
 	@Override
@@ -151,7 +181,7 @@ public class VoidDustCollectorBlockEnitiy extends BlockEntity implements IHaveGo
 		tag.putInt("Energy", energyStored);
 		tag.putInt("WorkTimer", workTimer);
 		tag.putInt("WorkTimeRequired", workTimeRequired);
-		tag.put("Inventory", capabilityHandler.itemHandler.serializeNBT());
+		tag.put("Inventory", itemHandler.serializeNBT());
 	}
 
 	@Override
@@ -171,7 +201,7 @@ public class VoidDustCollectorBlockEnitiy extends BlockEntity implements IHaveGo
 		energyStored = tag.getInt("Energy");
 		workTimer = tag.getInt("WorkTimer");
 		workTimeRequired = tag.getInt("WorkTimeRequired");
-		capabilityHandler.itemHandler.deserializeNBT(tag.getCompound("Inventory"));
+		itemHandler.deserializeNBT(tag.getCompound("Inventory"));
 	}
 
 	@Override
@@ -188,99 +218,24 @@ public class VoidDustCollectorBlockEnitiy extends BlockEntity implements IHaveGo
 		return true;
 	}
 
-	private class ForgeCapabilityHandler {
+	// 物品
+	private VDCItmeCapability itemHandler;
+	private LazyOptional<IItemHandler> itemCap = LazyOptional.empty();
+
+	// 能量
+	private VDCEnergyStorage energyHandler;
+	private LazyOptional<IEnergyStorage> energyCap = LazyOptional.empty();
+
+	@Override
+	public void onLoad() {
+		super.onLoad();
+
 		// 物品
-		private final ItemStackHandler itemHandler = new ItemStackHandler(1) {
-			@Override
-			protected void onContentsChanged(int slot) {
-				setChanged();
-			}
-		};
-
-		private final LazyOptional<IItemHandler> itemCapability = LazyOptional.of(() -> {
-			return new IItemHandler() {
-				@Override
-				public int getSlots() {
-					return itemHandler.getSlots();
-				}
-
-				@Override
-				public @NotNull ItemStack getStackInSlot(int slot) {
-					return itemHandler.getStackInSlot(slot);
-				}
-
-				@Override
-				public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-					return stack;
-				}
-
-				@Override
-				public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-					return itemHandler.extractItem(slot, amount, simulate);
-				}
-
-				@Override
-				public int getSlotLimit(int slot) {
-					return itemHandler.getSlotLimit(slot);
-				}
-
-				@Override
-				public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-					return false;
-				}
-			};
-		});
+		this.itemHandler = new VDCItmeCapability(this);
+		this.itemCap = LazyOptional.of(() -> new VDCItemHandler(itemHandler));
 
 		// 能量
-		private final IEnergyStorage energyHandler = new IEnergyStorage() {
-			@Override
-			public int receiveEnergy(int maxReceive, boolean simulate) {
-				int received = Math.min(CAPACITY - energyStored, Math.min(MAX_RECEIVE, maxReceive));
-
-				if (!simulate && received > 0) {
-					energyStored += received;
-					setChanged();
-					if (level != null) {
-						level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
-					}
-				}
-
-				return received;
-			}
-
-			@Override
-			public int extractEnergy(int maxExtract, boolean simulate) {
-				return 0;
-			}
-
-			@Override
-			public int getEnergyStored() {
-				return energyStored;
-			}
-
-			@Override
-			public int getMaxEnergyStored() {
-				return CAPACITY;
-			}
-
-			@Override
-			public boolean canExtract() {
-				return false;
-			}
-
-			@Override
-			public boolean canReceive() {
-				return true;
-			}
-		};
-
-		private final LazyOptional<IEnergyStorage> energyCap = LazyOptional.of(() -> {
-			return energyHandler;
-		});
-
-		private void invalidate() {
-			itemCapability.invalidate();
-			energyCap.invalidate();
-		}
+		this.energyHandler = new VDCEnergyStorage(this);
+		this.energyCap = LazyOptional.of(() -> energyHandler);
 	}
 }

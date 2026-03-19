@@ -18,8 +18,12 @@ public class CmiRecipeSerializer {
 	static {
 		SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Cmi.MODID);
 
-		ACCELERATOR = SERIALIZERS.register("accelerator", () -> AcceleratorRecipe.Serializer.INSTANCE);
-		SPACE_ELEVATOR_BASE = SERIALIZERS.register("space_elevator_base", () -> SpaceElevatorBaseRecipe.Serializer.INSTANCE);
+		ACCELERATOR = SERIALIZERS.register("accelerator", () -> {
+			return AcceleratorRecipe.Serializer.INSTANCE;
+		});
+		SPACE_ELEVATOR_BASE = SERIALIZERS.register("space_elevator_base", () -> {
+			return SpaceElevatorBaseRecipe.Serializer.INSTANCE;
+		});
 	}
 
 	public static void register(IEventBus bus) {

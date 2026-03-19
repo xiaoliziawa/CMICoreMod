@@ -18,8 +18,12 @@ public class CmiRecipeType {
 	static {
 		RECIPE_TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, Cmi.MODID);
 
-		ACCELERATOR = RECIPE_TYPES.register("accelerator", () -> AcceleratorRecipe.Type.INSTANCE);
-		SPACE_ELEVATOR_BASE = RECIPE_TYPES.register("space_elevator_base", () -> SpaceElevatorBaseRecipe.Type.INSTANCE);
+		ACCELERATOR = RECIPE_TYPES.register("accelerator", () -> {
+			return AcceleratorRecipe.Type.INSTANCE;
+		});
+		SPACE_ELEVATOR_BASE = RECIPE_TYPES.register("space_elevator_base", () -> {
+			return SpaceElevatorBaseRecipe.Type.INSTANCE;
+		});
 	}
 
 	public static void register(IEventBus bus) {

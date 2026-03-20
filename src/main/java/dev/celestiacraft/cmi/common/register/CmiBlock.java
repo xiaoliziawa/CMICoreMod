@@ -19,12 +19,14 @@ import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerBlock;
 import dev.celestiacraft.cmi.common.block.mars_geothermal_vent.MarsGeothermalVentBlock;
 import dev.celestiacraft.cmi.common.block.mercury_geothermal_vent.MercuryGeothermalVentBlock;
 import dev.celestiacraft.cmi.common.block.test_gravel.TestGravelBlock;
+import dev.celestiacraft.cmi.common.block.usb_socket.UsbSocketBlock;
 import dev.celestiacraft.cmi.common.block.void_dust_collector.VoidDustCollectorBlock;
 import dev.celestiacraft.cmi.common.block.void_dust_collector.VoidDustCollectorItem;
 import dev.celestiacraft.cmi.common.block.water_pump.WaterPumpBlock;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerItem;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -42,6 +44,7 @@ public class CmiBlock {
 	public static final BlockEntry<VoidDustCollectorBlock> VOID_DUST_COLLECTOR;
 	public static final BlockEntry<BeltGrinderBlock> BELT_GRINDER;
 	public static final BlockEntry<AcceleratorBlock> ACCELERATOR;
+	public static final BlockEntry<UsbSocketBlock> USB_SOCKET;
 
 	static {
 		ACCELERATOR = Cmi.REGISTRATE.block("accelerator", AcceleratorBlock::new)
@@ -246,6 +249,10 @@ public class CmiBlock {
 										.build();
 							});
 				})
+				.register();
+		USB_SOCKET = Cmi.REGISTRATE.block("usb_socket", UsbSocketBlock::new)
+				.item()
+				.build()
 				.register();
 	}
 

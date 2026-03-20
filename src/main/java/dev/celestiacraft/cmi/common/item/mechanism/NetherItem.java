@@ -2,11 +2,11 @@ package dev.celestiacraft.cmi.common.item.mechanism;
 
 import dev.celestiacraft.cmi.common.item.MechanismItem;
 import dev.celestiacraft.libs.compat.curios.CuriosContext;
-import dev.celestiacraft.libs.compat.curios.CuriosUtils;
+import dev.celestiacraft.libs.compat.curios.ICuriosHelper;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 
-public class NetherItem extends MechanismItem implements CuriosUtils {
+public class NetherItem extends MechanismItem implements ICuriosHelper {
 	public NetherItem(Properties properties) {
 		super(properties);
 	}

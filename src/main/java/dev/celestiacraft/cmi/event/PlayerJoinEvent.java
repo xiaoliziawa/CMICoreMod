@@ -9,7 +9,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraft.server.level.ServerPlayer;
 
-@SuppressWarnings("ALL")
 @Mod.EventBusSubscriber(modid = Cmi.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PlayerJoinEvent {
 	@SubscribeEvent

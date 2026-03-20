@@ -51,9 +51,11 @@ public class AdvancedSpoutRenderer extends SafeBlockEntityRenderer<AdvancedSpout
 			FluidRenderer.renderFluidBox(
 					fluidStack,
 					min,
-					min - yOffset, min,
+					min - yOffset,
+					min,
 					max,
-					min, max,
+					min,
+					max,
 					buffer,
 					ms,
 					light,

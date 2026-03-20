@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.api.register;
+package dev.celestiacraft.cmi.api.register.item;
 
 import com.simibubi.create.content.processing.sequenced.SequencedAssemblyItem;
 import com.simibubi.create.foundation.data.CreateRegistrate;
@@ -8,6 +8,8 @@ import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.api.client.CmiTextures;
 import dev.celestiacraft.cmi.common.item.MechanismItem;
 import dev.celestiacraft.cmi.tag.ModItemTags;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 
 public class MechanismRegister {
@@ -24,7 +26,10 @@ public class MechanismRegister {
 	 */
 	protected static <T extends MechanismItem> ItemBuilder<T, CreateRegistrate> registerMechanism(String name, NonNullFunction<Item.Properties, T> factory) {
 		registerIncomplete(name).register();
-		return registerComplete(name, factory);
+		return registerComplete(name, factory).tab(ResourceKey.create(
+				Registries.CREATIVE_MODE_TAB,
+				Cmi.loadResource("mechanisms")
+		));
 	}
 
 	/**

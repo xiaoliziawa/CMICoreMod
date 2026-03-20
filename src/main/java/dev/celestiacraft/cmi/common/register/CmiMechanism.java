@@ -2,10 +2,8 @@ package dev.celestiacraft.cmi.common.register;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.api.register.MechanismRegister;
+import dev.celestiacraft.cmi.api.register.item.MechanismRegister;
 import dev.celestiacraft.cmi.common.item.mechanism.*;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 
 public class CmiMechanism extends MechanismRegister {
 	public static final ItemEntry<WoodenItem> WOODEN;
@@ -47,11 +45,6 @@ public class CmiMechanism extends MechanismRegister {
 	public static final ItemEntry<CreativeItem> CREATIVE;
 
 	static {
-		Cmi.REGISTRATE.defaultCreativeTab(ResourceKey.create(
-				Registries.CREATIVE_MODE_TAB,
-				Cmi.loadResource("mechanisms")
-		));
-
 		WOODEN = registerMechanism("wooden", WoodenItem::new)
 				.register();
 		STONE = registerMechanism("stone", StoneItem::new)

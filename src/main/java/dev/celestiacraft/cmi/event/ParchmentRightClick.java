@@ -20,13 +20,19 @@ import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.libs.NebulaLibs;
 import net.minecraftforge.registries.ForgeRegistries;
 
-@SuppressWarnings("ALL")
 @Mod.EventBusSubscriber(modid = Cmi.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ParchmentRightClick {
 	record PlayerPos(double x, double y, double z) {
 	}
 
-	public static final Item PARCHMEMT = ForgeRegistries.ITEMS.getValue(Cmi.loadResource("parchment"));
+	private static Item cachedParchment = null;
+
+	private static Item getParchment() {
+		if (cachedParchment == null) {
+			cachedParchment = ForgeRegistries.ITEMS.getValue(Cmi.loadResource("parchment"));
+		}
+		return cachedParchment;
+	}
 
 	@SubscribeEvent
 	public static void onRightClick(PlayerInteractEvent.RightClickItem event) {
@@ -41,8 +47,13 @@ public class ParchmentRightClick {
 
 		ServerLevel sl = (ServerLevel) level;
 
+		Item parchment = getParchment();
+		if (parchment == null) {
+			return;
+		}
+
 		// 只能主手触发
-		if (item.is(PARCHMEMT) && event.getHand() == InteractionHand.MAIN_HAND) {
+		if (item.is(parchment) && event.getHand() == InteractionHand.MAIN_HAND) {
 			// 定位玩家眼睛坐标(Pos)
 			Vec3 eyePos = player.getEyePosition();
 
@@ -95,7 +106,7 @@ public class ParchmentRightClick {
 				);
 			}
 			// 调用动画
-			NebulaLibs.useTotemAnimation(PARCHMEMT.getDefaultInstance());
+			NebulaLibs.useTotemAnimation(parchment.getDefaultInstance());
 			// 挥手
 			player.swing(event.getHand());
 			// 消耗物品

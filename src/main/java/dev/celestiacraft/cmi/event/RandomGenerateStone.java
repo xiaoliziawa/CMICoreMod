@@ -72,7 +72,9 @@ public class RandomGenerateStone {
 
 		Block belowBlock = level.getBlockState(pos.below()).getBlock();
 
-		if (!isTargetBlock(block)) return;
+		if (!isTargetBlock(block)) {
+			return;
+		}
 
 		RandomSource random = level.getRandom();
 

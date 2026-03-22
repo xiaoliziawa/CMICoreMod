@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class TestCokeOvenIOBlock extends Block implements IBE<TestCokeOvenIOBlockEntity> {
-
 	public TestCokeOvenIOBlock(Properties properties) {
 		super(Properties.copy(Blocks.STONE));
 		this.registerDefaultState(this.stateDefinition.any());
@@ -22,5 +21,4 @@ public class TestCokeOvenIOBlock extends Block implements IBE<TestCokeOvenIOBloc
 	public BlockEntityType<? extends TestCokeOvenIOBlockEntity> getBlockEntityType() {
 		return CmiBlockEntityTypes.TEST_COKE_OVEN_IO.get();
 	}
-
 }

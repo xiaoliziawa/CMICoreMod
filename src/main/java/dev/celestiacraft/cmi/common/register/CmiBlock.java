@@ -262,11 +262,8 @@ public class CmiBlock {
 					provider.getVariantBuilder(context.get())
 							.forAllStatesExcept((state) -> {
 								BlockModelProvider models = provider.models();
-								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
-								boolean working = state.getValue(VoidDustCollectorBlock.WORKING);
 								return ConfiguredModel.builder()
-										.modelFile(models.getExistingFile(provider.modLoc(working ? "block/void_dust_collector/on" : "block/void_dust_collector/off")))
-										.rotationY((int) facing.toYRot())
+										.modelFile(models.getExistingFile(provider.modLoc("block/void_dust_collector/on")))
 										.build();
 							});
 				})
@@ -275,18 +272,15 @@ public class CmiBlock {
 				.initialProperties(SharedProperties::stone)
 				.item()
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/test_coke_oven"));
+					provider.withExistingParent(context.getName(), provider.modLoc("block/void_dust_collector/on"));
 				})
 				.build()
 				.blockstate((context, provider) -> {
 					provider.getVariantBuilder(context.get())
 							.forAllStatesExcept((state) -> {
 								BlockModelProvider models = provider.models();
-								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
-								boolean working = state.getValue(VoidDustCollectorBlock.WORKING);
 								return ConfiguredModel.builder()
-										.modelFile(models.getExistingFile(provider.modLoc(working ? "block/test_coke_oven/on" : "block/test_coke_oven/off")))
-										.rotationY((int) facing.toYRot())
+										.modelFile(models.getExistingFile(provider.modLoc("block/void_dust_collector/on")))
 										.build();
 							});
 				})

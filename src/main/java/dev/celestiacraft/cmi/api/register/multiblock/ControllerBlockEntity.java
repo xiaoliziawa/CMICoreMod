@@ -277,4 +277,6 @@ public abstract class ControllerBlockEntity extends BlockEntity implements IMult
 	protected int getCacheTicks() {
 		return 20;
 	}
+
+	protected abstract void runRecipe(MultiblockContext context);
 }

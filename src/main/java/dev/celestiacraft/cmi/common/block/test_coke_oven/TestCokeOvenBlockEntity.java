@@ -2,6 +2,7 @@ package dev.celestiacraft.cmi.common.block.test_coke_oven;
 
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockEntity;
+import dev.celestiacraft.cmi.api.register.multiblock.MultiblockContext;
 import dev.celestiacraft.cmi.common.register.CmiMultiblock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

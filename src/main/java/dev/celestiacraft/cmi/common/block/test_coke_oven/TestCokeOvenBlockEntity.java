@@ -19,11 +19,18 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class TestCokeOvenBlockEntity extends ControllerBlockEntity {
-
 	private CokeOvenItemCapability itemHandler;
-
 	private CokeOvenFluidCapability fluidHandler;
 
+	private int workTimer = 0;
+
+	public TestCokeOvenBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state, CmiMultiblock.TEST_COKE_OVEN);
+	}
+
+	/**
+	 * 延迟初始化
+	 */
 	private void initHandlers() {
 		if (level == null) {
 			return;
@@ -31,25 +38,15 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity {
 		if (itemHandler != null) {
 			return;
 		}
-		TestCokeOvenIOBlockEntity entity = (TestCokeOvenIOBlockEntity) level.getBlockEntity(this.getBlockPos().below());
-		if (entity == null) {
-			return;
+
+		if (level.getBlockEntity(this.getBlockPos().below()) instanceof TestCokeOvenIOBlockEntity entity) {
+			itemHandler = new CokeOvenItemCapability(entity);
+			fluidHandler = new CokeOvenFluidCapability(entity);
 		}
-		itemHandler = new CokeOvenItemCapability(entity);
-		fluidHandler = new CokeOvenFluidCapability(entity);
-	}
-
-
-	private ItemStack input = itemHandler.getStackInSlot(0);
-	private ItemStack output = itemHandler.getStackInSlot(1);
-	private int workTimer = 0;
-
-	public TestCokeOvenBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-		super(type, pos, state, CmiMultiblock.TEST_COKE_OVEN);
 	}
 
 	public static void tick(Level level, BlockPos pos, BlockState state, TestCokeOvenBlockEntity entity) {
-		if (level.isClientSide()) {
+		if (!level.isClientSide()) {
 			entity.runRecipe();
 		}
 	}
@@ -63,11 +60,15 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity {
 		if (itemHandler == null || fluidHandler == null) {
 			return;
 		}
+
 		ItemStack input = itemHandler.getStackInSlot(0);
 		ItemStack output = itemHandler.getStackInSlot(1);
+
 		int timeToWork = 20;
 
-		boolean canWork = isStructureValid() && input.is(ItemTags.LOGS) && output.getCount() < 64;
+		boolean canWork = isStructureValid()
+				&& input.is(ItemTags.LOGS)
+				&& output.getCount() < 64;
 
 		if (!canWork) {
 			workTimer = 0;
@@ -75,15 +76,19 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity {
 		}
 
 		workTimer++;
-
 		setChanged();
 
 		if (workTimer >= timeToWork) {
 			workTimer = 0;
 
 			input.shrink(1);
-			itemHandler.insertItem(1, Items.CHARCOAL.getDefaultInstance(), false);
-			fluidHandler.fill(new FluidStack(IEFluids.CREOSOTE.getStill(), 125), IFluidHandler.FluidAction.EXECUTE);
+
+			itemHandler.insertItem(1, new ItemStack(Items.CHARCOAL), false);
+
+			fluidHandler.fill(
+					new FluidStack(IEFluids.CREOSOTE.getStill(), 125),
+					IFluidHandler.FluidAction.EXECUTE
+			);
 		}
 	}
 
@@ -92,19 +97,22 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity {
 		return String.format("multiblock.building.%s.test_coke_oven", Cmi.MODID);
 	}
 
+	/**
+	 * Controller 只存自己的数据
+	 *
+	 * @param tag
+	 */
 	@Override
 	protected void saveAdditional(@NotNull CompoundTag tag) {
 		super.saveAdditional(tag);
-		tag.put("Input", input.save(new CompoundTag()));
-		tag.put("Output", output.save(new CompoundTag()));
+
 		tag.putInt("WorkTimer", workTimer);
 	}
 
 	@Override
 	public void load(@NotNull CompoundTag tag) {
 		super.load(tag);
-		input = ItemStack.of(tag.getCompound("Input"));
-		output = ItemStack.of(tag.getCompound("Output"));
+
 		workTimer = tag.getInt("WorkTimer");
 	}
 }

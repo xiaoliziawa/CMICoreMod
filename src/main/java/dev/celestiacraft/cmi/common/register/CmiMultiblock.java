@@ -115,7 +115,7 @@ public class CmiMultiblock {
 		TEST_COKE_OVEN = structure(StructureBuilder.create(new String[][]{
 						{
 								"AAA",
-								"AAA",
+								"BAA",
 								"AAA"
 						},
 						{

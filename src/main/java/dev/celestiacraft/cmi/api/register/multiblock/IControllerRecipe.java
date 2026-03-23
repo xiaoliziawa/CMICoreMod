@@ -59,7 +59,7 @@ public interface IControllerRecipe {
 	 *
 	 * <pre>{@code
 	 * @Override
-	 * protected void runRecipe(MultiblockContext context) {
+	 * protected void recipe(MultiblockContext context) {
 	 * }
 	 * }</pre>
 	 *

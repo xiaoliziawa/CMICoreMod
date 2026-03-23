@@ -3,6 +3,7 @@ package dev.celestiacraft.cmi.api.register.multiblock;
 import dev.celestiacraft.libs.compat.patchouli.multiblock.IMultiblockProvider;
 import dev.celestiacraft.libs.compat.patchouli.multiblock.MultiblockHandler;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -75,7 +76,8 @@ import java.util.function.Supplier;
  */
 public abstract class ControllerBlockEntity extends BlockEntity implements IMultiblockProvider {
 	@Getter
-	private MultiblockContext context;
+	@Setter
+	protected int workTime;
 
 	/**
 	 * 多方块处理器

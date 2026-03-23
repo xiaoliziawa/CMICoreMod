@@ -30,7 +30,6 @@ public interface IControllerRecipe {
 	 *     <li>{@link MultiblockContext#getEntity()} 当前控制器实例</li>
 	 *     <li>{@link MultiblockContext#getLevel()} 所在世界</li>
 	 *     <li>{@link MultiblockContext#getStack()} 当前处理的物品(可能为空)</li>
-	 *     <li>{@link MultiblockContext#getWorkTimes()} 已运行时间(用于进度控制)</li>
 	 *     <li>{@link MultiblockContext#getPos()} 当前处理位置(通常为控制器或核心位置)</li>
 	 *     <li>{@link MultiblockContext#getState()} 对应方块状态</li>
 	 * </ul>
@@ -70,6 +69,7 @@ public interface IControllerRecipe {
 	/**
 	 *
 	 * @param context 多方块运行上下文, 提供当前 tick 的所有执行信
+	 * @return
 	 */
-	void tick(MultiblockContext context);
+	MultiblockContext tick(MultiblockContext context);
 }

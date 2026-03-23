@@ -5,6 +5,7 @@ import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockEntity;
 import dev.celestiacraft.cmi.api.register.multiblock.IControllerRecipe;
 import dev.celestiacraft.cmi.api.register.multiblock.MultiblockContext;
+import dev.celestiacraft.cmi.common.register.CmiBlock;
 import dev.celestiacraft.cmi.common.register.CmiMultiblock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -19,8 +20,8 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestCokeOvenBlockEntity extends ControllerBlockEntity implements IControllerRecipe {
 	private int workTimer = 0;
@@ -42,15 +43,12 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity implements IC
 
 	@Override
 	public void recipe(MultiblockContext context) {
-		Set<TestCokeOvenIOBlockEntity> IOBlockEntities = Set.of(
-				(TestCokeOvenIOBlockEntity) level.getBlockEntity(worldPosition.above()),
-				(TestCokeOvenIOBlockEntity) level.getBlockEntity(worldPosition.below())
-		);
+		List<BlockPos> blockPosList = context.getEntity().getMultiblockHandler().findBlock(CmiBlock.TEST_COKE_OVEN_IO.get());
 		ItemStack result = Items.CHARCOAL.getDefaultInstance();
 		FluidStack fluidResult = new FluidStack(IEFluids.CREOSOTE.getStill(), 125);
 
-		IOBlockEntities.forEach((testCokeOvenIOBlockEntity) -> {
-
+		blockPosList.forEach((pos) -> {
+			TestCokeOvenIOBlockEntity testCokeOvenIOBlockEntity = (TestCokeOvenIOBlockEntity) level.getBlockEntity(pos);
 			if (testCokeOvenIOBlockEntity == null) {
 				return;
 			}
@@ -93,7 +91,8 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity implements IC
 
 		// 执行配方
 		if (workTimer > 20) {
-			IOBlockEntities.forEach((testCokeOvenIOBlockEntity) -> {
+			blockPosList.forEach((pos) -> {
+				TestCokeOvenIOBlockEntity testCokeOvenIOBlockEntity = (TestCokeOvenIOBlockEntity) level.getBlockEntity(pos);
 
 				if (testCokeOvenIOBlockEntity == null) {
 					return;
@@ -101,11 +100,6 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity implements IC
 
 				IItemHandler itemHandler = testCokeOvenIOBlockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
 				IFluidHandler fluidHandler = testCokeOvenIOBlockEntity.getCapability(ForgeCapabilities.FLUID_HANDLER).orElse(null);
-
-				if (itemHandler == null || fluidHandler == null) {
-					return;
-				}
-
 				ItemStack input = itemHandler.getStackInSlot(0);
 
 				boolean canInsertItem = itemHandler.insertItem(1, result.copy(), true).isEmpty();

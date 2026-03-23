@@ -3,6 +3,7 @@ package dev.celestiacraft.cmi.common.block.test_coke_oven;
 import blusunrize.immersiveengineering.common.register.IEFluids;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockEntity;
+import dev.celestiacraft.cmi.api.register.multiblock.IControllerRecipe;
 import dev.celestiacraft.cmi.api.register.multiblock.MultiblockContext;
 import dev.celestiacraft.cmi.common.block.test_coke_oven.capability.CokeOvenFluidCapability;
 import dev.celestiacraft.cmi.common.block.test_coke_oven.capability.CokeOvenItemCapability;
@@ -18,7 +19,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.NotNull;
 
-public class TestCokeOvenBlockEntity extends ControllerBlockEntity {
+public class TestCokeOvenBlockEntity extends ControllerBlockEntity implements IControllerRecipe {
 	private CokeOvenItemCapability itemHandler;
 	private CokeOvenFluidCapability fluidHandler;
 
@@ -46,14 +47,14 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity {
 	}
 
 	@Override
-	protected void tick(MultiblockContext context) {
+	public void tick(MultiblockContext context) {
 		if (!context.isClient()) {
 			runRecipe(context);
 		}
 	}
 
 	@Override
-	protected void runRecipe(MultiblockContext context) {
+	public void runRecipe(MultiblockContext context) {
 		if (context.getLevel() == null || context.isClient()) {
 			return;
 		}

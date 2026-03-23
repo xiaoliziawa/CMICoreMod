@@ -49,12 +49,12 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity implements IC
 	@Override
 	public void tick(MultiblockContext context) {
 		if (!context.isClient()) {
-			runRecipe(context);
+			recipe(context);
 		}
 	}
 
 	@Override
-	public void runRecipe(MultiblockContext context) {
+	public void recipe(MultiblockContext context) {
 		if (context.getLevel() == null || context.isClient()) {
 			return;
 		}

@@ -65,7 +65,7 @@ public interface IControllerRecipe {
 	 *
 	 * @param context 多方块运行上下文, 提供当前 tick 的所有执行信息
 	 */
-	void runRecipe(MultiblockContext context);
+	void recipe(MultiblockContext context);
 
 	/**
 	 *

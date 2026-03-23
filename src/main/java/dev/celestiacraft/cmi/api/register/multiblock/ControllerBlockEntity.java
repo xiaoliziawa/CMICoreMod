@@ -53,7 +53,7 @@ import java.util.function.Supplier;
  *     <li>提供 {@link IMultiblock} 结构</li>
  *     <li>实现 {@link #getMultiblockKey()}</li>
  *     <li>根据需要调整渲染偏移</li>
- *     <li>若需要配方逻辑还需实现 {@link IControllerRecipe#runRecipe(MultiblockContext)} 和 {@link IControllerRecipe#tick(MultiblockContext)}</li>
+ *     <li>若需要配方逻辑还需实现 {@link IControllerRecipe#recipe(MultiblockContext)} 和 {@link IControllerRecipe#tick(MultiblockContext)}</li>
  * </ul>
  *
  * <p>

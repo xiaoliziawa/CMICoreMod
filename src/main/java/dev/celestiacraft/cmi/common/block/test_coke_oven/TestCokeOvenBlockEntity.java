@@ -28,7 +28,7 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity implements IC
 
 	@Override
 	public MultiblockContext tick(MultiblockContext context) {
-		if (!context.isClient()) {
+		if (!context.isClient() && isStructureValid()) {
 			recipe(context);
 		}
 		return context;
@@ -36,18 +36,6 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity implements IC
 
 	@Override
 	public void recipe(MultiblockContext context) {
-		Cmi.LOGGER.info("tick start");
-
-		// ❌ 删掉 initHandlers()
-		// initHandlers();
-
-		// ❌ 删掉这段
-		// System.out.println("handler: " + itemHandler);
-		// if (itemHandler == null || fluidHandler == null) {
-		// 	System.out.println("handler null");
-		// 	return;
-		// }
-
 		TestCokeOvenIOBlockEntity io = (TestCokeOvenIOBlockEntity) level.getBlockEntity(worldPosition.below());
 
 		if (io == null) {
@@ -62,34 +50,29 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity implements IC
 		}
 
 		ItemStack input = itemHandler.getStackInSlot(0);
-		Cmi.LOGGER.info("input: {}", input);
-
-		boolean structure = isStructureValid();
-		Cmi.LOGGER.info("structure: {}", structure);
-
 		ItemStack result = Items.CHARCOAL.getDefaultInstance();
 		FluidStack fluidResult = new FluidStack(IEFluids.CREOSOTE.getStill(), 125);
-
 		boolean canInsertItem = itemHandler.insertItem(1, result.copy(), true).isEmpty();
 		int canFillFluid = fluidHandler.fill(fluidResult.copy(), IFluidHandler.FluidAction.SIMULATE);
 
-		Cmi.LOGGER.info("canInsertItem: {}", canInsertItem);
-		Cmi.LOGGER.info("canFillFluid: {}", canFillFluid);
-
-		if (!structure || !input.is(ItemTags.LOGS)) {
-			Cmi.LOGGER.info("fail: input or structure");
+		if (!input.is(ItemTags.LOGS)) {
 			workTimer = 0;
 			return;
 		}
 
 		if (!canInsertItem || canFillFluid < fluidResult.getAmount()) {
-			Cmi.LOGGER.info("fail: output");
 			workTimer = 0;
 			return;
 		}
 
 		workTimer++;
-		Cmi.LOGGER.info("workTimer: {}", workTimer);
+
+		if (workTimer > 20) {
+			input.shrink(1);
+			itemHandler.insertItem(1, result.copy(), false);
+			fluidHandler.fill(fluidResult.copy(), IFluidHandler.FluidAction.EXECUTE);
+			workTimer = 0;
+		}
 	}
 
 	@Override

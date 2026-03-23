@@ -23,7 +23,7 @@ public class TestCokeOvenBlock extends ControllerBlock<TestCokeOvenBlockEntity> 
 
 		return (lvl, pos, st, be) -> {
 			if (be instanceof TestCokeOvenBlockEntity entity) {
-				TestCokeOvenBlockEntity.tick(lvl, pos, st, entity);
+				entity.tick(entity.getContext());
 			}
 		};
 	}

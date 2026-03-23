@@ -3,6 +3,7 @@ package dev.celestiacraft.cmi.common.block.test_coke_oven;
 import blusunrize.immersiveengineering.common.register.IEFluids;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockEntity;
+import dev.celestiacraft.cmi.api.register.multiblock.MultiblockContext;
 import dev.celestiacraft.cmi.common.block.test_coke_oven.capability.CokeOvenFluidCapability;
 import dev.celestiacraft.cmi.common.block.test_coke_oven.capability.CokeOvenItemCapability;
 import dev.celestiacraft.cmi.common.register.CmiMultiblock;
@@ -11,7 +12,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fluids.FluidStack;
@@ -45,14 +45,15 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity {
 		}
 	}
 
-	public static void tick(Level level, BlockPos pos, BlockState state, TestCokeOvenBlockEntity entity) {
-		if (!level.isClientSide()) {
-			entity.runRecipe();
+	public void tick(MultiblockContext context) {
+		if (!context.isClient()) {
+			runRecipe(context);
 		}
 	}
 
-	public void runRecipe() {
-		if (level == null || level.isClientSide()) {
+	@Override
+	protected void runRecipe(MultiblockContext context) {
+		if (context.getLevel() == null || context.isClient()) {
 			return;
 		}
 

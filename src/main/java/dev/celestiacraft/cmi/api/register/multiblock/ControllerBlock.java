@@ -6,6 +6,7 @@ import dev.celestiacraft.cmi.api.interaction.UseContext;
 import dev.celestiacraft.cmi.api.register.block.BaseBlock;
 import dev.celestiacraft.libs.common.register.NebulaItem;
 import dev.celestiacraft.libs.compat.patchouli.multiblock.IMultiblockProvider;
+import lombok.Getter;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -59,6 +60,9 @@ import org.jetbrains.annotations.NotNull;
  * </p>
  */
 public abstract class ControllerBlock<T extends BlockEntity & IMultiblockProvider> extends BaseBlock implements IBE<T> {
+	@Getter
+	private MultiblockContext context;
+
 	public ControllerBlock(Properties properties) {
 		super(properties);
 

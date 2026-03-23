@@ -45,7 +45,8 @@ public class TestCokeOvenBlockEntity extends ControllerBlockEntity {
 		}
 	}
 
-	public void tick(MultiblockContext context) {
+	@Override
+	protected void tick(MultiblockContext context) {
 		if (!context.isClient()) {
 			runRecipe(context);
 		}

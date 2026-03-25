@@ -274,15 +274,17 @@ public class CmiBlock {
 				.initialProperties(SharedProperties::stone)
 				.item()
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/mechanical_belt_grinder/item"));
+					provider.withExistingParent(context.getName(), provider.modLoc("block/coke_oven/coke_oven_controller"));
 				})
 				.build()
 				.blockstate((context, provider) -> {
 					provider.getVariantBuilder(context.get())
 							.forAllStatesExcept((state) -> {
 								BlockModelProvider models = provider.models();
+								Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
 								return ConfiguredModel.builder()
-										.modelFile(models.getExistingFile(provider.modLoc("block/void_dust_collector/on")))
+										.modelFile(models.getExistingFile(provider.modLoc("block/coke_oven/coke_oven_controller")))
+										.rotationY((int) facing.toYRot())
 										.build();
 							});
 				})
@@ -296,7 +298,7 @@ public class CmiBlock {
 							.forAllStatesExcept((state) -> {
 								BlockModelProvider models = provider.models();
 								return ConfiguredModel.builder()
-										.modelFile(models.getExistingFile(provider.modLoc("block/void_dust_collector/on")))
+										.modelFile(models.getExistingFile(provider.modLoc("block/coke_oven/coke_oven_io")))
 										.build();
 							});
 				})

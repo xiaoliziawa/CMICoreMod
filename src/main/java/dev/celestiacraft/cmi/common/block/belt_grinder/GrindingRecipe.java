@@ -55,7 +55,7 @@ public class GrindingRecipe extends ProcessingRecipe<RecipeWrapper> implements I
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public Component getDescriptionForAssembly() {
-		return CmiLang.translateDirect("recipe.assembly.grinding");
+		return CmiLang.translateDirect("recipe.grinding");
 	}
 
 	@Override

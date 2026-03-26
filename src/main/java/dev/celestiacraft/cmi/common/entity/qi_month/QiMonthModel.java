@@ -17,6 +17,6 @@ public class QiMonthModel extends GeoModel<QiMonthEntity> {
 
 	@Override
 	public ResourceLocation getAnimationResource(QiMonthEntity entity) {
-		return Cmi.loadResource("animations/qi_month.animation.json");
+		return Cmi.loadResource("animations/entity/dev/qi_month.animation.json");
 	}
 }

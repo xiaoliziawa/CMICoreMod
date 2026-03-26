@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.common.entity.qi_month;
+package dev.celestiacraft.cmi.common.entity.dev.qi_month;
 
 import dev.celestiacraft.cmi.common.register.CmiEntity;
 import net.minecraft.server.level.ServerLevel;

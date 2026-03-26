@@ -1,7 +1,7 @@
 package dev.celestiacraft.cmi.event;
 
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.common.entity.qi_month.QiMonthEntity;
+import dev.celestiacraft.cmi.common.entity.dev.qi_month.QiMonthEntity;
 import dev.celestiacraft.cmi.common.register.CmiEntity;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

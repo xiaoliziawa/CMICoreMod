@@ -2,7 +2,7 @@ package dev.celestiacraft.cmi.common.register;
 
 import com.tterrag.registrate.util.entry.EntityEntry;
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.common.entity.qi_month.QiMonthEntity;
+import dev.celestiacraft.cmi.common.entity.dev.qi_month.QiMonthEntity;
 import net.minecraft.world.entity.MobCategory;
 
 public class CmiEntity {

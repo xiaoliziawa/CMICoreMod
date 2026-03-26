@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.common.entity.qi_month;
+package dev.celestiacraft.cmi.common.entity.dev.qi_month;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.celestiacraft.cmi.Cmi;

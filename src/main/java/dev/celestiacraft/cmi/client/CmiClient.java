@@ -4,7 +4,7 @@ import dev.celestiacraft.cmi.client.block.resource.CmiBlockPartialModel;
 import dev.celestiacraft.cmi.client.block.resource.CmiSpriteShiftEntry;
 import dev.celestiacraft.cmi.client.overlay.NetherBacktankAirOverlay;
 import dev.celestiacraft.cmi.client.ponder.CmiPonderIndex;
-import dev.celestiacraft.cmi.common.entity.qi_month.QiMonthRenderer;
+import dev.celestiacraft.cmi.common.entity.dev.qi_month.QiMonthRenderer;
 import dev.celestiacraft.cmi.common.register.CmiEntity;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.eventbus.api.IEventBus;

@@ -5,6 +5,7 @@ import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.common.entity.dev.qi_month.QiMonthEntity;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorEntity;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 public class CmiEntity {
 	public static final EntityEntry<QiMonthEntity> QI_MONTH;
@@ -15,10 +16,11 @@ public class CmiEntity {
 				.properties((builder) -> {
 					builder.sized(0.6f, 1.8f);
 				})
+				.loot((lootTables, entity) -> lootTables.add(entity, LootTable.lootTable()))
 				.register();
 		SPACE_ELEVATOR = Cmi.REGISTRATE.entity("space_elevator", SpaceElevatorEntity::new, MobCategory.MISC)
 				.properties((builder) -> {
-					builder.sized(3, 1.5f);
+					builder.sized(0.95f, 2.15f);
 				})
 				.register();
 	}

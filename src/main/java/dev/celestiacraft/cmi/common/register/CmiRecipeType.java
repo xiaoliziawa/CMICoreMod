@@ -7,6 +7,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.common.recipe.accelerator.AcceleratorRecipe;
 import dev.celestiacraft.cmi.common.recipe.space_elevator_base.SpaceElevatorBaseRecipe;
+import dev.celestiacraft.cmi.common.recipe.space_elevator_construction.SpaceElevatorConstructionRecipe;
 
 import java.util.function.Supplier;
 
@@ -14,6 +15,7 @@ public class CmiRecipeType {
 	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES;
 	public static final Supplier<RecipeType<AcceleratorRecipe>> ACCELERATOR;
 	public static final Supplier<RecipeType<SpaceElevatorBaseRecipe>> SPACE_ELEVATOR_BASE;
+	public static final Supplier<RecipeType<SpaceElevatorConstructionRecipe>> SPACE_ELEVATOR_CONSTRUCTION;
 
 	static {
 		RECIPE_TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, Cmi.MODID);
@@ -23,6 +25,9 @@ public class CmiRecipeType {
 		});
 		SPACE_ELEVATOR_BASE = RECIPE_TYPES.register("space_elevator_base", () -> {
 			return SpaceElevatorBaseRecipe.Type.INSTANCE;
+		});
+		SPACE_ELEVATOR_CONSTRUCTION = RECIPE_TYPES.register("space_elevator_construction", () -> {
+			return SpaceElevatorConstructionRecipe.Type.INSTANCE;
 		});
 	}
 

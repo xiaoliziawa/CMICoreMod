@@ -1,6 +1,8 @@
-package dev.celestiacraft.cmi.network;
+package dev.celestiacraft.cmi.network.c2s;
 
 import dev.celestiacraft.cmi.compat.adastra.SpaceElevatorBaseHandler;
+import dev.celestiacraft.cmi.network.CmiNetwork;
+import dev.celestiacraft.cmi.network.s2c.SyncSpaceElevatorBaseStatePacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;

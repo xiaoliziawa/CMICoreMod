@@ -1,6 +1,14 @@
 package dev.celestiacraft.cmi.network;
 
 import dev.celestiacraft.cmi.Cmi;
+import dev.celestiacraft.cmi.network.c2s.BuildEarthSpaceElevatorBasePacket;
+import dev.celestiacraft.cmi.network.c2s.ConstructSpaceElevatorPacket;
+import dev.celestiacraft.cmi.network.c2s.RequestSpaceElevatorBaseStatePacket;
+import dev.celestiacraft.cmi.network.c2s.RequestSpaceElevatorMaterialsPacket;
+import dev.celestiacraft.cmi.network.c2s.StoreSpaceElevatorMaterialsPacket;
+import dev.celestiacraft.cmi.network.s2c.SeedPacket;
+import dev.celestiacraft.cmi.network.s2c.SyncSpaceElevatorBaseStatePacket;
+import dev.celestiacraft.cmi.network.s2c.SyncSpaceElevatorMaterialsPacket;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 
@@ -44,6 +52,34 @@ public class CmiNetwork {
 				SyncSpaceElevatorBaseStatePacket::encode,
 				SyncSpaceElevatorBaseStatePacket::decode,
 				SyncSpaceElevatorBaseStatePacket::handle
+		);
+		CHANNEL.registerMessage(
+				id++,
+				ConstructSpaceElevatorPacket.class,
+				ConstructSpaceElevatorPacket::encode,
+				ConstructSpaceElevatorPacket::decode,
+				ConstructSpaceElevatorPacket::handle
+		);
+		CHANNEL.registerMessage(
+				id++,
+				RequestSpaceElevatorMaterialsPacket.class,
+				RequestSpaceElevatorMaterialsPacket::encode,
+				RequestSpaceElevatorMaterialsPacket::decode,
+				RequestSpaceElevatorMaterialsPacket::handle
+		);
+		CHANNEL.registerMessage(
+				id++,
+				StoreSpaceElevatorMaterialsPacket.class,
+				StoreSpaceElevatorMaterialsPacket::encode,
+				StoreSpaceElevatorMaterialsPacket::decode,
+				StoreSpaceElevatorMaterialsPacket::handle
+		);
+		CHANNEL.registerMessage(
+				id++,
+				SyncSpaceElevatorMaterialsPacket.class,
+				SyncSpaceElevatorMaterialsPacket::encode,
+				SyncSpaceElevatorMaterialsPacket::decode,
+				SyncSpaceElevatorMaterialsPacket::handle
 		);
 	}
 }

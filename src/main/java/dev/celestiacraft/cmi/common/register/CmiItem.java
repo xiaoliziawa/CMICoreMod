@@ -31,6 +31,7 @@ public class CmiItem {
 							properties
 					);
 				})
+				.model((context, provider) -> provider.withExistingParent(context.getName(), provider.mcLoc("item/template_spawn_egg")))
 				.register();
 	}
 

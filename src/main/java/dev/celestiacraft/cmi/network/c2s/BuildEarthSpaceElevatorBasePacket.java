@@ -1,10 +1,12 @@
-package dev.celestiacraft.cmi.network;
+package dev.celestiacraft.cmi.network.c2s;
 
 import dev.celestiacraft.cmi.common.recipe.space_elevator_base.SpaceElevatorBaseRecipe;
 import dev.celestiacraft.cmi.compat.adastra.AdAstraSpaceElevatorCompat;
 import dev.celestiacraft.cmi.compat.adastra.AdAstraSpaceElevatorStationCompat;
 import dev.celestiacraft.cmi.compat.adastra.SpaceElevatorBaseHandler;
 import dev.celestiacraft.cmi.compat.adastra.SpaceElevatorLinkHandler;
+import dev.celestiacraft.cmi.network.CmiNetwork;
+import dev.celestiacraft.cmi.network.s2c.SyncSpaceElevatorBaseStatePacket;
 import earth.terrarium.adastra.api.planets.Planet;
 import earth.terrarium.adastra.common.compat.argonauts.ArgonautsIntegration;
 import earth.terrarium.adastra.common.handlers.SpaceStationHandler;

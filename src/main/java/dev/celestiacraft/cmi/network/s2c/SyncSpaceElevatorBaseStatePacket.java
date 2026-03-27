@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.network;
+package dev.celestiacraft.cmi.network.s2c;
 
 import dev.celestiacraft.cmi.event.PlanetsScreenBaseBuildClientHandler;
 import net.minecraft.network.FriendlyByteBuf;

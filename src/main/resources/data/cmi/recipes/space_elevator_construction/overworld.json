@@ -1,0 +1,54 @@
+{
+	"type": "cmi:space_elevator_construction",
+	"dimension": "minecraft:overworld",
+	"ingredients": [
+		{
+			"item": "ad_astra:steel_ingot",
+			"count": 24
+		},
+		{
+			"item": "ad_astra:desh_ingot",
+			"count": 18
+		},
+		{
+			"tag": "forge:storage_blocks/iron",
+			"count": 20
+		},
+		{
+			"tag": "forge:storage_blocks/copper",
+			"count": 16
+		},
+		{
+			"item": "minecraft:redstone_block",
+			"count": 12
+		},
+		{
+			"item": "minecraft:observer",
+			"count": 10
+		},
+		{
+			"item": "minecraft:end_rod",
+			"count": 16
+		},
+		{
+			"tag": "forge:gems/diamond",
+			"count": 8
+		},
+		{
+			"item": "minecraft:netherite_ingot",
+			"count": 2
+		},
+		{
+			"tag": "forge:gems/quartz",
+			"count": 24
+		},
+		{
+			"tag": "forge:ender_pearls",
+			"count": 12
+		},
+		{
+			"tag": "forge:glass",
+			"count": 32
+		}
+	]
+}

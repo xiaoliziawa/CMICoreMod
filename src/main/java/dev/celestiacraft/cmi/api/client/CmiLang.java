@@ -71,6 +71,30 @@ public class CmiLang {
 		return Components.translatable(String.format("%s.%s", Cmi.MODID, langKey), Lang.resolveBuilders(args));
 	}
 
+	public static LangBuilder raw(String fullKey, Object... args) {
+		return builder().add(Components.translatable(fullKey, Lang.resolveBuilders(args)));
+	}
+
+	public static MutableComponent rawDirect(String fullKey, Object... args) {
+		return Components.translatable(fullKey, Lang.resolveBuilders(args));
+	}
+
+	public static LangBuilder gui(String key, Object... args) {
+		return raw(String.format("gui.%s.%s", Cmi.MODID, key), args);
+	}
+
+	public static MutableComponent guiDirect(String key, Object... args) {
+		return rawDirect(String.format("gui.%s.%s", Cmi.MODID, key), args);
+	}
+
+	public static LangBuilder text(String key, Object... args) {
+		return raw(String.format("text.%s.%s", Cmi.MODID, key), args);
+	}
+
+	public static MutableComponent textDirect(String key, Object... args) {
+		return rawDirect(String.format("text.%s.%s", Cmi.MODID, key), args);
+	}
+
 	public static void isShiftDown(@NotNull List<Component> tooltip) {
 		MutableComponent shift = Component.literal("Shift")
 				.withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY);

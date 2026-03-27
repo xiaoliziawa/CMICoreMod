@@ -2,7 +2,7 @@ package dev.celestiacraft.cmi.event;
 
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.network.CmiNetwork;
-import dev.celestiacraft.cmi.network.SeedPacket;
+import dev.celestiacraft.cmi.network.s2c.SeedPacket;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

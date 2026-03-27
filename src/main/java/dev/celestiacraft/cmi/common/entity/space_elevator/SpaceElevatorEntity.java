@@ -32,6 +32,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -75,6 +76,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	private static final int STATE_ARRIVE_GROUND = 6;
 
 	private static final double ANCHOR_Y_OFFSET = 1.01D;
+	private static final double ORBIT_DOCK_Y_OFFSET = -1.35D;
 	private static final int COUNTDOWN_TICKS = Rocket.COUNTDOWN_LENGTH;
 	private static final double GROUND_ASCENT_DISTANCE = 192.0D;
 	private static final int GROUND_ASCENT_TICKS = 180;
@@ -102,12 +104,12 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 
 	private final AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
 	private boolean startedTravelSound;
-	private int clientLerpSteps;
-	private double clientLerpX;
-	private double clientLerpY;
-	private double clientLerpZ;
-	private float clientLerpYRot;
-	private float clientLerpXRot;
+	private int lerpSteps;
+	private double lerpX;
+	private double lerpY;
+	private double lerpZ;
+	private double lerpYRot;
+	private double lerpXRot;
 
 	@Nullable
 	private ResourceKey<Level> pendingDestinationDimension;
@@ -221,7 +223,6 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		setDeltaMovement(Vec3.ZERO);
 
 		if (!level().isClientSide() && hasAnchor() && !isTransporting() && level().getBlockState(getAnchor()).isAir()) {
 			discard();
@@ -238,6 +239,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 		if (isTransporting()) {
 			tickTransport(level().isClientSide());
 		} else if (hasAnchor()) {
+			setDeltaMovement(Vec3.ZERO);
 			snapToAnchor();
 		}
 
@@ -249,18 +251,27 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	}
 
 	private void tickClientLerp() {
-		if (clientLerpSteps <= 0 || !isTransporting()) {
+		if (isControlledByLocalInstance()) {
+			lerpSteps = 0;
+			syncPacketPositionCodec(getX(), getY(), getZ());
+		}
+		if (lerpSteps <= 0) {
 			return;
 		}
 
-		double x = getX() + (clientLerpX - getX()) / (double) clientLerpSteps;
-		double y = getY() + (clientLerpY - getY()) / (double) clientLerpSteps;
-		double z = getZ() + (clientLerpZ - getZ()) / (double) clientLerpSteps;
-		float yRot = getYRot() + Mth.wrapDegrees(clientLerpYRot - getYRot()) / (float) clientLerpSteps;
-		float xRot = getXRot() + (clientLerpXRot - getXRot()) / (float) clientLerpSteps;
-		clientLerpSteps--;
+		double x = getX() + (lerpX - getX()) / (double) lerpSteps;
+		double y = getY() + (lerpY - getY()) / (double) lerpSteps;
+		double z = getZ() + (lerpZ - getZ()) / (double) lerpSteps;
+		float yRot = getYRot() + (float) Mth.wrapDegrees(lerpYRot - getYRot()) / (float) lerpSteps;
+		float xRot = getXRot() + (float) (lerpXRot - getXRot()) / (float) lerpSteps;
+		lerpSteps--;
 		setPos(x, y, z);
 		setRot(yRot, xRot);
+	}
+
+	@Override
+	public boolean isControlledByLocalInstance() {
+		return getControllingPassenger() instanceof Player player && player.isLocalPlayer();
 	}
 
 	private void tickTransport(boolean clientSide) {
@@ -297,15 +308,15 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	}
 
 	private void tickDeparture(boolean clientSide, double startY, double targetY, int duration) {
-		if (clientSide) {
-			return;
-		}
-		if (getFirstPassenger() == null) {
+		if (!clientSide && getFirstPassenger() == null) {
 			resetToAnchor();
 			return;
 		}
 
 		moveAlongPath(startY, targetY, duration);
+		if (clientSide) {
+			return;
+		}
 		setTransportTicks(getTransportTicks() + 1);
 		if (getTransportTicks() < duration) {
 			return;
@@ -319,15 +330,15 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	}
 
 	private void tickArrival(boolean clientSide, double startY, double targetY, int duration) {
-		if (clientSide) {
-			return;
-		}
-		if (getFirstPassenger() == null) {
+		if (!clientSide && getFirstPassenger() == null) {
 			resetToAnchor();
 			return;
 		}
 
 		moveAlongPath(startY, targetY, duration);
+		if (clientSide) {
+			return;
+		}
 		setTransportTicks(getTransportTicks() + 1);
 		if (getTransportTicks() >= duration) {
 			finishArrival();
@@ -335,9 +346,13 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	}
 
 	private void moveAlongPath(double startY, double targetY, int duration) {
-		double progress = Mth.clamp((getTransportTicks() + 1) / (double) duration, 0.0D, 1.0D);
-		double eased = progress * progress * (3.0D - 2.0D * progress);
-		setPos(getDockX(), Mth.lerp(eased, startY, targetY), getDockZ());
+		double deltaY = (targetY - startY) / (double) duration;
+		setDeltaMovement(0.0D, deltaY, 0.0D);
+		move(MoverType.SELF, getDeltaMovement());
+		if (getTransportTicks() + 1 >= duration) {
+			setDeltaMovement(Vec3.ZERO);
+			setPos(getDockX(), targetY, getDockZ());
+		}
 	}
 
 	private void resolveAnchorConflict() {
@@ -457,6 +472,9 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	private Vec3 findExitPosition() {
 		if (!hasAnchor()) {
 			return new Vec3(getX(), getY() + 0.15D, getZ());
+		}
+		if (isOrbitSide()) {
+			return new Vec3(getAnchor().getX() + 0.5D, getAnchor().getY() + 1.02D, getAnchor().getZ() + 0.5D);
 		}
 
 		List<BlockPos> candidates = new ArrayList<>();
@@ -593,7 +611,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	}
 
 	private double getDockY() {
-		return getAnchor().getY() + ANCHOR_Y_OFFSET;
+		return getAnchor().getY() + (isOrbitSide() ? ORBIT_DOCK_Y_OFFSET : ANCHOR_Y_OFFSET);
 	}
 
 	private double getDockZ() {
@@ -715,24 +733,18 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	public void onSyncedDataUpdated(@NotNull EntityDataAccessor<?> key) {
 		super.onSyncedDataUpdated(key);
 		if (TRANSPORT_STATE.equals(key)) {
-			this.clientLerpSteps = 0;
-			applyStateStartPosition(getTransportState());
+			this.lerpSteps = 0;
 		}
 	}
 
 	@Override
 	public void lerpTo(double x, double y, double z, float yRot, float xRot, int lerpSteps, boolean teleport) {
-		if (!isTransporting()) {
-			super.lerpTo(x, y, z, yRot, xRot, lerpSteps, teleport);
-			return;
-		}
-
-		this.clientLerpX = x;
-		this.clientLerpY = y;
-		this.clientLerpZ = z;
-		this.clientLerpYRot = yRot;
-		this.clientLerpXRot = xRot;
-		this.clientLerpSteps = Math.max(lerpSteps, 3);
+		this.lerpX = x;
+		this.lerpY = y;
+		this.lerpZ = z;
+		this.lerpYRot = yRot;
+		this.lerpXRot = xRot;
+		this.lerpSteps = lerpSteps;
 	}
 
 	@Override

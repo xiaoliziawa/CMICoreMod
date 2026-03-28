@@ -6,6 +6,7 @@ import dev.celestiacraft.cmi.compat.adastra.AdAstraSpaceElevatorTravelCompat;
 import dev.celestiacraft.cmi.network.CmiNetwork;
 import dev.celestiacraft.cmi.network.c2s.StartSpaceElevatorTransportPacket;
 import earth.terrarium.adastra.api.planets.Planet;
+import earth.terrarium.adastra.common.config.AdAstraConfig;
 import earth.terrarium.adastra.common.entities.vehicles.Rocket;
 import earth.terrarium.adastra.common.registry.ModSoundEvents;
 import net.minecraft.client.CameraType;
@@ -78,19 +79,16 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	private static final double ANCHOR_Y_OFFSET = 1.01D;
 	private static final double ORBIT_DOCK_Y_OFFSET = -1.35D;
 	private static final int COUNTDOWN_TICKS = Rocket.COUNTDOWN_LENGTH;
-	private static final double GROUND_ASCENT_DISTANCE = 192.0D;
-	private static final int GROUND_ASCENT_TICKS = 180;
+	private static final double GROUND_ASCENT_BLOCKS_PER_TICK = 192.0D / 180.0D;
 	private static final double ORBIT_APPROACH_DISTANCE = 96.0D;
 	private static final int ORBIT_APPROACH_TICKS = 120;
 	private static final double ORBIT_DESCENT_DISTANCE = 168.0D;
 	private static final int ORBIT_DESCENT_TICKS = 160;
-	private static final double GROUND_APPROACH_DISTANCE = 104.0D;
-	private static final int GROUND_APPROACH_TICKS = 124;
+	private static final double GROUND_APPROACH_BLOCKS_PER_TICK = 104.0D / 124.0D;
 	private static final double SEARCH_RADIUS = 2.5D;
 	private static final double SEARCH_HEIGHT = 12.0D;
 	private static final double CONFLICT_SEARCH_RADIUS = 3.5D;
 	private static final double CONFLICT_SEARCH_HEIGHT = 256.0D;
-	private static final double CABLE_TOP_Y = 320.0D;
 	private static final double CABLE_BOTTOM_Y = -64.0D;
 	private static final Vec3[] CABLE_OFFSETS = new Vec3[] {
 			new Vec3(-20.0D / 16.0D, 20.0D / 16.0D, -20.0D / 16.0D),
@@ -224,12 +222,23 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	public void tick() {
 		super.tick();
 
-		if (!level().isClientSide() && hasAnchor() && !isTransporting() && level().getBlockState(getAnchor()).isAir()) {
+		if (level().isClientSide()) {
+			tickClientLerp();
+			if (!isTransporting() && hasAnchor() && lerpSteps <= 0) {
+				setDeltaMovement(Vec3.ZERO);
+				snapToAnchor();
+			}
+			spawnCableParticlesClient();
+			tickTravelSoundClient();
+			return;
+		}
+
+		if (hasAnchor() && !isTransporting() && level().getBlockState(getAnchor()).isAir()) {
 			discard();
 			return;
 		}
 
-		if (!level().isClientSide() && hasAnchor() && tickCount % 10 == 0) {
+		if (hasAnchor() && tickCount % 10 == 0) {
 			resolveAnchorConflict();
 			if (!isAlive()) {
 				return;
@@ -237,24 +246,14 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 		}
 
 		if (isTransporting()) {
-			tickTransport(level().isClientSide());
+			tickTransport(false);
 		} else if (hasAnchor()) {
 			setDeltaMovement(Vec3.ZERO);
 			snapToAnchor();
 		}
-
-		if (level().isClientSide()) {
-			tickClientLerp();
-			spawnCableParticlesClient();
-			tickTravelSoundClient();
-		}
 	}
 
 	private void tickClientLerp() {
-		if (isControlledByLocalInstance()) {
-			lerpSteps = 0;
-			syncPacketPositionCodec(getX(), getY(), getZ());
-		}
 		if (lerpSteps <= 0) {
 			return;
 		}
@@ -269,19 +268,14 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 		setRot(yRot, xRot);
 	}
 
-	@Override
-	public boolean isControlledByLocalInstance() {
-		return getControllingPassenger() instanceof Player player && player.isLocalPlayer();
-	}
-
 	private void tickTransport(boolean clientSide) {
 		switch (getTransportState()) {
 			case STATE_COUNTDOWN_UP -> tickCountdown(clientSide, STATE_DEPART_UP);
 			case STATE_COUNTDOWN_DOWN -> tickCountdown(clientSide, STATE_DEPART_DOWN);
-			case STATE_DEPART_UP -> tickDeparture(clientSide, getDockY(), getDockY() + GROUND_ASCENT_DISTANCE, GROUND_ASCENT_TICKS);
+			case STATE_DEPART_UP -> tickDeparture(clientSide, getDockY(), getGroundTransferY(), getGroundDepartureTicks());
 			case STATE_ARRIVE_ORBIT -> tickArrival(clientSide, getDockY() - ORBIT_APPROACH_DISTANCE, getDockY(), ORBIT_APPROACH_TICKS);
 			case STATE_DEPART_DOWN -> tickDeparture(clientSide, getDockY(), getDockY() - ORBIT_DESCENT_DISTANCE, ORBIT_DESCENT_TICKS);
-			case STATE_ARRIVE_GROUND -> tickArrival(clientSide, getDockY() + GROUND_APPROACH_DISTANCE, getDockY(), GROUND_APPROACH_TICKS);
+			case STATE_ARRIVE_GROUND -> tickArrival(clientSide, getGroundTransferY(), getDockY(), getGroundArrivalTicks());
 			default -> {
 			}
 		}
@@ -351,7 +345,6 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 		move(MoverType.SELF, getDeltaMovement());
 		if (getTransportTicks() + 1 >= duration) {
 			setDeltaMovement(Vec3.ZERO);
-			setPos(getDockX(), targetY, getDockZ());
 		}
 	}
 
@@ -540,6 +533,43 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 		return state == STATE_DEPART_UP || state == STATE_ARRIVE_ORBIT || state == STATE_DEPART_DOWN || state == STATE_ARRIVE_GROUND;
 	}
 
+	public boolean shouldRenderLaunchHud() {
+		int state = getTransportState();
+		return state == STATE_COUNTDOWN_UP
+				|| state == STATE_DEPART_UP
+				|| state == STATE_COUNTDOWN_DOWN
+				|| state == STATE_DEPART_DOWN
+				|| state == STATE_ARRIVE_GROUND;
+	}
+
+	public boolean isLaunchCountdownActive() {
+		int state = getTransportState();
+		return state == STATE_COUNTDOWN_UP || state == STATE_COUNTDOWN_DOWN;
+	}
+
+	public int getLaunchCountdownSeconds() {
+		return Mth.ceil(Math.max(0, COUNTDOWN_TICKS - getTransportTicks()) / 20.0F);
+	}
+
+	public float getLaunchHudProgress() {
+		return switch (getTransportState()) {
+			case STATE_COUNTDOWN_UP -> getGroundHudProgress(getDockY());
+			case STATE_DEPART_UP -> getGroundHudProgress(getY());
+			case STATE_COUNTDOWN_DOWN, STATE_DEPART_DOWN -> 1.0F;
+			case STATE_ARRIVE_GROUND -> getGroundHudProgress(getY());
+			default -> 0.0F;
+		};
+	}
+
+	private float getGroundHudProgress(double currentY) {
+		double minY = 100.0D;
+		double maxY = getGroundTransferY();
+		if (maxY <= minY) {
+			return 0.0F;
+		}
+		return (float) ((Mth.clamp(currentY, minY, maxY) - minY) / (maxY - minY));
+	}
+
 	private void stopLaunchAudio(ServerLevel level) {
 		ClientboundStopSoundPacket launchStop = new ClientboundStopSoundPacket(BuiltInRegistries.SOUND_EVENT.getKey(ModSoundEvents.ROCKET_LAUNCH.get()), SoundSource.AMBIENT);
 		ClientboundStopSoundPacket travelStop = new ClientboundStopSoundPacket(BuiltInRegistries.SOUND_EVENT.getKey(ModSoundEvents.ROCKET.get()), SoundSource.AMBIENT);
@@ -566,7 +596,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 			case STATE_COUNTDOWN_UP, STATE_COUNTDOWN_DOWN, STATE_IDLE -> snapToAnchor();
 			case STATE_DEPART_UP, STATE_DEPART_DOWN -> setPos(getDockX(), getDockY(), getDockZ());
 			case STATE_ARRIVE_ORBIT -> setPos(getDockX(), getDockY() - ORBIT_APPROACH_DISTANCE, getDockZ());
-			case STATE_ARRIVE_GROUND -> setPos(getDockX(), getDockY() + GROUND_APPROACH_DISTANCE, getDockZ());
+			case STATE_ARRIVE_GROUND -> setPos(getDockX(), getGroundTransferY(), getDockZ());
 			default -> {
 			}
 		}
@@ -618,6 +648,18 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 		return getAnchor().getZ() + 0.5D;
 	}
 
+	private double getGroundTransferY() {
+		return Math.max(getDockY(), AdAstraConfig.atmosphereLeave);
+	}
+
+	private int getGroundDepartureTicks() {
+		return Math.max(1, Mth.ceil((getGroundTransferY() - getDockY()) / GROUND_ASCENT_BLOCKS_PER_TICK));
+	}
+
+	private int getGroundArrivalTicks() {
+		return Math.max(1, Mth.ceil((getGroundTransferY() - getDockY()) / GROUND_APPROACH_BLOCKS_PER_TICK));
+	}
+
 	private void snapToAnchor() {
 		if (!hasAnchor()) {
 			return;
@@ -646,7 +688,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 		if (isOrbitSide()) {
 			return new Vec3(getDockX() + offset.x, getDockY() + offset.y, getDockZ() + offset.z);
 		}
-		return new Vec3(getDockX() + offset.x, CABLE_TOP_Y, getDockZ() + offset.z);
+		return new Vec3(getDockX() + offset.x, getGroundTransferY(), getDockZ() + offset.z);
 	}
 
 	private Vec3 cableOffset(int index) {

@@ -16,9 +16,10 @@ public class LanguageGenerate {
 		TooltipLanguage.addLang();
 		JeiLanguage.addLang();
 		GuiLanguage.addLang();
+		EntityLanguage.addLang();
 	}
 
-	public static void addLanguage(String type, String key, String english, String chinese) {
+	protected static void addLanguage(String type, String key, String english, String chinese) {
 		String fullKey;
 
 		if (type == null || type.isEmpty()) {
@@ -37,7 +38,7 @@ public class LanguageGenerate {
 	 * @param english 英文
 	 * @param chinese 中文
 	 */
-	public static void addCustomLang(String key, String english, String chinese) {
+	protected static void addCustomLang(String key, String english, String chinese) {
 		List<String> newList = new ArrayList<>();
 		newList.add(key);
 		newList.add(english);
@@ -45,32 +46,36 @@ public class LanguageGenerate {
 		TRANSLATION_LIST.add(newList);
 	}
 
-	public static void addBlockLanguage(String key, String english, String chinese) {
+	protected static void addBlockLanguage(String key, String english, String chinese) {
 		addLanguage("block", key, english, chinese);
 	}
 
-	public static void addItemLanguage(String key, String english, String chinese) {
+	protected static void addItemLanguage(String key, String english, String chinese) {
 		addLanguage("item", key, english, chinese);
 	}
 
-	public static void addBiomeLanguage(String key, String english, String chinese) {
+	protected static void addBiomeLanguage(String key, String english, String chinese) {
 		addLanguage("biome", key, english, chinese);
 	}
 
-	public static void addCreativeTabLang(String key, String english, String chinese) {
+	protected static void addCreativeTabLang(String key, String english, String chinese) {
 		addLanguage("itemGroup", key, english, chinese);
 	}
 
-	public static void addTooltipLang(String key, String english, String chinese) {
+	protected static void addTooltipLang(String key, String english, String chinese) {
 		String fullKey = String.format("cmi.tooltip.%s", key);
 		addCustomLang(fullKey, english, chinese);
 	}
 
-	public static void addJeiCategoryLang(String key, String english, String chinese) {
+	protected static void addJeiCategoryLang(String key, String english, String chinese) {
 		addLanguage("jei.category", key, english, chinese);
 	}
 
-	public static void addRecipeLang(String key, String english, String chinese) {
+	protected static void addRecipeLang(String key, String english, String chinese) {
 		addCustomLang(String.format("cmi.recipe.%s", key), english, chinese);
+	}
+
+	protected static void addEntityLang(String key, String english, String chinese) {
+		addLanguage("entity", key, english, chinese);
 	}
 }

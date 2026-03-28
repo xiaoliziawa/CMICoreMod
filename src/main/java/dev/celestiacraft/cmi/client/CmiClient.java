@@ -4,6 +4,7 @@ import dev.celestiacraft.cmi.client.block.resource.CmiBlockPartialModel;
 import dev.celestiacraft.cmi.client.block.resource.CmiSpriteShiftEntry;
 import dev.celestiacraft.cmi.client.overlay.NetherBacktankAirOverlay;
 import dev.celestiacraft.cmi.client.overlay.SpaceElevatorConstructionOverlay;
+import dev.celestiacraft.cmi.client.overlay.SpaceElevatorFlightOverlay;
 import dev.celestiacraft.cmi.client.ponder.CmiPonderIndex;
 import dev.celestiacraft.cmi.client.render.SpaceElevatorHudRenderer;
 import dev.celestiacraft.cmi.common.entity.dev.qi_month.QiMonthRenderer;
@@ -18,6 +19,7 @@ public class CmiClient {
 		bus.addListener(CmiClient::onClientSetup);
 		bus.addListener(SpaceElevatorHudRenderer::registerShaders);
 		bus.addListener(NetherBacktankAirOverlay::register);
+		bus.addListener(SpaceElevatorFlightOverlay::register);
 		bus.addListener(SpaceElevatorConstructionOverlay::register);
 	}
 

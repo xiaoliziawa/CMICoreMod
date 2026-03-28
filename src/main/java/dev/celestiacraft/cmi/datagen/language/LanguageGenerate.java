@@ -63,8 +63,7 @@ public class LanguageGenerate {
 	}
 
 	protected static void addTooltipLang(String key, String english, String chinese) {
-		String fullKey = String.format("cmi.tooltip.%s", key);
-		addCustomLang(fullKey, english, chinese);
+		addCustomLang(String.format("cmi.tooltip.%s", key), english, chinese);
 	}
 
 	protected static void addJeiCategoryLang(String key, String english, String chinese) {

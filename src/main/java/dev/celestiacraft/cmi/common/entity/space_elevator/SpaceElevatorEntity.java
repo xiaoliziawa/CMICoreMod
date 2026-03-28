@@ -387,7 +387,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 		if (candidate.isTransporting() != current.isTransporting()) {
 			return candidate.isTransporting();
 		}
-		if ((candidate.getFirstPassenger() != null) != (current.getFirstPassenger() != null)) {
+		if ((candidate.getFirstPassenger() == null) == (current.getFirstPassenger() != null)) {
 			return candidate.getFirstPassenger() != null;
 		}
 		return candidate.getId() < current.getId();
@@ -554,9 +554,8 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	public float getLaunchHudProgress() {
 		return switch (getTransportState()) {
 			case STATE_COUNTDOWN_UP -> getGroundHudProgress(getDockY());
-			case STATE_DEPART_UP -> getGroundHudProgress(getY());
+			case STATE_DEPART_UP, STATE_ARRIVE_GROUND -> getGroundHudProgress(getY());
 			case STATE_COUNTDOWN_DOWN, STATE_DEPART_DOWN -> 1.0F;
-			case STATE_ARRIVE_GROUND -> getGroundHudProgress(getY());
 			default -> 0.0F;
 		};
 	}
@@ -815,7 +814,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 
 	@Override
 	public boolean isPushable() {
-		return false;
+		return super.isPushable();
 	}
 
 	@Override
@@ -829,7 +828,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity {
 	}
 
 	@Override
-	public Vec3 getDismountLocationForPassenger(@NotNull LivingEntity passenger) {
+	public @NotNull Vec3 getDismountLocationForPassenger(@NotNull LivingEntity passenger) {
 		return findExitPosition();
 	}
 

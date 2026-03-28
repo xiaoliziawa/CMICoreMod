@@ -3,6 +3,8 @@ package dev.celestiacraft.cmi.common.entity.space_elevator;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.celestiacraft.cmi.Cmi;
+import earth.terrarium.adastra.api.planets.Planet;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -19,6 +21,8 @@ import software.bernie.geckolib.renderer.GeoEntityRenderer;
 public class SpaceElevatorRenderer extends GeoEntityRenderer<SpaceElevatorEntity> {
 	private static final int CABLE_STEPS = 80;
 	private static final float CABLE_HALF_WIDTH = 0.045F;
+	private static final double MIN_CABLE_RENDER_EXTENT = 2048.0D;
+	private static final double CABLE_RENDER_DISTANCE_SCALE = 256.0D;
 
 	public SpaceElevatorRenderer(EntityRendererProvider.Context context) {
 		super(context, new SpaceElevatiorModel());
@@ -37,8 +41,10 @@ public class SpaceElevatorRenderer extends GeoEntityRenderer<SpaceElevatorEntity
 	}
 
 	private void renderCable(SpaceElevatorEntity entity, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int cableIndex) {
-		Vec3 start = entity.getCableStart(cableIndex, partialTick);
-		Vec3 end = entity.getCableEnd(cableIndex);
+		Vec3 cameraPos = entityRenderDispatcher.camera.getPosition();
+		CableEndpoints endpoints = resolveCableEndpoints(entity, partialTick, cableIndex, cameraPos);
+		Vec3 start = endpoints.start();
+		Vec3 end = endpoints.end();
 		Vec3 cable = end.subtract(start);
 		if (cable.lengthSqr() <= 1.0E-6D) {
 			return;
@@ -54,11 +60,10 @@ public class SpaceElevatorRenderer extends GeoEntityRenderer<SpaceElevatorEntity
 		VertexConsumer consumer = buffer.getBuffer(RenderType.leash());
 		Matrix4f matrix = poseStack.last().pose();
 
-		BlockPos startPos = BlockPos.containing(start);
-		int startBlockLight = getBlockLightLevel(entity, startPos);
-		int startSkyLight = entity.level().getBrightness(LightLayer.SKY, startPos);
+		BlockPos lightPos = entity.getAnchor();
+		int startBlockLight = getBlockLightLevel(entity, lightPos);
+		int startSkyLight = entity.level().getBrightness(LightLayer.SKY, lightPos);
 		Vec3 midpoint = start.add(end).scale(0.5D);
-		Vec3 cameraPos = entityRenderDispatcher.camera.getPosition();
 		Vec3 view = cameraPos.subtract(midpoint);
 		Vec3 direction = cable.normalize();
 		Vec3 widthAxis = direction.cross(view);
@@ -72,6 +77,20 @@ public class SpaceElevatorRenderer extends GeoEntityRenderer<SpaceElevatorEntity
 
 		renderCablePlane(consumer, matrix, cable, startBlockLight, startSkyLight, widthAxis);
 		poseStack.popPose();
+	}
+
+	private static CableEndpoints resolveCableEndpoints(SpaceElevatorEntity entity, float partialTick, int cableIndex, Vec3 cameraPos) {
+		Vec3 start = entity.getCableStart(cableIndex, partialTick);
+		Vec3 end = entity.getCableEnd(cableIndex);
+		double renderExtent = Math.max(MIN_CABLE_RENDER_EXTENT, Minecraft.getInstance().options.getEffectiveRenderDistance() * CABLE_RENDER_DISTANCE_SCALE);
+
+		if (Planet.EARTH_ORBIT.equals(entity.level().dimension())) {
+			double farBottomY = Math.min(Math.min(start.y, end.y), cameraPos.y) - renderExtent;
+			return new CableEndpoints(new Vec3(start.x, farBottomY, start.z), end);
+		}
+
+		double farTopY = Math.max(Math.max(start.y, end.y), cameraPos.y) + renderExtent;
+		return new CableEndpoints(start, new Vec3(end.x, farTopY, end.z));
 	}
 
 	private static void renderCablePlane(
@@ -118,5 +137,8 @@ public class SpaceElevatorRenderer extends GeoEntityRenderer<SpaceElevatorEntity
 	@Override
 	public @NotNull ResourceLocation getTextureLocation(@NotNull SpaceElevatorEntity entity) {
 		return Cmi.loadResource("textures/entity/space_elevator.png");
+	}
+
+	private record CableEndpoints(Vec3 start, Vec3 end) {
 	}
 }

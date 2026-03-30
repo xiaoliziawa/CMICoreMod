@@ -96,8 +96,12 @@ public class SpaceElevatorConstructionRecipe implements Recipe<SimpleContainer> 
 
 	@Nullable
 	public static SpaceElevatorConstructionRecipe getRecipe(Level level, ResourceKey<Level> dimension) {
-		return level.getRecipeManager().getAllRecipesFor(CmiRecipeType.SPACE_ELEVATOR_CONSTRUCTION.get()).stream()
-				.filter(recipe -> recipe.dimension().equals(dimension))
+		return level.getRecipeManager()
+				.getAllRecipesFor(CmiRecipeType.SPACE_ELEVATOR_CONSTRUCTION.get())
+				.stream()
+				.filter((recipe) -> {
+					return recipe.dimension().equals(dimension);
+				})
 				.findFirst()
 				.orElse(null);
 	}

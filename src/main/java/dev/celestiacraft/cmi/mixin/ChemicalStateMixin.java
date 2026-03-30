@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * Bug：ChemicalState 构造函数中，输出口的 capability 绑定了 inTank（输入罐）而非 outTank（输出罐）。
  * 导致管道从输出口抽取时，抽到的是原料流体而不是产物流体。
  * tryOutput 的主动推送逻辑用的是正确的 outTank，所以只有怼着有缓存的容器才能正常输出。
- *
+ * <p>
  * 修复：在构造函数尾部，用 outTank 重新注册输出口的 drainOnly capability，覆盖错误的 inTank 注册。
  */
 @Mixin(value = ChemicalState.class, remap = false)

@@ -7,7 +7,6 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class SeedPacket {
-
 	private final long seed;
 
 	public SeedPacket(long seed) {
@@ -22,10 +21,10 @@ public class SeedPacket {
 		return new SeedPacket(buf.readLong());
 	}
 
-	public static void handle(SeedPacket msg, Supplier<NetworkEvent.Context> ctx) {
-		ctx.get().enqueueWork(() -> {
+	public static void handle(SeedPacket msg, Supplier<NetworkEvent.Context> supplier) {
+		supplier.get().enqueueWork(() -> {
 			ClientSeedHandler.writeValue(msg.seed);
 		});
-		ctx.get().setPacketHandled(true);
+		supplier.get().setPacketHandled(true);
 	}
 }

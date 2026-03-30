@@ -57,6 +57,7 @@ public class Cmi {
 		CmiRecipeType.register(bus);
 		CmiRecipeSerializer.register(bus);
 		CmiCreateRecipe.register(bus);
+		CmiAdvanmentTrigger.register();
 
 		CmiCreativeTab.register(bus);
 

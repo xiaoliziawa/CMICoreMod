@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.common.advancement.academic_cost;
+package dev.celestiacraft.cmi.common.advancement.academic_fraud;
 
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.common.register.CmiAdvanmentTrigger;
@@ -74,7 +74,7 @@ public class ItemDetectHandler {
 
 		if (hasIronIngot) {
 			// 满足条件触发一次
-			CmiAdvanmentTrigger.ACADEMIC_COST.trigger(player);
+			CmiAdvanmentTrigger.ACADEMIC_FRAUD.trigger(player);
 			// 触发后也停止tick(避免浪费性能)
 			data.putBoolean(CHECKED, true);
 		}

@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.common.advancement.academic_cost;
+package dev.celestiacraft.cmi.common.advancement.academic_fraud;
 
 import com.google.gson.JsonObject;
 import dev.celestiacraft.cmi.Cmi;
@@ -10,8 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
 
-public class AcademicCostTrigger extends SimpleCriterionTrigger<AcademicCostTrigger.Instance> {
-	public static final ResourceLocation ID = Cmi.loadResource("academic_cost");
+public class AcademicFraudTrigger extends SimpleCriterionTrigger<AcademicFraudTrigger.Instance> {
+	public static final ResourceLocation ID = Cmi.loadResource("academic_fraud");
 
 	@Override
 	protected @NotNull Instance createInstance(@NotNull JsonObject json, @NotNull ContextAwarePredicate predicate, @NotNull DeserializationContext context) {

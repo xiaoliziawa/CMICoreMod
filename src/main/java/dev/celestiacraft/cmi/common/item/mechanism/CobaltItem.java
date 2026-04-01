@@ -13,14 +13,14 @@ public class CobaltItem extends MechanismItem implements ICuriosHelper {
 
 	@Override
 	public void curiosTick(CuriosContext context) {
-		context.player.addEffect(new MobEffectInstance(
+		context.getPlayer().addEffect(new MobEffectInstance(
 				MobEffects.MOVEMENT_SPEED,
 				20 * 20,
 				1,
 				false,
 				false
 		));
-		context.player.addEffect(new MobEffectInstance(
+		context.getPlayer().addEffect(new MobEffectInstance(
 				MobEffects.DIG_SPEED,
 				20 * 20,
 				1,

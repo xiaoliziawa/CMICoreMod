@@ -13,7 +13,7 @@ public class NetherItem extends MechanismItem implements ICuriosHelper {
 
 	@Override
 	public void curiosTick(CuriosContext context) {
-		context.player.addEffect(new MobEffectInstance(
+		context.getPlayer().addEffect(new MobEffectInstance(
 				MobEffects.FIRE_RESISTANCE,
 				20 * 20,
 				0,

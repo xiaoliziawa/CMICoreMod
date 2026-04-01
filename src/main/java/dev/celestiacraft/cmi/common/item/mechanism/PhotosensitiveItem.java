@@ -13,7 +13,7 @@ public class PhotosensitiveItem extends MechanismItem implements ICuriosHelper {
 
 	@Override
 	public void curiosTick(CuriosContext context) {
-		context.player.addEffect(new MobEffectInstance(
+		context.getPlayer().addEffect(new MobEffectInstance(
 				MobEffects.NIGHT_VISION,
 				30 * 20,
 				0,

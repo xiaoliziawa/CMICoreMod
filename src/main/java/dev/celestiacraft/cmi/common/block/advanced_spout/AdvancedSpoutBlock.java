@@ -20,7 +20,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import dev.celestiacraft.cmi.common.register.CmiBlockEntityTypes;
+import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 
 public class AdvancedSpoutBlock extends Block implements IWrenchable, IBE<AdvancedSpoutBlockEntity> {
 	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
@@ -77,7 +77,7 @@ public class AdvancedSpoutBlock extends Block implements IWrenchable, IBE<Advanc
 
 	@Override
 	public BlockEntityType<? extends AdvancedSpoutBlockEntity> getBlockEntityType() {
-		return CmiBlockEntityTypes.ADVANCED_SPOUT.get();
+		return CmiBlockEntity.ADVANCED_SPOUT.get();
 	}
 	@Override
 	public @NotNull VoxelShape getBlockSupportShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {

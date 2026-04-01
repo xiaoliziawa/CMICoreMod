@@ -2,7 +2,7 @@ package dev.celestiacraft.cmi.common.block.water_pump;
 
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlock;
 import net.minecraft.world.level.block.Blocks;
-import dev.celestiacraft.cmi.common.register.CmiBlockEntityTypes;
+import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class WaterPumpBlock extends ControllerBlock<WaterPumpBlockEntity> {
@@ -17,6 +17,6 @@ public class WaterPumpBlock extends ControllerBlock<WaterPumpBlockEntity> {
 
 	@Override
 	public BlockEntityType<? extends WaterPumpBlockEntity> getBlockEntityType() {
-		return CmiBlockEntityTypes.WATER_PUMP.get();
+		return CmiBlockEntity.WATER_PUMP.get();
 	}
 }

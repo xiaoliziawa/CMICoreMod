@@ -21,7 +21,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import dev.celestiacraft.cmi.common.register.CmiBlockEntityTypes;
+import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 
 public class MarsGeothermalVentBlock extends BaseEntityBlock {
 	public static final IntegerProperty SMOKE_TYPE = IntegerProperty.create("smoke_type", 0, 3);
@@ -79,7 +79,7 @@ public class MarsGeothermalVentBlock extends BaseEntityBlock {
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
 		if (level.isClientSide()) {
 			return state.getValue(SMOKE_TYPE) > 0 && state.getValue(SPAWNING_PARTICLES) ?
-					createTickerHelper(type, CmiBlockEntityTypes.MARS_GEO.get(),
+					createTickerHelper(type, CmiBlockEntity.MARS_GEO.get(),
 							MarsGeothermalVentBlockEntity::particleTick) : null;
 		} else {
 			return null;
@@ -93,6 +93,6 @@ public class MarsGeothermalVentBlock extends BaseEntityBlock {
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-		return new MarsGeothermalVentBlockEntity(CmiBlockEntityTypes.MARS_GEO.get(), pos, state);
+		return new MarsGeothermalVentBlockEntity(CmiBlockEntity.MARS_GEO.get(), pos, state);
 	}
 }

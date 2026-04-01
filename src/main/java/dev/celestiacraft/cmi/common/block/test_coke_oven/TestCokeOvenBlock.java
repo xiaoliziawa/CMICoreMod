@@ -3,7 +3,7 @@ package dev.celestiacraft.cmi.common.block.test_coke_oven;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlock;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockFacing;
 import dev.celestiacraft.cmi.api.register.multiblock.MultiblockContext;
-import dev.celestiacraft.cmi.common.register.CmiBlockEntityTypes;
+import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -40,6 +40,6 @@ public class TestCokeOvenBlock extends ControllerBlock<TestCokeOvenBlockEntity> 
 	}
 
 	public BlockEntityType<? extends TestCokeOvenBlockEntity> getBlockEntityType() {
-		return CmiBlockEntityTypes.TEST_COKE_OVEN.get();
+		return CmiBlockEntity.TEST_COKE_OVEN.get();
 	}
 }

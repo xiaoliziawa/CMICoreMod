@@ -22,7 +22,7 @@ import dev.celestiacraft.cmi.common.block.test_multiblock.TestMultiblockBlockEnt
 import dev.celestiacraft.cmi.common.block.void_dust_collector.VoidDustCollectorBlockEnitiy;
 import dev.celestiacraft.cmi.common.block.water_pump.WaterPumpBlockEntity;
 
-public class CmiBlockEntityTypes {
+public class CmiBlockEntity {
 	public static final BlockEntityEntry<TestGravelBlockEntity> TEST_GRAVEL;
 	public static final BlockEntityEntry<MarsGeothermalVentBlockEntity> MARS_GEO;
 	public static final BlockEntityEntry<MercuryGeothermalVentBlockEntity> MERCURY_GEO;

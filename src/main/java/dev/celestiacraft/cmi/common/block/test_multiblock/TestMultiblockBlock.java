@@ -2,7 +2,7 @@ package dev.celestiacraft.cmi.common.block.test_multiblock;
 
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlock;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockFacing;
-import dev.celestiacraft.cmi.common.register.CmiBlockEntityTypes;
+import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
@@ -22,6 +22,6 @@ public class TestMultiblockBlock extends ControllerBlock<TestMultiblockBlockEnti
 	}
 
 	public BlockEntityType<? extends TestMultiblockBlockEntity> getBlockEntityType() {
-		return CmiBlockEntityTypes.TEST_MULTIBLOCK.get();
+		return CmiBlockEntity.TEST_MULTIBLOCK.get();
 	}
 }

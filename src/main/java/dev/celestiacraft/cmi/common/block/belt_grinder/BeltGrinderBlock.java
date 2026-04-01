@@ -21,7 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import dev.celestiacraft.cmi.common.register.CmiBlockEntityTypes;
+import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 
 public class BeltGrinderBlock extends HorizontalKineticBlock implements IBE<BeltGrinderBlockEntity> {
 	public BeltGrinderBlock(Properties properties) {
@@ -40,7 +40,7 @@ public class BeltGrinderBlock extends HorizontalKineticBlock implements IBE<Belt
 	}
 
 	public BlockEntityType<? extends BeltGrinderBlockEntity> getBlockEntityType() {
-		return CmiBlockEntityTypes.BELT_GRINDER.get();
+		return CmiBlockEntity.BELT_GRINDER.get();
 	}
 
 	@Override

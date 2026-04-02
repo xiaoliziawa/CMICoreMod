@@ -1,5 +1,6 @@
 package dev.celestiacraft.cmi;
 
+import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipHelper.Palette;
@@ -34,7 +35,7 @@ public class Cmi {
 	public static final String MODID = "cmi";
 	public static final String NAME = "CMI";
 	public static final Logger LOGGER = LogManager.getLogger(NAME);
-	public static final NebulaRegistrate REGISTRATE = NebulaRegistrate.create(MODID)
+	public static final CreateRegistrate REGISTRATE = NebulaRegistrate.create(MODID)
 			.setTooltipModifierFactory((item) -> {
 				return new ItemDescription.Modifier(item, Palette.STANDARD_CREATE)
 						.andThen(TooltipModifier.mapNull(KineticStats.create(item)));

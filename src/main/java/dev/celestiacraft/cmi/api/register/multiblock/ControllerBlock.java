@@ -3,7 +3,7 @@ package dev.celestiacraft.cmi.api.register.multiblock;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.block.IBE;
 import dev.celestiacraft.cmi.api.interaction.UseContext;
-import dev.celestiacraft.cmi.api.register.block.BaseBlock;
+import dev.celestiacraft.cmi.api.register.block.BasicBlock;
 import dev.celestiacraft.libs.common.register.NebulaItem;
 import dev.celestiacraft.libs.compat.patchouli.multiblock.IMultiblockProvider;
 import lombok.Getter;
@@ -59,7 +59,7 @@ import org.jetbrains.annotations.NotNull;
  * 无需手动处理事件注册或基础交互逻辑
  * </p>
  */
-public abstract class ControllerBlock<T extends BlockEntity & IMultiblockProvider> extends BaseBlock implements IBE<T> {
+public abstract class ControllerBlock<T extends BlockEntity & IMultiblockProvider> extends BasicBlock implements IBE<T> {
 	@Getter
 	private MultiblockContext context;
 

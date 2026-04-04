@@ -5,6 +5,11 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public class CommonConfig {
 	private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
+	public static final ForgeConfigSpec.ConfigValue<Double> COLLECTION_RADIUS;
+	public static final ForgeConfigSpec.ConfigValue<Double> COLLECTION_DEPTH;
+	public static final ForgeConfigSpec.ConfigValue<Double> COLLECTION_HEIGHT;
+	public static final ForgeConfigSpec.ConfigValue<Boolean> INSTANT_PICKUP;
+
 	public static final ForgeConfigSpec.IntValue STEAM_HAMMER_STEAM_CONSUMPTION;
 	public static final ForgeConfigSpec.IntValue STEAM_HAMMER_STEAM_CAPACITY;
 	public static final ForgeConfigSpec.DoubleValue STEAM_HAMMER_STRESS_IMPACT;
@@ -25,6 +30,26 @@ public class CommonConfig {
 	static {
 		BUILDER.comment("All settings below will only take effect after restarting the server or client.")
 				.push("general");
+
+		// SneakyLink
+		BUILDER.comment("SneakyLink settings")
+				.push("sneak_link");
+
+		COLLECTION_RADIUS = BUILDER
+				.comment("Horizontal radius within which the player picks up item entities")
+				.define("Collection radius", 3.0);
+
+		COLLECTION_DEPTH = BUILDER
+				.comment("Amount of blocks below the player where sneaking picks up item entities")
+				.define("Collection depth", 2.0);
+
+		COLLECTION_HEIGHT = BUILDER
+				.comment("Amount of blocks above the player where sneaking picks up item entities")
+				.defineInRange("Collection height", 0.0, 0.0, 8.0);
+
+		INSTANT_PICKUP = BUILDER
+				.comment("Pick up item entities regardless of their cooldown after being dropped from a player's inventory")
+				.define("Ignore pickup delay", false);
 
 		// Steam Hammer
 		BUILDER.comment("Steam Hammer settings")

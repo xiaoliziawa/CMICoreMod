@@ -56,5 +56,15 @@ public class OtherLanguage extends LanguageGenerate {
 				"Freezing",
 				"冷冻"
 		);
+		addKeyLang(
+				"categories",
+				"CMI",
+				"CMI"
+		);
+		addKeyLang(
+				"sneaky_link",
+				"Lie down",
+				"趴下"
+		);
 	}
 }

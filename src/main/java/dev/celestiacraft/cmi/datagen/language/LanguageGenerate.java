@@ -77,4 +77,8 @@ public class LanguageGenerate {
 	protected static void addEntityLang(String key, String english, String chinese) {
 		addLanguage("entity", key, english, chinese);
 	}
+
+	protected static void addKeyLang(String key, String english, String chinese) {
+		addLanguage("key", key, english, chinese);
+	}
 }

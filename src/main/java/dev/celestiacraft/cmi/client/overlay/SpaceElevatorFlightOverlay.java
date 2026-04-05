@@ -2,6 +2,7 @@ package dev.celestiacraft.cmi.client.overlay;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorEntity;
+import dev.celestiacraft.cmi.utils.ModResources;
 import earth.terrarium.adastra.common.config.AdAstraConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -14,8 +15,8 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class SpaceElevatorFlightOverlay implements IGuiOverlay {
 	public static final SpaceElevatorFlightOverlay INSTANCE = new SpaceElevatorFlightOverlay();
-	private static final ResourceLocation ROCKET_BAR = ResourceLocation.fromNamespaceAndPath("ad_astra", "textures/gui/sprites/overlay/rocket_bar.png");
-	private static final ResourceLocation ROCKET = ResourceLocation.fromNamespaceAndPath("ad_astra", "textures/gui/sprites/overlay/rocket.png");
+	private static final ResourceLocation ROCKET_BAR = ModResources.loadAd("textures/gui/sprites/overlay/rocket_bar.png");
+	private static final ResourceLocation ROCKET = ModResources.loadAd("textures/gui/sprites/overlay/rocket.png");
 
 	public static void register(RegisterGuiOverlaysEvent event) {
 		event.registerAboveAll("cmi_space_elevator_flight", INSTANCE);

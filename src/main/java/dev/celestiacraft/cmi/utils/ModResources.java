@@ -17,27 +17,27 @@ public class ModResources {
 		SEA_WATER = loadCmi("sea_water");
 	}
 
-	private static ResourceLocation loadCmi(String path) {
+	public static ResourceLocation loadCmi(String path) {
 		return Cmi.loadResource(path);
 	}
 
-	private static ResourceLocation loadMek(String path) {
+	public static ResourceLocation loadMek(String path) {
 		return Mekanism.rl(path);
 	}
 
-	private static ResourceLocation loadCreate(String path) {
+	public static ResourceLocation loadCreate(String path) {
 		return Create.asResource(path);
 	}
 
-	private static ResourceLocation loadTCon(String path) {
+	public static ResourceLocation loadTCon(String path) {
 		return TConstruct.getResource(path);
 	}
 
-	private static ResourceLocation loadIE(String path) {
+	public static ResourceLocation loadIE(String path) {
 		return ImmersiveEngineering.rl(path);
 	}
 
-	private static ResourceLocation loadAd(String path) {
+	public static ResourceLocation loadAd(String path) {
 		return ResourceLocation.fromNamespaceAndPath(AdAstra.MOD_ID, path);
 	}
 }

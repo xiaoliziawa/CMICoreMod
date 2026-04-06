@@ -9,6 +9,7 @@ import dev.celestiacraft.cmi.api.register.block.BasicBlock;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockFacing;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -21,7 +22,7 @@ public abstract class FluidBurnerBlock extends BasicBlock implements IBE<FluidBu
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
 	public FluidBurnerBlock(Properties properties) {
-		super(properties);
+		super(properties.sound(SoundType.LANTERN));
 	}
 
 	@Override

@@ -14,9 +14,4 @@ public class SteelFluidBurnerBlockEntity extends FluidBurnerBlockEntity {
 	protected double getEfficiency() {
 		return 2;
 	}
-
-	@Override
-	protected int getFluidTankCapacity() {
-		return 12000;
-	}
 }

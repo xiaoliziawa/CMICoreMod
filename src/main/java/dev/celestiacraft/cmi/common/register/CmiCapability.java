@@ -12,6 +12,7 @@ import dev.celestiacraft.cmi.common.block.void_dust_collector.capability.VDCEner
 import dev.celestiacraft.cmi.common.block.void_dust_collector.capability.VDCItemHandler;
 import dev.celestiacraft.cmi.common.block.void_dust_collector.capability.VDCItmeCapability;
 import dev.celestiacraft.cmi.common.block.water_pump.capability.WaterPumpFluidCapability;
+import dev.celestiacraft.cmi.compat.steam_powered.block.FluidBurnerFluidHandler;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,5 +36,7 @@ public class CmiCapability {
 		event.register(CokeOvenFluidCapability.class);
 		event.register(CokeOvenItemCapability.class);
 		event.register(CokeOvenItemHandler.class);
+		// FluidBurner
+		event.register(FluidBurnerFluidHandler.class);
 	}
 }

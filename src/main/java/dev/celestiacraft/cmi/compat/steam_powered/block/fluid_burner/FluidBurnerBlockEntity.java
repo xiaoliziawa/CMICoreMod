@@ -7,6 +7,7 @@ import com.teammoeg.steampowered.content.burner.BurnerBlock;
 import com.teammoeg.steampowered.content.burner.IHeatReceiver;
 import dev.celestiacraft.cmi.common.recipe.fluid_burn.FluidBurnRecipe;
 import dev.celestiacraft.cmi.common.register.CmiRecipeType;
+import dev.celestiacraft.cmi.compat.steam_powered.block.FluidBurnerFluidHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -18,47 +19,29 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public abstract class FluidBurnerBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation {
-	protected FluidTank tank;
+	public FluidStack fluid = FluidStack.EMPTY;
+	private int capacity;
+	private double efficiency;
 
 	public FluidBurnerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
+	}
 
-		tank = new FluidTank(getFluidTankCapacity()) {
-			@Override
-			public int getCapacity() {
-				return getFluidTankCapacity();
-			}
-
-			@Override
-			public boolean isFluidValid(FluidStack stack) {
-				return true;
-			}
-
-			@Override
-			public int fill(FluidStack stack, IFluidHandler.FluidAction action) {
-				if (findRecipe(stack) == null) {
-					return 0;
-				}
-
-				return super.fill(stack, action);
-			}
-		};
+	public int getFluidTankCapacity() {
+		return capacity;
 	}
 
 	protected abstract double getEfficiency();
 
-	protected abstract int getFluidTankCapacity();
-
 	protected int HURemain;
 
 	private final LazyOptional<IFluidHandler> fluidCap = LazyOptional.of(() -> {
-		return tank;
+		return new FluidBurnerFluidHandler(this);
 	});
 
 	// 缓存
@@ -85,7 +68,6 @@ public abstract class FluidBurnerBlockEntity extends SmartBlockEntity implements
 	}
 
 	private boolean tryConsumeAndEmit() {
-		FluidStack fluid = tank.getFluid();
 		if (fluid.isEmpty()) {
 			return false;
 		}
@@ -102,16 +84,19 @@ public abstract class FluidBurnerBlockEntity extends SmartBlockEntity implements
 		}
 
 		// 每tick消耗
-		tank.drain(required, IFluidHandler.FluidAction.EXECUTE);
+		fluid.shrink(required);
+		if (fluid.getAmount() <= 0) {
+			fluid = FluidStack.EMPTY;
+		}
 
 		float hu = (float) (recipe.getHu() * getEfficiency());
-
 		emitHeat(hu);
 
+		setChanged();
 		return true;
 	}
 
-	private FluidBurnRecipe findRecipe(FluidStack stack) {
+	public FluidBurnRecipe findRecipe(FluidStack stack) {
 		if (level == null) {
 			return null;
 		}
@@ -137,7 +122,6 @@ public abstract class FluidBurnerBlockEntity extends SmartBlockEntity implements
 		if (capability == ForgeCapabilities.FLUID_HANDLER) {
 			return fluidCap.cast();
 		}
-
 		return super.getCapability(capability, direction);
 	}
 
@@ -147,14 +131,17 @@ public abstract class FluidBurnerBlockEntity extends SmartBlockEntity implements
 
 	@Override
 	public void read(CompoundTag nbt, boolean clientPacket) {
-		tank.readFromNBT(nbt.getCompound("tank"));
+		fluid = FluidStack.loadFluidStackFromNBT(nbt.getCompound("tank"));
 		HURemain = nbt.getInt("hu");
 		super.read(nbt, clientPacket);
 	}
 
 	@Override
 	public void write(CompoundTag nbt, boolean clientPacket) {
-		nbt.put("tank", tank.writeToNBT(new CompoundTag()));
+		CompoundTag tankTag = new CompoundTag();
+
+		fluid.writeToNBT(tankTag);
+		nbt.put("tank", tankTag);
 		nbt.putInt("hu", HURemain);
 		super.write(nbt, clientPacket);
 	}

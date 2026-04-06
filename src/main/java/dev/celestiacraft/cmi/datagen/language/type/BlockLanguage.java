@@ -49,5 +49,20 @@ public class BlockLanguage extends LanguageGenerate {
 				"Mechanical Belt Grinder",
 				"动力磨砂机"
 		);
+		addBlockLanguage(
+				"bronze_fluid_burner",
+				"Bronze Fluid Burner",
+				"青铜流体燃烧室"
+		);
+		addBlockLanguage(
+				"cast_iron_fluid_burner",
+				"Cast Iron Fluid Burner",
+				"铸铁流体燃烧室"
+		);
+		addBlockLanguage(
+				"steel_fluid_burner",
+				"Steel Fluid Burner",
+				"钢制流体燃烧室"
+		);
 	}
 }

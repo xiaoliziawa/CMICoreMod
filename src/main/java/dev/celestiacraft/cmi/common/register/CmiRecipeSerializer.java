@@ -2,6 +2,7 @@ package dev.celestiacraft.cmi.common.register;
 
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.common.recipe.accelerator.AcceleratorRecipe;
+import dev.celestiacraft.cmi.common.recipe.fluid_burn.FluidBurnRecipe;
 import dev.celestiacraft.cmi.common.recipe.space_elevator_base.SpaceElevatorBaseRecipe;
 import dev.celestiacraft.cmi.common.recipe.space_elevator_construction.SpaceElevatorConstructionRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -16,6 +17,7 @@ public class CmiRecipeSerializer {
 	public static final Supplier<RecipeSerializer<AcceleratorRecipe>> ACCELERATOR;
 	public static final Supplier<RecipeSerializer<SpaceElevatorBaseRecipe>> SPACE_ELEVATOR_BASE;
 	public static final Supplier<RecipeSerializer<SpaceElevatorConstructionRecipe>> SPACE_ELEVATOR_CONSTRUCTION;
+	public static final Supplier<RecipeSerializer<FluidBurnRecipe>> FLUID_BURN;
 
 	static {
 		SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Cmi.MODID);
@@ -28,6 +30,9 @@ public class CmiRecipeSerializer {
 		});
 		SPACE_ELEVATOR_CONSTRUCTION = SERIALIZERS.register("space_elevator_construction", () -> {
 			return SpaceElevatorConstructionRecipe.Serializer.INSTANCE;
+		});
+		FLUID_BURN = SERIALIZERS.register("fluid_burn", () -> {
+			return FluidBurnRecipe.Serializer.INSTANCE;
 		});
 	}
 

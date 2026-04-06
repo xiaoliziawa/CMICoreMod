@@ -4,7 +4,9 @@ import com.simibubi.create.AllTags;
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
 import com.simibubi.create.foundation.data.SharedProperties;
+import com.simibubi.create.foundation.data.TagGen;
 import com.simibubi.create.foundation.utility.Couple;
+import com.teammoeg.steampowered.registrate.SPBlocks;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import dev.celestiacraft.cmi.Cmi;
@@ -26,6 +28,10 @@ import dev.celestiacraft.cmi.common.block.test_multiblock.TestMultiblockBlock;
 import dev.celestiacraft.cmi.common.block.void_dust_collector.VoidDustCollectorBlock;
 import dev.celestiacraft.cmi.common.block.void_dust_collector.VoidDustCollectorItem;
 import dev.celestiacraft.cmi.common.block.water_pump.WaterPumpBlock;
+import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.FluidBurnerBlock;
+import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.bronze.BronzeFluidBurnerBlock;
+import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.cast_iron.CastIronFluidBurnerBlock;
+import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.steel.SteelFluidBurnerBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -48,12 +54,18 @@ public class CmiBlock {
 	public static final BlockEntry<TestMultiblockBlock> TEST_MULTIBLOCK;
 	public static final BlockEntry<TestCokeOvenBlock> TEST_COKE_OVEN;
 	public static final BlockEntry<TestCokeOvenIOBlock> TEST_COKE_OVEN_IO;
+	public static final BlockEntry<BronzeFluidBurnerBlock> BRONZE_FLUID_BURNER;
+	public static final BlockEntry<CastIronFluidBurnerBlock> CAST_IRON_FLUID_BURNER;
+	public static final BlockEntry<SteelFluidBurnerBlock> STEEL_FLUID_BURNER;
 
 	static {
 		ACCELERATOR = Cmi.REGISTRATE.block("accelerator", AcceleratorBlock::new)
 				.item(AcceleratorItem::new)
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/accelerator"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/accelerator")
+					);
 				})
 				.build()
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -69,7 +81,6 @@ public class CmiBlock {
 							});
 				})
 				.register();
-
 		TEST_GRAVEL = Cmi.REGISTRATE.block("test_gravel", TestGravelBlock::new)
 				.item()
 				.build()
@@ -82,7 +93,10 @@ public class CmiBlock {
 		WATER_PUMP = Cmi.REGISTRATE.block("water_pump", WaterPumpBlock::new)
 				.item()
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/water_pump"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/water_pump")
+					);
 				})
 				.build()
 				.tag(BlockTags.MINEABLE_WITH_AXE)
@@ -101,7 +115,10 @@ public class CmiBlock {
 		MARS_GEO = Cmi.REGISTRATE.block("mars_geothermal_vent", MarsGeothermalVentBlock::new)
 				.item()
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/mars_geothermal_vent"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/mars_geothermal_vent")
+					);
 				})
 				.build()
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -119,7 +136,10 @@ public class CmiBlock {
 		MERCURY_GEO = Cmi.REGISTRATE.block("mercury_geothermal_vent", MercuryGeothermalVentBlock::new)
 				.item()
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/mercury_geothermal_vent"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/mercury_geothermal_vent")
+					);
 				})
 				.build()
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -139,7 +159,10 @@ public class CmiBlock {
 				.transform(BlockStressDefaults.setImpact(16.0))
 				.item(SteamHammerItem::new)
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/steam_hammer/item"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/steam_hammer/item")
+					);
 				})
 				.build()
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -163,7 +186,10 @@ public class CmiBlock {
 				.transform(BlockStressDefaults.setGeneratorSpeed(() -> Couple.create(0, 256)))
 				.item(AcceleratorMotorItem::new)
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/accelerator_motor/item"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/accelerator_motor/item")
+					);
 				})
 				.build()
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -191,7 +217,10 @@ public class CmiBlock {
 				.initialProperties(SharedProperties::copperMetal)
 				.item(AssemblyOperatorBlockItem::new)
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/advanced_spout/item"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/advanced_spout/item")
+					);
 				})
 				.build()
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -211,7 +240,10 @@ public class CmiBlock {
 		VOID_DUST_COLLECTOR = Cmi.REGISTRATE.block("void_dust_collector", VoidDustCollectorBlock::new)
 				.item(VoidDustCollectorItem::new)
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/void_dust_collector/off"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/void_dust_collector/off")
+					);
 				})
 				.build()
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -235,7 +267,10 @@ public class CmiBlock {
 				.transform(BlockStressDefaults.setImpact(8.0))
 				.item()
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/mechanical_belt_grinder/item"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/mechanical_belt_grinder/item")
+					);
 				})
 				.build()
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -257,7 +292,10 @@ public class CmiBlock {
 				.initialProperties(SharedProperties::stone)
 				.item()
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/mechanical_belt_grinder/item"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/mechanical_belt_grinder/item")
+					);
 				})
 				.build()
 				.blockstate((context, provider) -> {
@@ -274,7 +312,10 @@ public class CmiBlock {
 				.initialProperties(SharedProperties::stone)
 				.item()
 				.model((context, provider) -> {
-					provider.withExistingParent(context.getName(), provider.modLoc("block/coke_oven/coke_oven_controller"));
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/coke_oven/coke_oven_controller")
+					);
 				})
 				.build()
 				.blockstate((context, provider) -> {
@@ -302,6 +343,54 @@ public class CmiBlock {
 										.build();
 							});
 				})
+				.register();
+		BRONZE_FLUID_BURNER = Cmi.REGISTRATE.block("bronze_fluid_burner", BronzeFluidBurnerBlock::new)
+				.initialProperties(SharedProperties::softMetal)
+				.transform(TagGen.pickaxeOnly())
+				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+				.tag(BlockTags.NEEDS_STONE_TOOL)
+				.tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+				.item()
+				.model((context, provider) -> {
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/fluid_burner/bronze/off")
+					);
+				})
+				.build()
+				.blockstate(FluidBurnerBlock.burnerBlockState("bronze"))
+				.register();
+		CAST_IRON_FLUID_BURNER = Cmi.REGISTRATE.block("cast_iron_fluid_burner", CastIronFluidBurnerBlock::new)
+				.initialProperties(SPBlocks::hardMetal)
+				.transform(TagGen.pickaxeOnly())
+				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+				.tag(BlockTags.NEEDS_STONE_TOOL)
+				.tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+				.item()
+				.model((context, provider) -> {
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/fluid_burner/cast_iron/off")
+					);
+				})
+				.build()
+				.blockstate(FluidBurnerBlock.burnerBlockState("cast_iron"))
+				.register();
+		STEEL_FLUID_BURNER = Cmi.REGISTRATE.block("steel_fluid_burner", SteelFluidBurnerBlock::new)
+				.initialProperties(SPBlocks::hardMetal)
+				.transform(TagGen.pickaxeOnly())
+				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+				.tag(BlockTags.NEEDS_STONE_TOOL)
+				.tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+				.item()
+				.model((context, provider) -> {
+					provider.withExistingParent(
+							context.getName(),
+							provider.modLoc("block/fluid_burner/steel/off")
+					);
+				})
+				.build()
+				.blockstate(FluidBurnerBlock.burnerBlockState("steel"))
 				.register();
 	}
 

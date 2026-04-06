@@ -21,6 +21,9 @@ import dev.celestiacraft.cmi.common.block.test_gravel.TestGravelBlockEntity;
 import dev.celestiacraft.cmi.common.block.test_multiblock.TestMultiblockBlockEntity;
 import dev.celestiacraft.cmi.common.block.void_dust_collector.VoidDustCollectorBlockEnitiy;
 import dev.celestiacraft.cmi.common.block.water_pump.WaterPumpBlockEntity;
+import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.bronze.BronzeFluidBurnerBlockEntity;
+import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.cast_iron.CastIronFluidBurnerBlockEntity;
+import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.steel.SteelFluidBurnerBlockEntity;
 
 public class CmiBlockEntity {
 	public static final BlockEntityEntry<TestGravelBlockEntity> TEST_GRAVEL;
@@ -35,6 +38,9 @@ public class CmiBlockEntity {
 	public static final BlockEntityEntry<TestMultiblockBlockEntity> TEST_MULTIBLOCK;
 	public static final BlockEntityEntry<TestCokeOvenBlockEntity> TEST_COKE_OVEN;
 	public static final BlockEntityEntry<TestCokeOvenIOBlockEntity> TEST_COKE_OVEN_IO;
+	public static final BlockEntityEntry<BronzeFluidBurnerBlockEntity> BRONZE_FLUID_BURNER;
+	public static final BlockEntityEntry<CastIronFluidBurnerBlockEntity> CAST_IRON_FLUID_BURNER;
+	public static final BlockEntityEntry<SteelFluidBurnerBlockEntity> STEEL_FLUID_BURNER;
 
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.blockEntity("test_gravel", TestGravelBlockEntity::new)
@@ -79,6 +85,15 @@ public class CmiBlockEntity {
 				.register();
 		TEST_COKE_OVEN_IO = Cmi.REGISTRATE.blockEntity("test_coke_oven_io", TestCokeOvenIOBlockEntity::new)
 				.validBlock(CmiBlock.TEST_COKE_OVEN_IO)
+				.register();
+		BRONZE_FLUID_BURNER = Cmi.REGISTRATE.blockEntity("bronze_fluid_burner", BronzeFluidBurnerBlockEntity::new)
+				.validBlock(CmiBlock.BRONZE_FLUID_BURNER)
+				.register();
+		CAST_IRON_FLUID_BURNER = Cmi.REGISTRATE.blockEntity("cast_iron_fluid_burner", CastIronFluidBurnerBlockEntity::new)
+				.validBlock(CmiBlock.CAST_IRON_FLUID_BURNER)
+				.register();
+		STEEL_FLUID_BURNER = Cmi.REGISTRATE.blockEntity("steel_fluid_burner", SteelFluidBurnerBlockEntity::new)
+				.validBlock(CmiBlock.STEEL_FLUID_BURNER)
 				.register();
 	}
 

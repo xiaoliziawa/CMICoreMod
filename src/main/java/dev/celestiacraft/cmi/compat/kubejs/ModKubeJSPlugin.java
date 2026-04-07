@@ -22,8 +22,6 @@ public class ModKubeJSPlugin extends KubeJSPlugin {
 	}
 
 	public void registerBindings(BindingsEvent event) {
-		super.registerBindings(event);
-
 		new Binder(event)
 				.simple(CmiLang.class)
 				.name("CmiCore", Cmi.class)

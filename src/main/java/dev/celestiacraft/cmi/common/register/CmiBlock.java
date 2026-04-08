@@ -1,5 +1,6 @@
 package dev.celestiacraft.cmi.common.register;
 
+import blusunrize.immersiveengineering.common.blocks.generic.ScaffoldingBlock;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.api.stress.BlockStressValues;
 import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
@@ -57,6 +58,8 @@ public class CmiBlock {
 	public static final BlockEntry<BronzeFluidBurnerBlock> BRONZE_FLUID_BURNER;
 	public static final BlockEntry<CastIronFluidBurnerBlock> CAST_IRON_FLUID_BURNER;
 	public static final BlockEntry<SteelFluidBurnerBlock> STEEL_FLUID_BURNER;
+	public static final BlockEntry<ScaffoldingBlock> NAHUATL_SCAFFOLD;
+	public static final BlockEntry<ScaffoldingBlock> BLAZEWOOD_SCAFFOLD;
 
 	static {
 		ACCELERATOR = Cmi.REGISTRATE.block("accelerator", AcceleratorBlock::new)
@@ -391,6 +394,20 @@ public class CmiBlock {
 				})
 				.build()
 				.blockstate(FluidBurnerBlock.burnerBlockState("steel"))
+				.register();
+		NAHUATL_SCAFFOLD = Cmi.REGISTRATE.block("nahuatl_scaffold", ScaffoldingBlock::new)
+				.initialProperties(SharedProperties::wooden)
+				.transform(TagGen.axeOnly())
+				.tag(BlockTags.MINEABLE_WITH_AXE)
+				.tag(Tags.Blocks.NEEDS_WOOD_TOOL)
+				.simpleItem()
+				.register();
+		BLAZEWOOD_SCAFFOLD = Cmi.REGISTRATE.block("blazewood_scaffold", ScaffoldingBlock::new)
+				.initialProperties(SharedProperties::wooden)
+				.transform(TagGen.axeOnly())
+				.tag(BlockTags.MINEABLE_WITH_AXE)
+				.tag(Tags.Blocks.NEEDS_WOOD_TOOL)
+				.simpleItem()
 				.register();
 	}
 

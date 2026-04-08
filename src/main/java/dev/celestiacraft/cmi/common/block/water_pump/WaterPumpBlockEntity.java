@@ -1,6 +1,6 @@
 package dev.celestiacraft.cmi.common.block.water_pump;
 
-import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.api.client.CmiLang;
 import dev.celestiacraft.cmi.api.register.multiblock.machine.FluidSlots;

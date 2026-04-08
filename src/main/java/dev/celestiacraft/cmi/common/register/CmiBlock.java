@@ -1,11 +1,9 @@
 package dev.celestiacraft.cmi.common.register;
 
 import com.simibubi.create.AllTags;
-import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.data.TagGen;
-import com.simibubi.create.foundation.utility.Couple;
 import com.teammoeg.steampowered.registrate.SPBlocks;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;

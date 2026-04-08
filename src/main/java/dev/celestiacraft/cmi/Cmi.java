@@ -3,7 +3,6 @@ package dev.celestiacraft.cmi;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
-import com.simibubi.create.foundation.item.TooltipHelper.Palette;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import dev.celestiacraft.cmi.client.CmiClient;
 import dev.celestiacraft.cmi.client.block.resource.CmiBlockPartialModel;
@@ -16,6 +15,7 @@ import dev.celestiacraft.cmi.config.CommonConfig;
 import dev.celestiacraft.cmi.datagen.worldgen.region.ModOverworldRegion;
 import dev.celestiacraft.cmi.datagen.worldgen.surfacerule.ModSurfaceRuleData;
 import dev.celestiacraft.cmi.network.CmiNetwork;
+import net.createmod.catnip.lang.FontHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -36,7 +36,7 @@ public class Cmi {
 	public static final Logger LOGGER = LogManager.getLogger(NAME);
 	public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MODID)
 			.setTooltipModifierFactory((item) -> {
-				return new ItemDescription.Modifier(item, Palette.STANDARD_CREATE)
+				return new ItemDescription.Modifier(item, FontHelper.Palette.STANDARD_CREATE)
 						.andThen(TooltipModifier.mapNull(KineticStats.create(item)));
 			});
 

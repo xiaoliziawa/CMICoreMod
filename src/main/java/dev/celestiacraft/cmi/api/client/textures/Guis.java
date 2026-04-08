@@ -1,8 +1,8 @@
 package dev.celestiacraft.cmi.api.client.textures;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.simibubi.create.foundation.gui.element.ScreenElement;
 import dev.celestiacraft.cmi.Cmi;
+import net.createmod.catnip.gui.element.ScreenElement;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;

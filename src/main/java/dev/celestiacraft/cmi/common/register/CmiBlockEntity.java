@@ -1,6 +1,6 @@
 package dev.celestiacraft.cmi.common.register;
 
-import com.simibubi.create.content.kinetics.base.HalfShaftInstance;
+import com.simibubi.create.content.kinetics.base.ShaftVisual;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.common.block.accelerator_motor.AcceleratorMotorBlockEntity;
@@ -56,12 +56,12 @@ public class CmiBlockEntity {
 				.validBlock(CmiBlock.WATER_PUMP)
 				.register();
 		STEAM_HAMMER = Cmi.REGISTRATE.blockEntity("steam_hammer", SteamHammerBlockEntity::new)
-				.instance(() -> SteamHammerInstance::new)
+				.visual(() -> SteamHammerInstance::new)
 				.renderer(() -> SteamHammerRenderer::new)
 				.validBlock(CmiBlock.STEAM_HAMMER)
 				.register();
 		ACCELERATOR_MOTOR = Cmi.REGISTRATE.blockEntity("accelerator_motor", AcceleratorMotorBlockEntity::new)
-				.instance(() -> HalfShaftInstance::new, false)
+				.visual(() -> ShaftVisual::new, false)
 				.validBlocks(CmiBlock.ACCELERATOR_MOTOR)
 				.renderer(() -> AcceleratorMotorRenderer::new)
 				.register();
@@ -73,7 +73,7 @@ public class CmiBlockEntity {
 				.validBlock(CmiBlock.VOID_DUST_COLLECTOR)
 				.register();
 		BELT_GRINDER = Cmi.REGISTRATE.blockEntity("mechanical_belt_grinder", BeltGrinderBlockEntity::new)
-				.instance(() -> BeltGrinderInstance::new)
+				.visual(() -> BeltGrinderInstance::new)
 				.validBlocks(CmiBlock.BELT_GRINDER)
 				.renderer(() -> BeltGrinderRenderer::new)
 				.register();

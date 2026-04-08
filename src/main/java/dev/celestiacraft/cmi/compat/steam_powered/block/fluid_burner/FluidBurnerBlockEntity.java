@@ -1,6 +1,6 @@
 package dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner;
 
-import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.teammoeg.steampowered.content.burner.IHeatReceiver;

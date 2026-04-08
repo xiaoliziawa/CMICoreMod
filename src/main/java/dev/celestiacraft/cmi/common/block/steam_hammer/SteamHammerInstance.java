@@ -2,7 +2,6 @@ package dev.celestiacraft.cmi.common.block.steam_hammer;
 
 import com.simibubi.create.content.kinetics.base.ShaftVisual;
 import com.simibubi.create.content.kinetics.press.MechanicalPressBlock;
-import com.simibubi.create.content.kinetics.press.MechanicalPressBlockEntity;
 import com.simibubi.create.content.kinetics.press.PressingBehaviour;
 import dev.celestiacraft.cmi.client.block.resource.CmiBlockPartialModel;
 import dev.engine_room.flywheel.api.visual.DynamicVisual;
@@ -14,10 +13,10 @@ import dev.engine_room.flywheel.lib.visual.SimpleDynamicVisual;
 import net.createmod.catnip.math.AngleHelper;
 import org.joml.Quaternionf;
 
-public class SteamHammerInstance extends ShaftVisual<MechanicalPressBlockEntity> implements SimpleDynamicVisual {
+public class SteamHammerInstance extends ShaftVisual<SteamHammerBlockEntity> implements SimpleDynamicVisual {
 	private final OrientedInstance pressHead;
 
-	public SteamHammerInstance(VisualizationContext context, MechanicalPressBlockEntity entity, float partialTick) {
+	public SteamHammerInstance(VisualizationContext context, SteamHammerBlockEntity entity, float partialTick) {
 		super(context, entity, partialTick);
 
 		pressHead = instancerProvider().instancer(

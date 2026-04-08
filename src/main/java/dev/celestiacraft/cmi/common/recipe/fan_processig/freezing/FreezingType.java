@@ -2,9 +2,9 @@ package dev.celestiacraft.cmi.common.recipe.fan_processig.freezing;
 
 import com.simibubi.create.content.kinetics.fan.processing.FanProcessingType;
 import com.simibubi.create.foundation.recipe.RecipeApplier;
-import com.simibubi.create.foundation.utility.Color;
 import dev.celestiacraft.cmi.common.register.CmiCreateRecipe;
 import dev.celestiacraft.cmi.tag.ModBlockTags;
+import net.createmod.catnip.theme.Color;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;

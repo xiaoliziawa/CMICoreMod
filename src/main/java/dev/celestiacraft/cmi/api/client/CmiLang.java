@@ -1,13 +1,13 @@
 package dev.celestiacraft.cmi.api.client;
 
-import com.simibubi.create.foundation.utility.Components;
-import com.simibubi.create.foundation.utility.Lang;
-import com.simibubi.create.foundation.utility.LangBuilder;
+import com.simibubi.create.foundation.utility.CreateLang;
+import dev.celestiacraft.cmi.Cmi;
+import net.createmod.catnip.lang.Lang;
+import net.createmod.catnip.lang.LangBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import dev.celestiacraft.cmi.Cmi;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -64,19 +64,19 @@ public class CmiLang {
 	 * @see #translateDirect(String, Object...) 直接获取 Component 而非 Builder
 	 */
 	public static LangBuilder translate(String langKey, Object... args) {
-		return builder().add(Components.translatable(String.format("%s.%s", Cmi.MODID, langKey), Lang.resolveBuilders(args)));
+		return builder().add(Component.translatable(String.format("%s.%s", Cmi.MODID, langKey), LangBuilder.resolveBuilders(args)));
 	}
 
 	public static MutableComponent translateDirect(String langKey, Object... args) {
-		return Components.translatable(String.format("%s.%s", Cmi.MODID, langKey), Lang.resolveBuilders(args));
+		return Component.translatable(String.format("%s.%s", Cmi.MODID, langKey), LangBuilder.resolveBuilders(args));
 	}
 
 	public static LangBuilder raw(String fullKey, Object... args) {
-		return builder().add(Components.translatable(fullKey, Lang.resolveBuilders(args)));
+		return builder().add(Component.translatable(fullKey, LangBuilder.resolveBuilders(args)));
 	}
 
 	public static MutableComponent rawDirect(String fullKey, Object... args) {
-		return Components.translatable(fullKey, Lang.resolveBuilders(args));
+		return Component.translatable(fullKey, LangBuilder.resolveBuilders(args));
 	}
 
 	public static LangBuilder gui(String key, Object... args) {
@@ -98,7 +98,7 @@ public class CmiLang {
 	public static void isShiftDown(@NotNull List<Component> tooltip) {
 		MutableComponent shift = Component.literal("Shift")
 				.withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY);
-		Lang.translate("tooltip.holdForDescription", shift)
+		CreateLang.translate("tooltip.holdForDescription", shift)
 				.style(ChatFormatting.DARK_GRAY)
 				.addTo(tooltip);
 	}

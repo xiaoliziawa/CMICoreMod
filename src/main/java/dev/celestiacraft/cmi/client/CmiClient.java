@@ -7,7 +7,6 @@ import dev.celestiacraft.cmi.client.key.CmiKeyBindings;
 import dev.celestiacraft.cmi.client.overlay.NetherBacktankAirOverlay;
 import dev.celestiacraft.cmi.client.overlay.SpaceElevatorConstructionOverlay;
 import dev.celestiacraft.cmi.client.overlay.SpaceElevatorFlightOverlay;
-import dev.celestiacraft.cmi.client.ponder.CmiPonderIndex;
 import dev.celestiacraft.cmi.client.render.SpaceElevatorHudRenderer;
 import dev.celestiacraft.cmi.common.entity.dev.qi_month.QiMonthRenderer;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorRenderer;
@@ -38,10 +37,6 @@ public class CmiClient {
 
 		EntityRenderers.register(CmiEntity.QI_MONTH.get(), QiMonthRenderer::new);
 		EntityRenderers.register(CmiEntity.SPACE_ELEVATOR.get(), SpaceElevatorRenderer::new);
-
-		event.enqueueWork(() -> {
-			CmiPonderIndex.register();
-		});
 	}
 
 	@SubscribeEvent

@@ -2,7 +2,9 @@ package dev.celestiacraft.cmi.common.block.steam_hammer;
 
 import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
 import com.simibubi.create.foundation.item.TooltipHelper;
-import com.simibubi.create.foundation.item.TooltipHelper.Palette;
+import dev.celestiacraft.cmi.api.client.CmiLang;
+import dev.celestiacraft.cmi.config.CommonConfig;
+import net.createmod.catnip.lang.FontHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -13,8 +15,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-import dev.celestiacraft.cmi.config.CommonConfig;
-import dev.celestiacraft.cmi.api.client.CmiLang;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
  * <h3>核心组件</h3>
  * <ul>
  *   <li>{@link TooltipHelper#cutStringTextComponent} - 处理文本并支持高亮语法</li>
- *   <li>{@link Palette} - 预设的颜色配置（主色 + 高亮色）</li>
+ *   <li>{@link FontHelper.Palette} - 预设的颜色配置（主色 + 高亮色）</li>
  *   <li>{@link CmiLang} - CMI 的语言工具类，支持动态参数</li>
  * </ul>
  *
@@ -85,7 +85,7 @@ import java.util.List;
  * }</pre>
  *
  * @see TooltipHelper Create 的 Tooltip 工具类
- * @see Palette 颜色配置
+ * @see FontHelper.Palette 颜色配置
  * @see CmiLang CMI 语言工具类
  */
 public class SteamHammerItem extends AssemblyOperatorBlockItem {
@@ -125,7 +125,7 @@ public class SteamHammerItem extends AssemblyOperatorBlockItem {
 			// 语言文件中用 “_” 包裹的文字会显示为高亮色
 			tooltip.addAll(TooltipHelper.cutStringTextComponent(
 					CmiLang.translateDirect("tooltip.steam_hammer.summary").getString(),
-					Palette.STANDARD_CREATE
+					FontHelper.Palette.STANDARD_CREATE
 			));
 
 			tooltip.add(Component.empty());
@@ -141,15 +141,15 @@ public class SteamHammerItem extends AssemblyOperatorBlockItem {
 			 */
 			tooltip.addAll(TooltipHelper.cutStringTextComponent(
 					CmiLang.translateDirect("tooltip.steam_hammer.behaviour1", steamCost).getString(),
-					Palette.STANDARD_CREATE.primary(),
-					Palette.STANDARD_CREATE.highlight(),
+					FontHelper.Palette.STANDARD_CREATE.primary(),
+					FontHelper.Palette.STANDARD_CREATE.highlight(),
 					1
 			));
 
 			tooltip.addAll(TooltipHelper.cutStringTextComponent(
 					CmiLang.translateDirect("tooltip.steam_hammer.behaviour2", steamCost).getString(),
-					Palette.STANDARD_CREATE.primary(),
-					Palette.STANDARD_CREATE.highlight(),
+					FontHelper.Palette.STANDARD_CREATE.primary(),
+					FontHelper.Palette.STANDARD_CREATE.highlight(),
 					1
 			));
 		}

@@ -5,12 +5,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
-import com.simibubi.create.foundation.block.render.SpriteShiftEntry;
 import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringRenderer;
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
-import com.simibubi.create.foundation.render.CachedBufferer;
-import com.simibubi.create.foundation.render.SuperByteBuffer;
-import com.simibubi.create.foundation.utility.AnimationTickHolder;
+import net.createmod.catnip.animation.AnimationTickHolder;
+import net.createmod.catnip.render.CachedBuffers;
+import net.createmod.catnip.render.SpriteShiftEntry;
+import net.createmod.catnip.render.SuperByteBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -54,7 +54,7 @@ public class BeltGrinderRenderer extends SafeBlockEntityRenderer<BeltGrinderBloc
 		scroll = scroll - Math.floor(scroll);
 		scroll = scroll * spriteSize * .5f;
 
-		SuperByteBuffer rotatedCoil = CachedBufferer.partialFacing(
+		SuperByteBuffer rotatedCoil = CachedBuffers.partialFacing(
 				CmiBlockPartialModel.GRINDER_BELT,
 				blockState,
 				blockState.getValue(BlockStateProperties.HORIZONTAL_FACING)
@@ -109,7 +109,7 @@ public class BeltGrinderRenderer extends SafeBlockEntityRenderer<BeltGrinderBloc
 	}
 
 	private SuperByteBuffer getRotatedModel(BeltGrinderBlockEntity be) {
-		return CachedBufferer.block(
+		return CachedBuffers.block(
 				KineticBlockEntityRenderer.KINETIC_BLOCK,
 				getRenderedBlockState(be)
 		);

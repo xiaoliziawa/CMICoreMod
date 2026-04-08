@@ -1,9 +1,7 @@
 package dev.celestiacraft.cmi.common.block.advanced_spout;
 
-import java.util.*;
-
 import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.api.behaviour.BlockSpoutingBehaviour;
+import com.simibubi.create.api.behaviour.spouting.BlockSpoutingBehaviour;
 import com.simibubi.create.content.fluids.FluidFX;
 import com.simibubi.create.content.fluids.spout.FillingBySpout;
 import com.simibubi.create.content.fluids.spout.SpoutBlockEntity;
@@ -14,7 +12,8 @@ import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.fluid.FluidHelper;
-import com.simibubi.create.foundation.utility.VecHelper;
+import dev.celestiacraft.cmi.config.CommonConfig;
+import net.createmod.catnip.math.VecHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +21,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidStack;
-import dev.celestiacraft.cmi.config.CommonConfig;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdvancedSpoutBlockEntity extends SpoutBlockEntity {
 	public AdvancedSpoutBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -121,16 +122,15 @@ public class AdvancedSpoutBlockEntity extends SpoutBlockEntity {
 		FluidStack currentFluidInTank = getCurrentFluid();
 
 		if (processingTicks == -1 && (isVirtual() || !level.isClientSide()) && !currentFluidInTank.isEmpty()) {
-			BlockSpoutingBehaviour.forEach((behaviour) -> {
-				if (customProcess != null) {
-					return;
-				}
-				if (behaviour.fillBlock(level, worldPosition.below(2), this, currentFluidInTank, true) > 0) {
-					processingTicks = getFillingTime();
-					customProcess = behaviour;
-					notifyUpdate();
-				}
-			});
+			BlockSpoutingBehaviour behaviour = BlockSpoutingBehaviour.get(level, getBlockPos());
+			if (customProcess != null) {
+				return;
+			}
+			if (behaviour.fillBlock(level, worldPosition.below(2), this, currentFluidInTank, true) > 0) {
+				processingTicks = getFillingTime();
+				customProcess = behaviour;
+				notifyUpdate();
+			}
 		}
 
 		if (processingTicks >= 0) {

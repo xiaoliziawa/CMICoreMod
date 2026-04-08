@@ -1,7 +1,7 @@
 package dev.celestiacraft.cmi.client.block.resource;
 
-import com.jozufozu.flywheel.core.PartialModel;
 import dev.celestiacraft.cmi.Cmi;
+import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 
 public class CmiBlockPartialModel {
 	public static final PartialModel STEAM_HAMMER;
@@ -21,7 +21,7 @@ public class CmiBlockPartialModel {
 	}
 
 	private static PartialModel addPartial(String path) {
-		return new PartialModel(Cmi.loadResource("block/" + path));
+		return PartialModel.of(Cmi.loadResource("block/" + path));
 	}
 
 	public static void init() {

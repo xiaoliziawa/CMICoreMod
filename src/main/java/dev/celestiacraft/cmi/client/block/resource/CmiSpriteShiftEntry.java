@@ -1,10 +1,9 @@
 package dev.celestiacraft.cmi.client.block.resource;
 
-import com.simibubi.create.foundation.block.render.SpriteShiftEntry;
-import com.simibubi.create.foundation.block.render.SpriteShifter;
 import dev.celestiacraft.cmi.Cmi;
+import net.createmod.catnip.render.SpriteShiftEntry;
+import net.createmod.catnip.render.SpriteShifter;
 
-@SuppressWarnings("unused")
 public class CmiSpriteShiftEntry {
 	public static final SpriteShiftEntry SAND_PAPER_BELT;
 	public static final SpriteShiftEntry RED_SAND_PAPER_BELT;

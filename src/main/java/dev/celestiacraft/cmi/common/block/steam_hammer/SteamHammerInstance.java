@@ -1,64 +1,65 @@
 package dev.celestiacraft.cmi.common.block.steam_hammer;
 
-import com.jozufozu.flywheel.api.MaterialManager;
-import com.jozufozu.flywheel.api.instance.DynamicInstance;
-import com.jozufozu.flywheel.core.Materials;
-import com.jozufozu.flywheel.core.materials.oriented.OrientedData;
-import com.simibubi.create.content.kinetics.base.ShaftInstance;
+import com.simibubi.create.content.kinetics.base.ShaftVisual;
 import com.simibubi.create.content.kinetics.press.MechanicalPressBlock;
 import com.simibubi.create.content.kinetics.press.MechanicalPressBlockEntity;
 import com.simibubi.create.content.kinetics.press.PressingBehaviour;
-import com.simibubi.create.foundation.utility.AngleHelper;
-import com.simibubi.create.foundation.utility.AnimationTickHolder;
-import org.joml.Quaternionf;
 import dev.celestiacraft.cmi.client.block.resource.CmiBlockPartialModel;
+import dev.engine_room.flywheel.api.visual.DynamicVisual;
+import dev.engine_room.flywheel.api.visualization.VisualizationContext;
+import dev.engine_room.flywheel.lib.instance.InstanceTypes;
+import dev.engine_room.flywheel.lib.instance.OrientedInstance;
+import dev.engine_room.flywheel.lib.model.Models;
+import dev.engine_room.flywheel.lib.visual.SimpleDynamicVisual;
+import net.createmod.catnip.math.AngleHelper;
+import org.joml.Quaternionf;
 
-public class SteamHammerInstance extends ShaftInstance<MechanicalPressBlockEntity> implements DynamicInstance {
-	private final OrientedData pressHead;
+public class SteamHammerInstance extends ShaftVisual<MechanicalPressBlockEntity> implements SimpleDynamicVisual {
+	private final OrientedInstance pressHead;
 
-	public SteamHammerInstance(MaterialManager materialManager, MechanicalPressBlockEntity blockEntity) {
-		super(materialManager, blockEntity);
+	public SteamHammerInstance(VisualizationContext context, MechanicalPressBlockEntity entity, float partialTick) {
+		super(context, entity, partialTick);
 
-		pressHead = materialManager.defaultSolid()
-				.material(Materials.ORIENTED)
-				.getModel(CmiBlockPartialModel.STEAM_HAMMER, blockState)
-				.createInstance();
+		pressHead = instancerProvider().instancer(
+				InstanceTypes.ORIENTED,
+				Models.partial(CmiBlockPartialModel.STEAM_HAMMER)
+		).createInstance();
 
 		Quaternionf rotateY = new Quaternionf().rotateY((float) Math.toRadians(
 				AngleHelper.horizontalAngle(blockState.getValue(MechanicalPressBlock.HORIZONTAL_FACING))
 		));
 
-		pressHead.setRotation(rotateY);
+		pressHead.rotation(rotateY);
 
-		transformModels();
+		transformModels(partialTick);
 	}
 
 	@Override
-	public void beginFrame() {
-		transformModels();
+	public void beginFrame(DynamicVisual.Context context) {
+		transformModels(context.partialTick());
 	}
 
-	private void transformModels() {
-		float renderedHeadOffset = getRenderedHeadOffset(blockEntity);
-
-		pressHead.setPosition(getInstancePosition()).nudge(0, -renderedHeadOffset, 0);
+	private void transformModels(float partialTick) {
+		float renderedHeadOffset = getRenderedHeadOffset(partialTick);
+		pressHead.position(getVisualPosition())
+				.translatePosition(0, -renderedHeadOffset, 0)
+				.setChanged();
 	}
 
-	private float getRenderedHeadOffset(MechanicalPressBlockEntity press) {
-		PressingBehaviour pressingBehaviour = press.getPressingBehaviour();
-		return pressingBehaviour.getRenderedHeadOffset(AnimationTickHolder.getPartialTicks()) * pressingBehaviour.mode.headOffset;
-	}
-
-	@Override
-	public void updateLight() {
-		super.updateLight();
-
-		relight(pos, pressHead);
+	private float getRenderedHeadOffset(float partialTick) {
+		PressingBehaviour pressingBehaviour = blockEntity.pressingBehaviour;
+		return pressingBehaviour.getRenderedHeadOffset(partialTick) * pressingBehaviour.mode.headOffset;
 	}
 
 	@Override
-	public void remove() {
-		super.remove();
+	public void updateLight(float partialTick) {
+		super.updateLight(partialTick);
+		relight(pressHead);
+	}
+
+	@Override
+	protected void _delete() {
+		super._delete();
 		pressHead.delete();
 	}
 }

@@ -2,10 +2,10 @@ package dev.celestiacraft.cmi.common.block.accelerator_motor;
 
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
-import com.simibubi.create.foundation.render.CachedBufferer;
-import com.simibubi.create.foundation.render.SuperByteBuffer;
+import net.createmod.catnip.render.SuperByteBuffer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.block.state.BlockState;
+import net.createmod.catnip.render.CachedBuffers;
 
 public class AcceleratorMotorRenderer extends KineticBlockEntityRenderer<AcceleratorMotorBlockEntity> {
 	public AcceleratorMotorRenderer(BlockEntityRendererProvider.Context context) {
@@ -14,6 +14,6 @@ public class AcceleratorMotorRenderer extends KineticBlockEntityRenderer<Acceler
 
 	@Override
 	protected SuperByteBuffer getRotatedModel(AcceleratorMotorBlockEntity be, BlockState state) {
-		return CachedBufferer.partialFacing(AllPartialModels.SHAFT_HALF, state);
+		return CachedBuffers.partialFacing(AllPartialModels.SHAFT_HALF, state);
 	}
 }

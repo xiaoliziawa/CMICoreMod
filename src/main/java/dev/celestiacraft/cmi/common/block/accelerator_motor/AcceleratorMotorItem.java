@@ -2,7 +2,10 @@ package dev.celestiacraft.cmi.common.block.accelerator_motor;
 
 import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
 import com.simibubi.create.foundation.item.TooltipHelper;
-import com.simibubi.create.foundation.utility.Lang;
+import com.simibubi.create.foundation.utility.CreateLang;
+import dev.celestiacraft.cmi.api.client.CmiLang;
+import dev.celestiacraft.cmi.config.CommonConfig;
+import net.createmod.catnip.lang.FontHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -13,8 +16,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
-import dev.celestiacraft.cmi.config.CommonConfig;
-import dev.celestiacraft.cmi.api.client.CmiLang;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -48,7 +49,7 @@ public class AcceleratorMotorItem extends AssemblyOperatorBlockItem {
 		 * "按住 [Shift] 查看详情" 提示 - 始终显示
 		 * Shift 按下时文字变白，否则为灰色
 		 */
-		Lang.translate("tooltip.holdForDescription", Component.literal("Shift").withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY))
+		CreateLang.translate("tooltip.holdForDescription", Component.literal("Shift").withStyle(Screen.hasShiftDown() ? ChatFormatting.WHITE : ChatFormatting.GRAY))
 				.style(ChatFormatting.DARK_GRAY)
 				.addTo(tooltip);
 
@@ -59,15 +60,15 @@ public class AcceleratorMotorItem extends AssemblyOperatorBlockItem {
 			 */
 			tooltip.addAll(TooltipHelper.cutStringTextComponent(
 					CmiLang.translateDirect("tooltip.accelerator_motor.behaviour1").getString(),
-					TooltipHelper.Palette.STANDARD_CREATE.primary(),
-					TooltipHelper.Palette.STANDARD_CREATE.highlight(),
+					FontHelper.Palette.STANDARD_CREATE.primary(),
+					FontHelper.Palette.STANDARD_CREATE.highlight(),
 					0
 			));
 
 			tooltip.addAll(TooltipHelper.cutStringTextComponent(
 					CmiLang.translateDirect("tooltip.accelerator_motor.behaviour2", maxSpeedValue).getString(),
-					TooltipHelper.Palette.STANDARD_CREATE.primary(),
-					TooltipHelper.Palette.STANDARD_CREATE.highlight(),
+					FontHelper.Palette.STANDARD_CREATE.primary(),
+					FontHelper.Palette.STANDARD_CREATE.highlight(),
 					0
 			));
 		}

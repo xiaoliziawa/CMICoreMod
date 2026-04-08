@@ -1,19 +1,19 @@
 package dev.celestiacraft.cmi.common.block.advanced_spout;
 
-import com.jozufozu.flywheel.core.PartialModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour.TankSegment;
 import com.simibubi.create.foundation.blockEntity.renderer.SafeBlockEntityRenderer;
-import com.simibubi.create.foundation.fluid.FluidRenderer;
-import com.simibubi.create.foundation.render.CachedBufferer;
+import dev.celestiacraft.cmi.client.block.resource.CmiBlockPartialModel;
+import dev.engine_room.flywheel.lib.model.baked.PartialModel;
+import net.createmod.catnip.platform.ForgeCatnipServices;
+import net.createmod.catnip.render.CachedBuffers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidStack;
-import dev.celestiacraft.cmi.client.block.resource.CmiBlockPartialModel;
 
 public class AdvancedSpoutRenderer extends SafeBlockEntityRenderer<AdvancedSpoutBlockEntity> {
 	static final PartialModel[] BITS = {
@@ -26,8 +26,8 @@ public class AdvancedSpoutRenderer extends SafeBlockEntityRenderer<AdvancedSpout
 	}
 
 	@Override
-	protected void renderSafe(AdvancedSpoutBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-		SmartFluidTankBehaviour tank = be.getBehaviour(SmartFluidTankBehaviour.TYPE);
+	protected void renderSafe(AdvancedSpoutBlockEntity entity, float partialTicks, PoseStack stack, MultiBufferSource source, int light, int overlay) {
+		SmartFluidTankBehaviour tank = entity.getBehaviour(SmartFluidTankBehaviour.TYPE);
 		if (tank == null) {
 			return;
 		}
@@ -36,19 +36,22 @@ public class AdvancedSpoutRenderer extends SafeBlockEntityRenderer<AdvancedSpout
 		FluidStack fluidStack = primaryTank.getRenderedFluid();
 		float level = primaryTank.getFluidLevel().getValue(partialTicks);
 
+		boolean top = fluidStack.getFluid().getFluidType().isLighterThanAir();
+
+		level = Math.max(level, 0.175f);
+		float min = 2.5f / 16f;
+		float max = min + (11 / 16f);
+		float yOffset = (11 / 16f) * level;
+
 		if (!fluidStack.isEmpty() && level != 0) {
-			boolean top = fluidStack.getFluid().getFluidType().isLighterThanAir();
+			stack.pushPose();
+			if (!top) {
+				stack.translate(0, yOffset, 0);
+			} else {
+				stack.translate(0, max - min, 0);
+			}
 
-			level = Math.max(level, 0.175f);
-			float min = 2.5f / 16f;
-			float max = min + (11 / 16f);
-			float yOffset = (11 / 16f) * level;
-
-			ms.pushPose();
-			if (!top) ms.translate(0, yOffset, 0);
-			else ms.translate(0, max - min, 0);
-
-			FluidRenderer.renderFluidBox(
+			ForgeCatnipServices.FLUID_RENDERER.renderFluidBox(
 					fluidStack,
 					min,
 					min - yOffset,
@@ -56,16 +59,17 @@ public class AdvancedSpoutRenderer extends SafeBlockEntityRenderer<AdvancedSpout
 					max,
 					min,
 					max,
-					buffer,
-					ms,
+					source,
+					stack,
 					light,
-					false
+					false,
+					true
 			);
 
-			ms.popPose();
+			stack.popPose();
 		}
 
-		int processingTicks = be.processingTicks;
+		int processingTicks = entity.processingTicks;
 		float processingPT = processingTicks - partialTicks;
 		float processingProgress = 1 - (processingPT - 5) / 10;
 		processingProgress = Mth.clamp(processingProgress, 0, 1);
@@ -74,17 +78,18 @@ public class AdvancedSpoutRenderer extends SafeBlockEntityRenderer<AdvancedSpout
 		if (processingTicks != -1) {
 			radius = (float) (Math.pow(((2 * processingProgress) - 1), 2) - 1);
 			AABB bb = new AABB(0.5, .5, 0.5, 0.5, -1.2, 0.5).inflate(radius / 32f);
-			FluidRenderer.renderFluidBox(
+			ForgeCatnipServices.FLUID_RENDERER.renderFluidBox(
 					fluidStack,
-					(float) bb.minX,
-					(float) bb.minY,
-					(float) bb.minZ,
-					(float) bb.maxX,
-					(float) bb.maxY,
-					(float) bb.maxZ,
-					buffer,
-					ms,
+					min,
+					min - yOffset,
+					min,
+					max,
+					min,
+					max,
+					source,
+					stack,
 					light,
+					false,
 					true
 			);
 		}
@@ -98,13 +103,13 @@ public class AdvancedSpoutRenderer extends SafeBlockEntityRenderer<AdvancedSpout
 			squeeze = -1;
 		}
 
-		ms.pushPose();
+		stack.pushPose();
 		for (PartialModel bit : BITS) {
-			CachedBufferer.partial(bit, be.getBlockState())
+			CachedBuffers.partial(bit, entity.getBlockState())
 					.light(light)
-					.renderInto(ms, buffer.getBuffer(RenderType.solid()));
-			ms.translate(0, -3 * squeeze / 32f, 0);
+					.renderInto(stack, source.getBuffer(RenderType.solid()));
+			stack.translate(0, -3 * squeeze / 32f, 0);
 		}
-		ms.popPose();
+		stack.popPose();
 	}
 }

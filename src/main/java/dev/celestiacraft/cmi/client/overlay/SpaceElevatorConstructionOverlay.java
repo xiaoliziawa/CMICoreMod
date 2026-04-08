@@ -31,7 +31,14 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 	private static final SpaceElevatorConstructionOverlay INSTANCE = new SpaceElevatorConstructionOverlay();
 	private static final int CARD_WIDTH = 214;
 	private static final int ROW_HEIGHT = 22;
+	private static final int CARD_BASE_HEIGHT = 132;
 	private static final int FOOTER_MAX_LINES = 2;
+	private static final float MIN_HUD_SCALE = 0.55F;
+	private static final float MAX_HUD_SCALE = 0.92F;
+	private static final float REFERENCE_SCREEN_WIDTH = 1920.0F;
+	private static final float REFERENCE_SCREEN_HEIGHT = 1080.0F;
+	private static final float CARD_LAYOUT_WIDTH = CARD_WIDTH + 140.0F;
+	private static final float CARD_LAYOUT_MARGIN = 24.0F;
 
 	public static void register(RegisterGuiOverlaysEvent event) {
 		event.registerAboveAll("cmi_space_elevator_construction", INSTANCE);
@@ -64,27 +71,36 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 				);
 		float holdProgress = SpaceElevatorWrenchClientHandler.getHoldProgress(anchorPos);
 		boolean charging = SpaceElevatorWrenchClientHandler.isCharging(anchorPos);
-
-		ProjectedPoint projectedPoint = projectToScreen(mc, anchorPos, width, height);
-		float anchorX = projectedPoint != null ? projectedPoint.x() : width * 0.5F;
-		float anchorY = projectedPoint != null ? projectedPoint.y() : height * 0.42F;
-		int side = anchorX < width * 0.56F ? 1 : -1;
 		int visibleRows = Math.min(ingredients.size(), SpaceElevatorWrenchClientHandler.maxVisibleRows());
-		int cardHeight = 132 + visibleRows * ROW_HEIGHT;
+		int cardHeight = CARD_BASE_HEIGHT + visibleRows * ROW_HEIGHT;
+		float hudScale = resolveHudScale(mc, width, height, cardHeight);
+		float layoutWidth = width / hudScale;
+		float layoutHeight = height / hudScale;
+
+		graphics.pose().pushPose();
+		graphics.pose().scale(hudScale, hudScale, 1.0F);
+
+		ProjectedPoint projectedPoint = projectToScreen(mc, anchorPos, layoutWidth, layoutHeight);
+		float anchorX = projectedPoint != null ? projectedPoint.x() : layoutWidth * 0.5F;
+		float anchorY = projectedPoint != null ? projectedPoint.y() : layoutHeight * 0.42F;
+		int side = anchorX < layoutWidth * 0.56F ? 1 : -1;
 		int cardX = side > 0 ? Mth.floor(anchorX + 58.0F) : Mth.floor(anchorX - CARD_WIDTH - 58.0F);
 		int cardY = Mth.floor(anchorY - cardHeight * 0.5F);
-		cardX = Mth.clamp(cardX, 12, width - CARD_WIDTH - 12);
-		cardY = Mth.clamp(cardY, 12, height - cardHeight - 12);
+		int maxCardX = Math.max(12, Mth.floor(layoutWidth - CARD_WIDTH - 12.0F));
+		int maxCardY = Math.max(12, Mth.floor(layoutHeight - cardHeight - 12.0F));
+		cardX = Mth.clamp(cardX, 12, maxCardX);
+		cardY = Mth.clamp(cardY, 12, maxCardY);
 
 		float cardAttachX = side > 0 ? cardX : cardX + CARD_WIDTH;
 		float cardAttachY = cardY + 30.0F;
 		int coolBlue = withAlpha(0x5DBBFF, 0.55F);
 		int accentOrange = withAlpha(0xFF9E37, 1.0F);
 
-		drawSignalLine(graphics, width * 0.5F, height * 0.5F, anchorX, anchorY, coolBlue, 1);
+		drawSignalLine(graphics, layoutWidth * 0.5F, layoutHeight * 0.5F, anchorX, anchorY, coolBlue, 1);
 		drawSignalLine(graphics, anchorX, anchorY, cardAttachX, cardAttachY, accentOrange, 2);
 		drawAnchorMarker(graphics, anchorX, anchorY, deployed ? withAlpha(0x7EF7C7, 1.0F) : accentOrange);
 		renderCard(graphics, mc.font, player, cardX, cardY, cardHeight, ingredients, completion, holdProgress, charging, bypassRequirements, deployed, ready, recipe != null);
+		graphics.pose().popPose();
 	}
 
 	@Nullable
@@ -98,7 +114,7 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 	}
 
 	@Nullable
-	private static ProjectedPoint projectToScreen(Minecraft mc, BlockPos anchorPos, int width, int height) {
+	private static ProjectedPoint projectToScreen(Minecraft mc, BlockPos anchorPos, float width, float height) {
 		Camera camera = mc.gameRenderer.getMainCamera();
 		Vec3 cameraPos = camera.getPosition();
 		Vec3 worldPos = Vec3.atCenterOf(anchorPos).add(0.0D, 1.15D, 0.0D);
@@ -119,6 +135,20 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 				(float) (width * 0.5D * (1.0D - relative.x() / (relative.z() * tanHalfFov * aspect))),
 				(float) (height * 0.5D * (1.0D - relative.y() / (relative.z() * tanHalfFov)))
 		);
+	}
+
+	private static float resolveHudScale(Minecraft mc, int guiWidth, int guiHeight, int cardHeight) {
+		float resolutionFactor = Math.min(
+				mc.getWindow().getWidth() / REFERENCE_SCREEN_WIDTH,
+				mc.getWindow().getHeight() / REFERENCE_SCREEN_HEIGHT
+		);
+		float resolutionScale = 0.58F + resolutionFactor * 0.34F;
+		float fitScale = Math.min(
+				guiWidth / CARD_LAYOUT_WIDTH,
+				guiHeight / (cardHeight + CARD_LAYOUT_MARGIN)
+		);
+		float targetScale = Math.min(resolutionScale, fitScale);
+		return Mth.clamp(targetScale, Math.min(MIN_HUD_SCALE, fitScale), MAX_HUD_SCALE);
 	}
 
 	private static void renderCard(

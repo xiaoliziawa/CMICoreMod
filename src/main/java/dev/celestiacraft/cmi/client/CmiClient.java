@@ -7,10 +7,12 @@ import dev.celestiacraft.cmi.client.key.CmiKeyBindings;
 import dev.celestiacraft.cmi.client.overlay.NetherBacktankAirOverlay;
 import dev.celestiacraft.cmi.client.overlay.SpaceElevatorConstructionOverlay;
 import dev.celestiacraft.cmi.client.overlay.SpaceElevatorFlightOverlay;
+import dev.celestiacraft.cmi.client.ponder.CmiPonderPlugin;
 import dev.celestiacraft.cmi.client.render.SpaceElevatorHudRenderer;
 import dev.celestiacraft.cmi.common.entity.dev.qi_month.QiMonthRenderer;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorRenderer;
 import dev.celestiacraft.cmi.common.register.CmiEntity;
+import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -37,6 +39,8 @@ public class CmiClient {
 
 		EntityRenderers.register(CmiEntity.QI_MONTH.get(), QiMonthRenderer::new);
 		EntityRenderers.register(CmiEntity.SPACE_ELEVATOR.get(), SpaceElevatorRenderer::new);
+
+		PonderIndex.addPlugin(new CmiPonderPlugin());
 	}
 
 	@SubscribeEvent

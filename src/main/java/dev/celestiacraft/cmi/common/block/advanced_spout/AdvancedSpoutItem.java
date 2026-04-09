@@ -1,11 +1,11 @@
 package dev.celestiacraft.cmi.common.block.advanced_spout;
 
 import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
+import dev.celestiacraft.cmi.api.register.block.BasicBlock;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class AdvancedSpoutItem extends AssemblyOperatorBlockItem {
-	public AdvancedSpoutItem(Block block, Properties properties) {
+	public AdvancedSpoutItem(BasicBlock block, Properties properties) {
 		super(block, properties);
 	}
 

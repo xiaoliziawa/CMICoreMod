@@ -175,7 +175,7 @@ dependencies {
     // Alex Cave
     implementation fg.deobf("curse.maven:alexs-caves-924854:5848216")
     // Ad Astra
-    implementation fg.deobf("curse.maven:ad-astra-635042:5914893")
+    implementation fg.deobf("curse.maven:ad-astra-635042:6262032")
     // SteamPowered
     implementation fg.deobf("curse.maven:steam-powered-create-534610:6585726")
     // Rhino

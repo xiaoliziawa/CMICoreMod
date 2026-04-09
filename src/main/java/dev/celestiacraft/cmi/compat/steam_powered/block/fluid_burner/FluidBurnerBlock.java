@@ -5,6 +5,7 @@ import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import dev.celestiacraft.cmi.Cmi;
+import dev.celestiacraft.cmi.api.interaction.IFluidInteractable;
 import dev.celestiacraft.cmi.api.interaction.UseContext;
 import dev.celestiacraft.cmi.api.register.block.BasicBlock;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockFacing;
@@ -18,7 +19,7 @@ import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 
-public abstract class FluidBurnerBlock extends BasicBlock implements IBE<FluidBurnerBlockEntity> {
+public abstract class FluidBurnerBlock extends BasicBlock implements IBE<FluidBurnerBlockEntity>, IFluidInteractable {
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
@@ -37,7 +38,7 @@ public abstract class FluidBurnerBlock extends BasicBlock implements IBE<FluidBu
 	}
 
 	@Override
-	protected boolean creativeUseFluidInteraction(UseContext context) {
+	public boolean creativeUseFluidInteraction(UseContext context) {
 		return true;
 	}
 

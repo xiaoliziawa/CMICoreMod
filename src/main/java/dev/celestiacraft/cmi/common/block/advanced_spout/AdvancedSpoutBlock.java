@@ -4,7 +4,9 @@ import com.simibubi.create.AllShapes;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.blockEntity.ComparatorUtil;
-
+import dev.celestiacraft.cmi.api.interaction.IFluidInteractable;
+import dev.celestiacraft.cmi.api.interaction.UseContext;
+import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -20,9 +22,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 
-public class AdvancedSpoutBlock extends Block implements IWrenchable, IBE<AdvancedSpoutBlockEntity> {
+public class AdvancedSpoutBlock extends Block implements IFluidInteractable, IWrenchable, IBE<AdvancedSpoutBlockEntity> {
 	public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 	private static final VoxelShape SUPPORT_SHAPE = Shapes.join(
 			Shapes.block(),
@@ -33,6 +34,11 @@ public class AdvancedSpoutBlock extends Block implements IWrenchable, IBE<Advanc
 	public AdvancedSpoutBlock(Properties properties) {
 		super(properties);
 		registerDefaultState(defaultBlockState().setValue(POWERED, false));
+	}
+
+	@Override
+	public boolean creativeUseFluidInteraction(UseContext context) {
+		return true;
 	}
 
 	@Override

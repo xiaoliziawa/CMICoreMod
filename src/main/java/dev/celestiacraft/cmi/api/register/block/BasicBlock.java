@@ -1,5 +1,6 @@
 package dev.celestiacraft.cmi.api.register.block;
 
+import dev.celestiacraft.cmi.api.interaction.IFluidInteractable;
 import dev.celestiacraft.cmi.api.interaction.UseContext;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockFacing;
 import net.minecraft.core.BlockPos;
@@ -18,10 +19,9 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.fluids.FluidUtil;
 import org.jetbrains.annotations.NotNull;
 
-public class BasicBlock extends Block {
+public class BasicBlock extends Block implements IFluidInteractable {
 	public BasicBlock(Properties properties) {
 		super(properties);
 
@@ -62,48 +62,6 @@ public class BasicBlock extends Block {
 		return RenderShape.MODEL;
 	}
 
-	protected boolean useFluidInteraction(UseContext context) {
-		return false;
-	}
-
-	protected boolean creativeUseFluidInteraction(UseContext context) {
-		return false;
-	}
-
-	protected boolean canUseFluidInteraction(UseContext context) {
-		Player player = context.getPlayer();
-		if (player == null) {
-			return false;
-		}
-
-		return useFluidInteraction(context)
-				|| (player.isCreative()
-				&& creativeUseFluidInteraction(context));
-	}
-
-	private InteractionResult tryFluidInteraction(UseContext context) {
-		Player player = context.getPlayer();
-		InteractionHand hand = context.getHand();
-		Level level = context.getLevel();
-		BlockPos pos = context.getPos();
-		BlockHitResult result = context.getResult();
-
-		if (player == null) {
-			return InteractionResult.PASS;
-		}
-
-		if (canUseFluidInteraction(context) && FluidUtil.interactWithFluidHandler(
-				player,
-				hand,
-				level,
-				pos,
-				result.getDirection()
-		)) {
-			return InteractionResult.SUCCESS;
-		}
-
-		return InteractionResult.PASS;
-	}
 
 	/**
 	 * 定义该控制器使用的方向类型

@@ -122,11 +122,18 @@ public class AdvancedSpoutBlockEntity extends SpoutBlockEntity {
 		FluidStack currentFluidInTank = getCurrentFluid();
 
 		if (processingTicks == -1 && (isVirtual() || !level.isClientSide()) && !currentFluidInTank.isEmpty()) {
-			BlockSpoutingBehaviour behaviour = BlockSpoutingBehaviour.get(level, getBlockPos());
+			BlockPos filling = worldPosition.below(2);
+			BlockSpoutingBehaviour behaviour = BlockSpoutingBehaviour.get(level, filling);
 			if (customProcess != null) {
 				return;
 			}
-			if (behaviour.fillBlock(level, worldPosition.below(2), this, currentFluidInTank, true) > 0) {
+			if (behaviour != null && behaviour.fillBlock(
+					level,
+					worldPosition.below(2),
+					this,
+					currentFluidInTank.copy(),
+					true
+			) > 0) {
 				processingTicks = getFillingTime();
 				customProcess = behaviour;
 				notifyUpdate();
@@ -136,7 +143,13 @@ public class AdvancedSpoutBlockEntity extends SpoutBlockEntity {
 		if (processingTicks >= 0) {
 			processingTicks--;
 			if (processingTicks == 5 && customProcess != null) {
-				int fillBlock = customProcess.fillBlock(level, worldPosition.below(2), this, currentFluidInTank, false);
+				int fillBlock = customProcess.fillBlock(
+						level,
+						worldPosition.below(2),
+						this,
+						currentFluidInTank.copy(),
+						false
+				);
 				customProcess = null;
 				if (fillBlock > 0) {
 					getTank().getPrimaryHandler().setFluid(FluidHelper.copyStackWithAmount(

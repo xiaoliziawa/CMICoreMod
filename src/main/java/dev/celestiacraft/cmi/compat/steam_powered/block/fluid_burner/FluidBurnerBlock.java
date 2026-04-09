@@ -8,22 +8,15 @@ import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.api.interaction.UseContext;
 import dev.celestiacraft.cmi.api.register.block.BasicBlock;
 import dev.celestiacraft.cmi.api.register.multiblock.ControllerBlockFacing;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.fluids.FluidUtil;
 
 public abstract class FluidBurnerBlock extends BasicBlock implements IBE<FluidBurnerBlockEntity> {
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -44,20 +37,8 @@ public abstract class FluidBurnerBlock extends BasicBlock implements IBE<FluidBu
 	}
 
 	@Override
-	public InteractionResult useOn(UseContext context) {
-		Player player = context.getPlayer();
-		InteractionHand hand = context.getHand();
-		Level level = context.getLevel();
-		BlockPos pos = context.getPos();
-		BlockHitResult result = context.getResult();
-
-		if (!player.isCreative()) {
-			return null;
-		}
-		if (FluidUtil.interactWithFluidHandler(player, hand, level, pos, result.getDirection())) {
-			return InteractionResult.SUCCESS;
-		}
-		return InteractionResult.PASS;
+	protected boolean creativeUseFluidInteraction(UseContext context) {
+		return true;
 	}
 
 	public static <T extends Block, P> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateBlockstateProvider> burnerBlockState(String material) {

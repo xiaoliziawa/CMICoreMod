@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.fluids.FluidUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class BasicBlock extends Block {
@@ -48,12 +49,60 @@ public class BasicBlock extends Block {
 	}
 
 	public InteractionResult useOn(UseContext context) {
+		InteractionResult result = tryFluidInteraction(context);
+		if (result.consumesAction()) {
+			return result;
+		}
+
 		return InteractionResult.PASS;
 	}
 
 	@Override
 	public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
 		return RenderShape.MODEL;
+	}
+
+	protected boolean useFluidInteraction(UseContext context) {
+		return false;
+	}
+
+	protected boolean creativeUseFluidInteraction(UseContext context) {
+		return false;
+	}
+
+	protected boolean canUseFluidInteraction(UseContext context) {
+		Player player = context.getPlayer();
+		if (player == null) {
+			return false;
+		}
+
+		return useFluidInteraction(context)
+				|| (player.isCreative()
+				&& creativeUseFluidInteraction(context));
+	}
+
+	private InteractionResult tryFluidInteraction(UseContext context) {
+		Player player = context.getPlayer();
+		InteractionHand hand = context.getHand();
+		Level level = context.getLevel();
+		BlockPos pos = context.getPos();
+		BlockHitResult result = context.getResult();
+
+		if (player == null) {
+			return InteractionResult.PASS;
+		}
+
+		if (canUseFluidInteraction(context) && FluidUtil.interactWithFluidHandler(
+				player,
+				hand,
+				level,
+				pos,
+				result.getDirection()
+		)) {
+			return InteractionResult.SUCCESS;
+		}
+
+		return InteractionResult.PASS;
 	}
 
 	/**

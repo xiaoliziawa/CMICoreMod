@@ -319,7 +319,7 @@ public abstract class ControllerBlockEntity extends BlockEntity implements IMult
 	 * </ul>
 	 *
 	 * <p>
-	 * 默认值: {@code 20}(约 1 秒)
+	 * 默认值: {@code 20}(1 秒)
 	 * </p>
 	 *
 	 * <pre>{@code

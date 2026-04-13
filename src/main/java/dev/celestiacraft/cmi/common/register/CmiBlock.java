@@ -21,6 +21,7 @@ import dev.celestiacraft.cmi.common.block.mars_geothermal_vent.MarsGeothermalVen
 import dev.celestiacraft.cmi.common.block.mercury_geothermal_vent.MercuryGeothermalVentBlock;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerBlock;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerItem;
+import dev.celestiacraft.cmi.common.block.stock_manager.StockManagerBlock;
 import dev.celestiacraft.cmi.common.block.test_coke_oven.TestCokeOvenBlock;
 import dev.celestiacraft.cmi.common.block.test_coke_oven.TestCokeOvenIOBlock;
 import dev.celestiacraft.cmi.common.block.test_gravel.TestGravelBlock;
@@ -60,6 +61,7 @@ public class CmiBlock {
 	public static final BlockEntry<SteelFluidBurnerBlock> STEEL_FLUID_BURNER;
 	public static final BlockEntry<ScaffoldingBlock> NAHUATL_SCAFFOLD;
 	public static final BlockEntry<ScaffoldingBlock> BLAZEWOOD_SCAFFOLD;
+	public static final BlockEntry<StockManagerBlock> STOCK_MANAGER;
 
 	static {
 		ACCELERATOR = Cmi.REGISTRATE.block("accelerator", AcceleratorBlock::new)
@@ -408,6 +410,10 @@ public class CmiBlock {
 				.tag(BlockTags.MINEABLE_WITH_AXE)
 				.tag(Tags.Blocks.NEEDS_WOOD_TOOL)
 				.simpleItem()
+				.register();
+		STOCK_MANAGER = Cmi.REGISTRATE.block("stock_manager", StockManagerBlock::new)
+				.item()
+				.build()
 				.register();
 	}
 

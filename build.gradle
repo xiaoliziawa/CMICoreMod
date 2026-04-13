@@ -174,6 +174,10 @@ dependencies {
     implementation fg.deobf("curse.maven:resourceful-lib-570073:5659871")
     // Alex Cave
     implementation fg.deobf("curse.maven:alexs-caves-924854:5848216")
+    // 柴油动力
+    implementation fg.deobf("curse.maven:create-diesel-generators-869316:7869519")
+    // CreateJS
+    implementation fg.deobf("curse.maven:kubejs-create-429371:6265498")
     // Ad Astra
     implementation fg.deobf("curse.maven:ad-astra-635042:6262032")
     // SteamPowered

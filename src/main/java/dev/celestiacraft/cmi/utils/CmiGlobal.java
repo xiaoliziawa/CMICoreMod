@@ -20,7 +20,6 @@ public class CmiGlobal {
 	/**
 	 * 整合包最终版本号
 	 */
-	@Getter
 	@Setter
 	public static String modPackMainVersion;
 
@@ -49,14 +48,21 @@ public class CmiGlobal {
 	/**
 	 * 定义版本号
 	 */
-	private void setModPackMainVersion() {
+	private static void setModPackMainVersion() {
 		if (isHotfix) {
 			modPackMainVersion = String.format("§0CMI %s-%s-hf", modPackState, modpackNumberVersion);
-			ConsoleJS.STARTUP.info(modPackMainVersion);
+			ConsoleJS.STARTUP.info(String.format("CMI Version: %s-%s-hf", modPackState, modpackNumberVersion));
 		}
 
 		modPackMainVersion = String.format("§0CMI %s-%s", modPackState, modpackNumberVersion);
-		ConsoleJS.STARTUP.info(modPackMainVersion);
+		ConsoleJS.STARTUP.info(String.format("CMI Version: %s-%s", modPackState, modpackNumberVersion));
+	}
+
+	public static String getModPackMainVersion() {
+		if (modPackMainVersion == null) {
+			setModPackMainVersion();
+		}
+		return modPackMainVersion;
 	}
 
 	private void init() {

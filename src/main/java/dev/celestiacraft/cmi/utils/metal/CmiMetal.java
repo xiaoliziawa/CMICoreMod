@@ -18,18 +18,18 @@ public class CmiMetal {
 		this.id = id;
 	}
 
-	public CmiMetal meltingPoint(int val) {
-		this.meltingPoint = val;
+	public CmiMetal meltingPoint(int point) {
+		this.meltingPoint = point;
 		return this;
 	}
 
-	public CmiMetal namespace(String val) {
-		this.namespace = val;
+	public CmiMetal namespace(String namespacE) {
+		this.namespace = namespacE;
 		return this;
 	}
 
-	public CmiMetal byProduct(String val) {
-		this.byProduct = val;
+	public CmiMetal byProduct(String value) {
+		this.byProduct = value;
 		return this;
 	}
 }

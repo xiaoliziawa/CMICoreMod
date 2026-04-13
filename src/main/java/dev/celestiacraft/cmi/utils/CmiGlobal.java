@@ -1,9 +1,11 @@
 package dev.celestiacraft.cmi.utils;
 
 import dev.celestiacraft.cmi.utils.metal.CmiMetalRegistry;
+import dev.latvian.mods.kubejs.fluid.FluidStackJS;
 import dev.latvian.mods.kubejs.util.ConsoleJS;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,6 +73,16 @@ public class CmiGlobal {
 			"diamond", "minecraft:needs_diamond_tool",
 			"nether", "forge:needs_netherite_tool"
 	);
+
+	public static final Map<FluidStackJS, Integer> FUEL_TEMPERATURES = new HashMap<>();
+
+	public static void setFuel(FluidStackJS id, int temperature) {
+		FUEL_TEMPERATURES.put(id, temperature);
+	}
+
+	public static int getFuelTemp(FluidStackJS id) {
+		return FUEL_TEMPERATURES.getOrDefault(id, 0);
+	}
 
 	public static final List<String> DYE_COLOR_GROUP = List.of(
 			"black",

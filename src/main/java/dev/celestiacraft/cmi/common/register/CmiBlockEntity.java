@@ -15,7 +15,6 @@ import dev.celestiacraft.cmi.common.block.mercury_geothermal_vent.MercuryGeother
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerBlockEntity;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerInstance;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerRenderer;
-import dev.celestiacraft.cmi.common.block.stock_manager.StockManagerBlockEntity;
 import dev.celestiacraft.cmi.common.block.test_coke_oven.TestCokeOvenBlockEntity;
 import dev.celestiacraft.cmi.common.block.test_coke_oven.TestCokeOvenIOBlockEntity;
 import dev.celestiacraft.cmi.common.block.test_gravel.TestGravelBlockEntity;
@@ -42,7 +41,6 @@ public class CmiBlockEntity {
 	public static final BlockEntityEntry<BronzeFluidBurnerBlockEntity> BRONZE_FLUID_BURNER;
 	public static final BlockEntityEntry<CastIronFluidBurnerBlockEntity> CAST_IRON_FLUID_BURNER;
 	public static final BlockEntityEntry<SteelFluidBurnerBlockEntity> STEEL_FLUID_BURNER;
-	public static final BlockEntityEntry<StockManagerBlockEntity> STOCK_MANAGER;
 
 	static {
 		TEST_GRAVEL = Cmi.REGISTRATE.blockEntity("test_gravel", TestGravelBlockEntity::new)
@@ -96,9 +94,6 @@ public class CmiBlockEntity {
 				.register();
 		STEEL_FLUID_BURNER = Cmi.REGISTRATE.blockEntity("steel_fluid_burner", SteelFluidBurnerBlockEntity::new)
 				.validBlock(CmiBlock.STEEL_FLUID_BURNER)
-				.register();
-		STOCK_MANAGER = Cmi.REGISTRATE.blockEntity("stock_manager", StockManagerBlockEntity::new)
-				.validBlock(CmiBlock.STOCK_MANAGER)
 				.register();
 	}
 

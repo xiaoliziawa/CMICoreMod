@@ -32,7 +32,7 @@ public class BlazingBloodPumpBlockEntity extends MachineControllerBlockEntity im
 		return "blazing_blood_pump";
 	}
 
-	public boolean isWorkEnv() {
+	public boolean isWorkConditions() {
 		if (level == null) {
 			return false;
 		}

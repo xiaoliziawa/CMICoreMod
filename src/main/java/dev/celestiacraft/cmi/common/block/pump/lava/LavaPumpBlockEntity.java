@@ -32,7 +32,7 @@ public class LavaPumpBlockEntity extends MachineControllerBlockEntity implements
 		return "lava_pump";
 	}
 
-	public boolean isWorkEnv() {
+	public boolean isWorkConditions() {
 		if (level == null) {
 			return false;
 		}

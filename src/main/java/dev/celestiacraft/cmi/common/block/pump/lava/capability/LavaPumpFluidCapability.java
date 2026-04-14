@@ -20,7 +20,7 @@ public class LavaPumpFluidCapability implements IFluidHandler {
 
 	@Override
 	public @NotNull FluidStack getFluidInTank(int amount) {
-		if (entity.isStructureValid() && entity.isWorkEnv()) {
+		if (entity.isStructureValid() && entity.isWorkConditions()) {
 			return new FluidStack(Fluids.LAVA, Integer.MAX_VALUE);
 		}
 		return FluidStack.EMPTY;
@@ -43,7 +43,7 @@ public class LavaPumpFluidCapability implements IFluidHandler {
 
 	@Override
 	public @NotNull FluidStack drain(FluidStack fluidStack, FluidAction fluidAction) {
-		if (entity.isStructureValid() && entity.isWorkEnv()) {
+		if (entity.isStructureValid() && entity.isWorkConditions()) {
 			if (fluidStack.getFluid() == Fluids.LAVA) {
 				return fluidStack;
 			}
@@ -54,7 +54,7 @@ public class LavaPumpFluidCapability implements IFluidHandler {
 
 	@Override
 	public @NotNull FluidStack drain(int amount, FluidAction fluidAction) {
-		if (entity.isStructureValid() && entity.isWorkEnv()) {
+		if (entity.isStructureValid() && entity.isWorkConditions()) {
 			return new FluidStack(Fluids.LAVA, amount);
 		}
 		return FluidStack.EMPTY;

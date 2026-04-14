@@ -20,7 +20,7 @@ public class BlazingBloodPumpFluidCapability implements IFluidHandler {
 
 	@Override
 	public @NotNull FluidStack getFluidInTank(int amount) {
-		if (entity.isStructureValid() && entity.isWorkEnv()) {
+		if (entity.isStructureValid() && entity.isWorkConditions()) {
 			return new FluidStack(TinkerFluids.blazingBlood.get(), Integer.MAX_VALUE);
 		}
 		return FluidStack.EMPTY;
@@ -43,7 +43,7 @@ public class BlazingBloodPumpFluidCapability implements IFluidHandler {
 
 	@Override
 	public @NotNull FluidStack drain(FluidStack fluidStack, FluidAction fluidAction) {
-		if (entity.isStructureValid() && entity.isWorkEnv()) {
+		if (entity.isStructureValid() && entity.isWorkConditions()) {
 			if (fluidStack.getFluid() == TinkerFluids.blazingBlood.get()) {
 				return fluidStack;
 			}
@@ -54,7 +54,7 @@ public class BlazingBloodPumpFluidCapability implements IFluidHandler {
 
 	@Override
 	public @NotNull FluidStack drain(int amount, FluidAction fluidAction) {
-		if (entity.isStructureValid() && entity.isWorkEnv()) {
+		if (entity.isStructureValid() && entity.isWorkConditions()) {
 			return new FluidStack(TinkerFluids.blazingBlood.get(), amount);
 		}
 		return FluidStack.EMPTY;

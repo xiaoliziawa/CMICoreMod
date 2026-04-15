@@ -41,8 +41,12 @@ public class CannonScene {
 				.attachKeyFrame();
 		builder.idle(60);
 
-		builder.world().modifyBlock(copper.above(), s -> s.setValue(LeverBlock.POWERED, true), false);
-		builder.world().modifyBlock(cobalt.above(), s -> s.setValue(LeverBlock.POWERED, true), false);
+		builder.world().modifyBlock(copper.above(), (state) -> {
+			return state.setValue(LeverBlock.POWERED, true);
+		}, false);
+		builder.world().modifyBlock(cobalt.above(), (state) -> {
+			return state.setValue(LeverBlock.POWERED, true);
+		}, false);
 		builder.idle(25);
 
 		builder.idle(60);

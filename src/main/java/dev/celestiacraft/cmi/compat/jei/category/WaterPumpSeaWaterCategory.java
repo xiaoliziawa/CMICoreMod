@@ -4,19 +4,18 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.compat.jei.DoubleItemIcon;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
-import dev.celestiacraft.cmi.utils.ModResources;
-import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.RecipeIngredientRole;
-import net.minecraft.network.chat.Component;
-import net.minecraftforge.registries.ForgeRegistries;
+import dev.celestiacraft.cmi.api.client.CmiLang;
 import dev.celestiacraft.cmi.common.recipe.water_pump.WaterPumpSeaWaterRecipe;
 import dev.celestiacraft.cmi.common.register.CmiBlock;
 import dev.celestiacraft.cmi.compat.jei.api.CmiGuiTextures;
 import dev.celestiacraft.cmi.compat.jei.api.CmiJeiRecipeType;
 import dev.celestiacraft.cmi.compat.jei.category.structure.WaterPumpStructure;
-import dev.celestiacraft.cmi.api.client.CmiLang;
+import dev.celestiacraft.cmi.utils.ModResources;
 import dev.celestiacraft.libs.client.ClientRenderUtils;
 import dev.celestiacraft.libs.compat.jei.categoty.SimpleJeiCategory;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
 
@@ -30,15 +29,15 @@ public class WaterPumpSeaWaterCategory {
 				.setIcon(() -> {
 					return new DoubleItemIcon(
 							() -> CmiBlock.WATER_PUMP.get().asItem().getDefaultInstance(),
-							() -> ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER).getBucket().getDefaultInstance()
+							() -> ModResources.SEA_WATER.getFluid().getBucket().getDefaultInstance()
 					);
 				})
 				.setBackground(0, 0)
 				.setRecipe((builder, recipe, group) -> {
 					builder.addSlot(RecipeIngredientRole.OUTPUT, 150, 30)
 							.setBackground(CreateRecipeCategory.getRenderedSlot(), -1, -1)
-							.addFluidStack(ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER), Integer.MAX_VALUE)
-							.addItemStack(ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER).getBucket().getDefaultInstance());
+							.addFluidStack(ModResources.SEA_WATER.getFluid(), Integer.MAX_VALUE)
+							.addItemStack(ModResources.SEA_WATER.getFluid().getBucket().getDefaultInstance());
 				})
 				.setTooltips((recipe, view, mouseX, mouseY) -> {
 					if (ClientRenderUtils.isCursorInsideBounds(86, 21, 14, 14, mouseX, mouseY)) {

@@ -14,6 +14,7 @@ public class English extends LanguageProvider {
 
 	@Override
 	protected void addTranslations() {
+		// Common
 		for (List<String> item : LanguageGenerate.TRANSLATION_LIST) {
 			add(item.get(0), item.get(1));
 		}

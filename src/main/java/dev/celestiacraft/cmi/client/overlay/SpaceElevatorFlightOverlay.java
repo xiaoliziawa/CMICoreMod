@@ -15,8 +15,8 @@ import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class SpaceElevatorFlightOverlay implements IGuiOverlay {
 	public static final SpaceElevatorFlightOverlay INSTANCE = new SpaceElevatorFlightOverlay();
-	private static final ResourceLocation ROCKET_BAR = ModResources.loadAd("textures/gui/sprites/overlay/rocket_bar.png");
-	private static final ResourceLocation ROCKET = ModResources.loadAd("textures/gui/sprites/overlay/rocket.png");
+	private static final ResourceLocation ROCKET_BAR = ModResources.loadAd("textures/gui/sprites/overlay/rocket_bar.png").getLocation();
+	private static final ResourceLocation ROCKET = ModResources.loadAd("textures/gui/sprites/overlay/rocket.png").getLocation();
 
 	public static void register(RegisterGuiOverlaysEvent event) {
 		event.registerAboveAll("cmi_space_elevator_flight", INSTANCE);

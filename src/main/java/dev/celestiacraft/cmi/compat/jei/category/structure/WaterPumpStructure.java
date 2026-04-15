@@ -12,12 +12,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 public class WaterPumpStructure extends AnimatedKinetics {
 	private static final Lazy<Block> SLAB = Lazy.of(() -> {
-		return ForgeRegistries.BLOCKS.getValue(ModResources.TREATED_WOOD_SLAB);
+		return ModResources.TREATED_WOOD_SLAB.getBlock();
 	});
 
 	@Override

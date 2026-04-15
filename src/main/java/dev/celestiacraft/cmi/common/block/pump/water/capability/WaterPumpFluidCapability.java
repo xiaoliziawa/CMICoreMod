@@ -5,7 +5,6 @@ import dev.celestiacraft.cmi.utils.ModResources;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 public class WaterPumpFluidCapability implements IFluidHandler {
@@ -24,7 +23,7 @@ public class WaterPumpFluidCapability implements IFluidHandler {
 	public @NotNull FluidStack getFluidInTank(int amount) {
 		if (entity.isStructureValid()) {
 			if (entity.isOcean()) {
-				return new FluidStack(ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER), Integer.MAX_VALUE);
+				return ModResources.SEA_WATER.getFluidStack(Integer.MAX_VALUE);
 			}
 			return new FluidStack(Fluids.WATER, Integer.MAX_VALUE);
 		}
@@ -50,7 +49,7 @@ public class WaterPumpFluidCapability implements IFluidHandler {
 	public @NotNull FluidStack drain(FluidStack fluidStack, FluidAction fluidAction) {
 		if (entity.isStructureValid()) {
 			if (entity.isOcean()) {
-				if (fluidStack.getFluid() == ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER)) {
+				if (fluidStack.getFluid() == ModResources.SEA_WATER.getFluid()) {
 					return fluidStack;
 				}
 			} else if (fluidStack.getFluid() == Fluids.WATER) {
@@ -65,7 +64,7 @@ public class WaterPumpFluidCapability implements IFluidHandler {
 	public @NotNull FluidStack drain(int amount, FluidAction fluidAction) {
 		if (entity.isStructureValid()) {
 			if (entity.isOcean()) {
-				return new FluidStack(ForgeRegistries.FLUIDS.getValue(ModResources.SEA_WATER), amount);
+				return ModResources.SEA_WATER.getFluidStack(amount);
 			}
 			return new FluidStack(Fluids.WATER, amount);
 		}

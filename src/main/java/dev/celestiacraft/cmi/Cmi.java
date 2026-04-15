@@ -8,6 +8,7 @@ import com.simibubi.create.foundation.item.TooltipModifier;
 import dev.celestiacraft.cmi.client.CmiClient;
 import dev.celestiacraft.cmi.client.block.resource.CmiBlockPartialModel;
 import dev.celestiacraft.cmi.client.block.resource.CmiSpriteShiftEntry;
+import dev.celestiacraft.cmi.client.ponder.CmiPonderPlugin;
 import dev.celestiacraft.cmi.common.recipe.fan_processig.CmiFanProcessingTypes;
 import dev.celestiacraft.cmi.common.register.*;
 import dev.celestiacraft.cmi.compat.adastra.AdAstraOxygenCompat;
@@ -17,6 +18,7 @@ import dev.celestiacraft.cmi.datagen.worldgen.region.ModOverworldRegion;
 import dev.celestiacraft.cmi.datagen.worldgen.surfacerule.ModSurfaceRuleData;
 import dev.celestiacraft.cmi.network.CmiNetwork;
 import net.createmod.catnip.lang.FontHelper;
+import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -28,6 +30,7 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegisterEvent;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import terrablender.api.Regions;
@@ -72,6 +75,8 @@ public class Cmi {
 
 		CmiNetwork.register();
 
+		PonderIndex.addPlugin(new CmiPonderPlugin());
+
 		bus.addListener(this::onCommonSetup);
 		bus.addListener(this::onRegister);
 		bus.addListener(this::onConfigLoad);
@@ -86,7 +91,7 @@ public class Cmi {
 		context.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC, "nebula/cmi/common.toml");
 
 		if (STRESS_VALUES == null) {
-			var stressConfig = CmiStress.createConfig();
+			Pair<CmiStress, ForgeConfigSpec> stressConfig = CmiStress.createConfig();
 			STRESS_VALUES = stressConfig.getLeft();
 			STRESS_VALUES_SPEC = stressConfig.getRight();
 			BlockStressValues.IMPACTS.registerProvider(STRESS_VALUES::getImpact);

@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.registries.ForgeRegistries;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import vazkii.patchouli.api.IMultiblock;
 
@@ -60,7 +59,7 @@ public class CmiMultiblock {
 					builder.any();
 				})
 				.define('E', (builder) -> {
-					builder.map(ForgeRegistries.BLOCKS.getValue(ModResources.TREATED_WOOD_SLAB), PropertyImmutableMap.create()
+					builder.map(ModResources.TREATED_WOOD_SLAB.getBlock(), PropertyImmutableMap.create()
 							.add(SlabBlock.TYPE, SlabType.TOP)
 							.build());
 				}));
@@ -94,7 +93,7 @@ public class CmiMultiblock {
 					builder.block(CmiBlock.LAVA_PUMP.get());
 				})
 				.define('C', (builder) -> {
-					builder.block(ForgeRegistries.BLOCKS.getValue(ModResources.NAHUATL_FENCE));
+					builder.block(ModResources.NAHUATL_FENCE.getBlock());
 				})
 				.define('D', (builder) -> {
 					builder.block(CmiBlock.NAHUATL_SCAFFOLD.get());
@@ -103,7 +102,7 @@ public class CmiMultiblock {
 					builder.any();
 				})
 				.define('E', (builder) -> {
-					builder.map(ForgeRegistries.BLOCKS.getValue(ModResources.NAHUATL_SLAB), PropertyImmutableMap.create()
+					builder.map(ModResources.NAHUATL_SLAB.getBlock(), PropertyImmutableMap.create()
 							.add(SlabBlock.TYPE, SlabType.TOP)
 							.build());
 				}));
@@ -137,7 +136,7 @@ public class CmiMultiblock {
 					builder.block(CmiBlock.BLAZING_BLOOD_PUMP.get());
 				})
 				.define('C', (builder) -> {
-					builder.block(ForgeRegistries.BLOCKS.getValue(ModResources.BLAZEWOOD_FENCE));
+					builder.block(ModResources.BLAZEWOOD_FENCE.getBlock());
 				})
 				.define('D', (builder) -> {
 					builder.block(CmiBlock.BLAZEWOOD_SCAFFOLD.get());
@@ -146,7 +145,7 @@ public class CmiMultiblock {
 					builder.any();
 				})
 				.define('E', (builder) -> {
-					builder.map(ForgeRegistries.BLOCKS.getValue(ModResources.BLAZEWOOD_SLAB), PropertyImmutableMap.create()
+					builder.map(ModResources.BLAZEWOOD_SLAB.getBlock(), PropertyImmutableMap.create()
 							.add(SlabBlock.TYPE, SlabType.TOP)
 							.build());
 				}));

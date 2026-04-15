@@ -48,7 +48,7 @@ public class AdvancedSpoutBlock extends BasicBlock implements IFluidInteractable
 
 	@Override
 	public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			boolean powered = level.hasNeighborSignal(pos);
 			if (state.getValue(POWERED) != powered) {
 				level.setBlock(pos, state.setValue(POWERED, powered), 2);

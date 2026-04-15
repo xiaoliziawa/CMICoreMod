@@ -7,7 +7,7 @@ import dev.celestiacraft.cmi.utils.ModResources;
 import net.minecraft.world.item.Item;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
-public class CmiPonderItems {
+public class CmiPonderItem {
 	public static class Cmi {
 		public static final Item[] SEA_WATER = new Item[] {
 				CmiBlock.WATER_PUMP.asItem(),

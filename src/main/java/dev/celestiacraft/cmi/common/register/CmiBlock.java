@@ -35,6 +35,7 @@ import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.FluidBurner
 import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.bronze.BronzeFluidBurnerBlock;
 import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.cast_iron.CastIronFluidBurnerBlock;
 import dev.celestiacraft.cmi.compat.steam_powered.block.fluid_burner.steel.SteelFluidBurnerBlock;
+import dev.celestiacraft.libs.api.register.multiblock.ControllerBlockItem;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -98,7 +99,7 @@ public class CmiBlock {
 				.build()
 				.register();
 		WATER_PUMP = Cmi.REGISTRATE.block("water_pump", WaterPumpBlock::new)
-				.item()
+				.item(ControllerBlockItem::new)
 				.model((context, provider) -> {
 					provider.withExistingParent(
 							context.getName(),
@@ -120,7 +121,7 @@ public class CmiBlock {
 				})
 				.register();
 		BLAZING_BLOOD_PUMP = Cmi.REGISTRATE.block("blazing_blood_pump", BlazingBloodPumpBlock::new)
-				.item()
+				.item(ControllerBlockItem::new)
 				.model((context, provider) -> {
 					provider.withExistingParent(
 							context.getName(),
@@ -142,7 +143,7 @@ public class CmiBlock {
 				})
 				.register();
 		LAVA_PUMP = Cmi.REGISTRATE.block("lava_pump", LavaPumpBlock::new)
-				.item()
+				.item(ControllerBlockItem::new)
 				.model((context, provider) -> {
 					provider.withExistingParent(
 							context.getName(),
@@ -341,7 +342,7 @@ public class CmiBlock {
 				.register();
 		TEST_MULTIBLOCK = Cmi.REGISTRATE.block("test_multiblock_controller", TestMultiblockBlock::new)
 				.initialProperties(SharedProperties::stone)
-				.item()
+				.item(ControllerBlockItem::new)
 				.model((context, provider) -> {
 					provider.withExistingParent(
 							context.getName(),
@@ -361,7 +362,7 @@ public class CmiBlock {
 				.register();
 		TEST_COKE_OVEN = Cmi.REGISTRATE.block("test_coke_oven", TestCokeOvenBlock::new)
 				.initialProperties(SharedProperties::stone)
-				.item()
+				.item(ControllerBlockItem::new)
 				.model((context, provider) -> {
 					provider.withExistingParent(
 							context.getName(),

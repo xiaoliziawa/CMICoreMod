@@ -39,8 +39,8 @@ public class ModResources {
 		IRON_DEPOSIT_BLOCK = loadResource("create_rns:iron_deposit_block");
 	}
 
-	public static ResourcesEntry loadResource(ResourceLocation id) {
-		return new ResourcesEntry(id);
+	public static ResourcesEntry loadResource(ResourceLocation location) {
+		return new ResourcesEntry(location);
 	}
 
 	public static ResourcesEntry loadResource(String path) {

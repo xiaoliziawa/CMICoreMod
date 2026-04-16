@@ -30,7 +30,7 @@ import slimeknights.tconstruct.smeltery.block.entity.controller.MelterBlockEntit
 public class MelterScene {
 	public static void building(SceneBuilder builder, SceneBuildingUtil util) {
 		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
-		scene.title("melter_building", "Building the Melter");
+		scene.title("melter_building", "搭建熔化炉");
 
 		NebulaSceneBuilder.init5x5(scene, util);
 
@@ -49,20 +49,20 @@ public class MelterScene {
 
 		scene.idle(25);
 		scene.overlay().showText(40)
-				.text("The Melter is your first device as a tinker")
+				.text("熔化炉是你作为工匠的第一个冶炼设备")
 				.attachKeyFrame()
 				.colored(PonderPalette.GREEN)
 				.pointAt(util.vector().topOf(melter));
 
 		scene.idle(25);
 		scene.overlay().showText(40)
-				.text("It requires a heater for heat")
+				.text("它需要加热器来提供热量")
 				.colored(PonderPalette.MEDIUM)
 				.pointAt(util.vector().blockSurface(melter.below(), Direction.WEST));
 
 		scene.idle(60);
 		scene.overlay().showText(40)
-				.text("The Heater needs fuel to work")
+				.text("而加热器需要燃料才能工作")
 				.attachKeyFrame()
 				.colored(PonderPalette.MEDIUM)
 				.pointAt(util.vector().blockSurface(melter.below(), Direction.WEST));
@@ -76,7 +76,7 @@ public class MelterScene {
 
 		scene.idle(40);
 		scene.overlay().showText(40)
-				.text("Or you can use fuel tank")
+				.text("或者你也可以使用燃料储罐")
 				.attachKeyFrame()
 				.colored(PonderPalette.GREEN)
 				.pointAt(util.vector().blockSurface(melter.below(), Direction.WEST));
@@ -96,14 +96,14 @@ public class MelterScene {
 		});
 
 		scene.overlay().showText(25)
-				.text("Also, don’t forget to add fuel such as Lava")
+				.text("当然, 不要忘记往里添加燃料, 例如熔岩")
 				.attachKeyFrame()
 				.colored(PonderPalette.MEDIUM)
 				.pointAt(util.vector().blockSurface(melter.below(), Direction.WEST));
 		scene.idle(60);
 
 		scene.overlay().showText(20)
-				.text("Finally, install the casting parts")
+				.text("最后安装铸造部件")
 				.attachKeyFrame()
 				.colored(PonderPalette.MEDIUM)
 				.pointAt(util.vector().blockSurface(melter, Direction.UP));
@@ -118,7 +118,7 @@ public class MelterScene {
 	}
 
 	public static void using(SceneBuilder builder, SceneBuildingUtil util) {
-		builder.title("melter_using", "Melting and Casting");
+		builder.title("melter_using", "熔化与铸造");
 
 		NebulaSceneBuilder.init5x5(builder, util);
 
@@ -131,7 +131,7 @@ public class MelterScene {
 		builder.world().showSection(selection, Direction.DOWN);
 		builder.idle(10);
 		builder.overlay().showText(20)
-				.text("Melting to get molten material")
+				.text("通过熔化获得熔融材料")
 				.attachKeyFrame()
 				.colored(PonderPalette.MEDIUM)
 				.pointAt(util.vector().blockSurface(melter, Direction.UP));
@@ -155,7 +155,7 @@ public class MelterScene {
 
 		builder.idle(10);
 		builder.overlay().showText(20)
-				.text("Waiting to melt")
+				.text("等待熔化...")
 				.attachKeyFrame()
 				.colored(PonderPalette.MEDIUM)
 				.pointAt(util.vector().blockSurface(melter, Direction.NORTH));
@@ -175,7 +175,7 @@ public class MelterScene {
 
 		builder.idle(20);
 		builder.overlay().showText(35)
-				.text("Right Click faucet to cast")
+				.text("右键点击浇筑口进行浇筑")
 				.attachKeyFrame()
 				.colored(PonderPalette.MEDIUM)
 				.pointAt(util.vector().blockSurface(table.above(), Direction.EAST));

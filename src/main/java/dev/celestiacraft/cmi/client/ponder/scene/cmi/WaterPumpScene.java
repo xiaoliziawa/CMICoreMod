@@ -10,7 +10,9 @@ import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.Direction;
 
 public class WaterPumpScene {
-	public static void seaWater(SceneBuilder scene, SceneBuildingUtil util) {
+	public static void seaWater(SceneBuilder builder, SceneBuildingUtil util) {
+		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
+
 		scene.scaleSceneView(0.5f);
 		scene.idle(20);
 
@@ -37,7 +39,6 @@ public class WaterPumpScene {
 		);
 
 		scene.idle(20);
-
 		scene.addKeyframe();
 
 		scene.overlay().showOutline(
@@ -47,10 +48,11 @@ public class WaterPumpScene {
 				40
 		);
 
-		scene.overlay().showText(40)
-				.text("As you can see, this is a water pump")
-				.pointAt(util.vector().topOf(2, 4, 2))
-				.placeNearTarget();
+		scene.text(
+				40,
+				"如你所示, 这是一个水井",
+				util.vector().topOf(2, 4, 2)
+		);
 
 		scene.idle(55);
 
@@ -61,11 +63,7 @@ public class WaterPumpScene {
 
 		scene.idle(20);
 
-		scene.world().showSection(
-				util.select().fromTo(0, 0, 0, 6, 6, 6),
-				Direction.DOWN
-		);
-
+		scene.world().showSection(util.select().fromTo(0, 0, 0, 6, 6, 6), Direction.DOWN);
 		scene.idle(20);
 
 		scene.addKeyframe();
@@ -77,13 +75,13 @@ public class WaterPumpScene {
 				50
 		);
 
-		scene.overlay().showText(50)
-				.text("When placed at sea level in an ocean biome... (Y=62)")
-				.pointAt(util.vector().of(2, 4.5, 2))
-				.placeNearTarget();
+		scene.text(
+				50,
+				"当放置在海平面(Y=62)的海洋生物群系中时...",
+				util.vector().of(2, 4.5, 2)
+		);
 
 		scene.idle(65);
-
 		scene.addKeyframe();
 
 		scene.overlay().showOutline(
@@ -93,10 +91,11 @@ public class WaterPumpScene {
 				50
 		);
 
-		scene.overlay().showText(50)
-				.text("It will pump seawater")
-				.pointAt(util.vector().centerOf(5, 5, 5))
-				.placeNearTarget();
+		scene.text(
+				50,
+				"它便会抽出海水",
+				util.vector().centerOf(5, 5, 5)
+		);
 
 		scene.idle(65);
 		scene.markAsFinished();

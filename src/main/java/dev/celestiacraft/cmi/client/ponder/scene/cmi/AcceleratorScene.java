@@ -34,7 +34,7 @@ public class AcceleratorScene {
 		builder.idle(40);
 
 		builder.overlay().showText(30)
-				.text("Right-click it with an iron mechanism...")
+				.text("右键对它使用一个磁力构件...")
 				.pointAt(util.vector().topOf(3, 1, 3))
 				.placeNearTarget();
 		builder.idle(20);
@@ -56,14 +56,14 @@ public class AcceleratorScene {
 		builder.world().setBlock(util.grid().at(1, 0, 1), Blocks.IRON_ORE.defaultBlockState(), false);
 
 		builder.overlay().showText(30)
-				.text("...and the stone around it changes into ore!")
+				.text("...随后它周围的石头便会变成矿石!")
 				.pointAt(util.vector().topOf(3, 1, 3))
 				.placeNearTarget();
 
 		builder.idle(40);
 
 		builder.overlay().showText(30)
-				.text("The accelerator also supports other mechanisms")
+				.text("催生器也支持其它构件")
 				.placeNearTarget();
 
 		Vec3 motion = util.vector().of(0, -0.08, 0);
@@ -99,7 +99,7 @@ public class AcceleratorScene {
 		);
 
 		builder.overlay().showText(45)
-				.text("Only blocks in a 5x5 area can be transformed!")
+				.text("只有周围5x5范围内的方块才能被转换")
 				.pointAt(util.vector().topOf(3, 1, 3))
 				.placeNearTarget();
 

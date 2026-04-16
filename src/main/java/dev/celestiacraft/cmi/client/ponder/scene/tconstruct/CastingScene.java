@@ -24,7 +24,7 @@ import slimeknights.tconstruct.smeltery.block.entity.FaucetBlockEntity;
 public class CastingScene {
 	public static void cast(SceneBuilder builder, SceneBuildingUtil util) {
 		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
-		scene.title("casting", "Casting");
+		scene.title("casting", "浇筑");
 
 		NebulaSceneBuilder.init5x5(scene, util);
 
@@ -129,7 +129,7 @@ public class CastingScene {
 		scene.idle(15);
 		scene.overlay().showText(240)
 				.colored(PonderPalette.MEDIUM)
-				.text("Scorched casting containers must be used with casts")
+				.text("焦褐铸造部件必须和铸模一起使用")
 				.attachKeyFrame();
 		scene.idle(45);
 
@@ -205,7 +205,7 @@ public class CastingScene {
 
 	public static void sand(SceneBuilder builder, SceneBuildingUtil util) {
 		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
-		scene.title("sand_casting", "Use Sand Cast");
+		scene.title("sand_casting", "使用沙子铸模");
 
 		NebulaSceneBuilder.init5x5(scene, util);
 
@@ -220,13 +220,13 @@ public class CastingScene {
 		scene.idle(15);
 		scene.overlay().showText(55)
 				.colored(PonderPalette.GREEN)
-				.text("Sand Cast can only be used once")
+				.text("沙子铸模只能使用一次")
 				.pointAt(util.vector().topOf(table))
 				.attachKeyFrame();
 		scene.idle(60);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("Right Click with item to make shape")
+				.text("要物品右键点击就可以制作对应模具")
 				.pointAt(util.vector().topOf(table));
 		scene.idle(55);
 

@@ -19,7 +19,7 @@ import slimeknights.tconstruct.smeltery.block.entity.ProxyTankBlockEntity;
 public class TankScene {
 	public static void tank(SceneBuilder builder, SceneBuildingUtil util) {
 		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
-		scene.title("tank", "Use Fluid Containers");
+		scene.title("tank", "使用流体容器");
 
 		NebulaSceneBuilder.init5x5(scene, util);
 
@@ -36,13 +36,13 @@ public class TankScene {
 
 		scene.overlay().showText(45)
 				.colored(PonderPalette.MEDIUM)
-				.text("Tinker's fluid containers roughly divided into 4 categories");
+				.text("匠魂的流体容器大致分为四类");
 		scene.idle(55);
 
 		scene.overlay().showOutline(PonderPalette.GREEN, gauge, util.select().position(gauge), 50);
 		scene.overlay().showText(55)
 				.colored(PonderPalette.GREEN)
-				.text("Gauge: holds 48 ingots of fluid, retains liquid when broken")
+				.text("量器: 可容纳48个锭的流体, 破坏时会保留其中的液体")
 				.pointAt(util.vector().topOf(gauge))
 				.attachKeyFrame();
 		scene.idle(60);
@@ -52,7 +52,7 @@ public class TankScene {
 		scene.overlay().showOutline(PonderPalette.GREEN, tank, util.select().position(tank), 50);
 		scene.overlay().showText(55)
 				.colored(PonderPalette.GREEN)
-				.text("Tank: holds 48 ingots of fluid, retains liquid when broken")
+				.text("储罐: 可容纳48个锭的流体, 破坏时会保留其中的液体")
 				.pointAt(util.vector().topOf(tank))
 				.attachKeyFrame();
 		scene.idle(60);
@@ -62,7 +62,7 @@ public class TankScene {
 		scene.overlay().showOutline(PonderPalette.GREEN, cast, util.select().position(cast), 50);
 		scene.overlay().showText(55)
 				.colored(PonderPalette.GREEN)
-				.text("Casting Tank: interacts with items, retains liquid when broken")
+				.text("浇筑储罐: 可与物品交互, 破坏时会保留其中的液体")
 				.pointAt(util.vector().topOf(cast))
 				.attachKeyFrame();
 		scene.idle(60);
@@ -94,7 +94,7 @@ public class TankScene {
 		scene.overlay().showOutline(PonderPalette.GREEN, proxy, util.select().position(proxy), 50);
 		scene.overlay().showText(55)
 				.colored(PonderPalette.GREEN)
-				.text("Proxy Tank: interacts with items, agents item inside")
+				.text("工匠储罐: 能够装填或倒空物品内部储罐的储罐方块, 但无法操作自带的内部储舒")
 				.pointAt(util.vector().topOf(proxy))
 				.attachKeyFrame();
 		scene.idle(60);

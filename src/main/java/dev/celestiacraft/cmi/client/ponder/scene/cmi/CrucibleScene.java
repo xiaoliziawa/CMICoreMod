@@ -12,6 +12,7 @@ import net.minecraft.world.phys.Vec3;
 public class CrucibleScene {
 	public static void usage(SceneBuilder builder, SceneBuildingUtil util) {
 		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
+
 		scene.showBasePlate();
 		scene.idle(20);
 
@@ -21,10 +22,7 @@ public class CrucibleScene {
 		);
 		scene.idle(20);
 
-		scene.overlay().showText(40)
-				.text("Install Preheater here")
-				.pointAt(util.vector().of(2.5, 1, 1.5))
-				.placeNearTarget();
+		scene.text(40, "预热器安装在这里", util.vector().of(2.5, 1, 1.5));
 		scene.idle(20);
 
 		scene.world().showSection(
@@ -37,25 +35,21 @@ public class CrucibleScene {
 		);
 		scene.idle(20);
 
-		scene.overlay().showText(40)
-				.text("Power must be provided here")
-				.pointAt(util.vector().of(2.5, 4.5, 1.5))
-				.placeNearTarget();
+		scene.text(40, "需要在这里提供电", util.vector().of(2.5, 4.5, 1.5));
 		scene.idle(40);
 
 		scene.addKeyframe();
 
-		scene.overlay().showText(40)
-				.text("You can either use GUI or automation input")
-				.placeNearTarget();
+		scene.text(40, "你可以使用GUI输入原料, 也可以使用自动化输入");
 		scene.idle(40);
 
 		scene.addKeyframe();
 
-		scene.overlay().showText(40)
-				.text("Ingredients can also insert into crucible on the top")
-				.pointAt(util.vector().of(2.5, 5.5, 2.5))
-				.placeNearTarget();
+		scene.text(
+				40,
+				"原料也可以从顶部加入到坩埚中",
+				util.vector().of(2.5, 5.5, 2.5)
+		);
 
 		scene.world().showSection(
 				util.select().position(2, 5, 2),
@@ -73,10 +67,11 @@ public class CrucibleScene {
 				Direction.WEST
 		);
 
-		scene.overlay().showText(40)
-				.text("Coke coal can be inserted into the burners")
-				.pointAt(util.vector().of(4.5, 1.5, 3.5))
-				.placeNearTarget();
+		scene.text(
+				40,
+				"焦炭可以在这里放入燃烧器中",
+				util.vector().of(4.5, 1.5, 3.5)
+		);
 
 		Vec3 motion = util.vector().of(0, -0.1, 0);
 
@@ -98,10 +93,11 @@ public class CrucibleScene {
 				Direction.WEST
 		);
 
-		scene.overlay().showText(40)
-				.text("Products can be extracted from the sides of the crucible")
-				.pointAt(util.vector().of(4.5, 4.5, 3.5))
-				.placeNearTarget();
+		scene.text(
+				40,
+				"产物可以从坩埚的侧面提取",
+				util.vector().of(4.5, 4.5, 3.5)
+		);
 
 		scene.idle(20);
 

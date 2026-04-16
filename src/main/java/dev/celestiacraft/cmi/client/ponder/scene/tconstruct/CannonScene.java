@@ -14,8 +14,7 @@ import slimeknights.tconstruct.smeltery.block.entity.FluidCannonBlockEntity;
 public class CannonScene {
 	public static void using(SceneBuilder scene, SceneBuildingUtil util) {
 		NebulaSceneBuilder builder = new NebulaSceneBuilder(scene);
-
-		scene.title("fluid_cannon_using", "Using Fluid Cannons");
+		scene.title("fluid_cannon_using", "使用流体加农炮");
 
 		NebulaSceneBuilder.init5x5(scene, util);
 
@@ -38,7 +37,7 @@ public class CannonScene {
 
 		scene.idle(20);
 		scene.overlay().showText(55)
-				.text("Fluid Cannon can shoot fluid and different fluids have different effects")
+				.text("流体加农炮可以发射流体, 不同的流体会产生不同的效果")
 				.colored(PonderPalette.MEDIUM)
 				.attachKeyFrame();
 		scene.idle(60);

@@ -14,7 +14,7 @@ import net.minecraft.world.item.Items;
 public class HeaterScene {
 	public static void using(SceneBuilder builder, SceneBuildingUtil util) {
 		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
-		scene.title("heater_using", "Use the Heater");
+		scene.title("heater_using", "使用加热器");
 
 		NebulaSceneBuilder.init5x5(scene, util);
 
@@ -30,7 +30,7 @@ public class HeaterScene {
 		scene.idle(15);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("The Heater can burn solid fuel to provide a temperature of 800℃")
+				.text("加热器可以燃烧固体燃料，最高可提供937°C的温度")
 				.pointAt(util.vector().topOf(center))
 				.attachKeyFrame();
 		scene.idle(45);

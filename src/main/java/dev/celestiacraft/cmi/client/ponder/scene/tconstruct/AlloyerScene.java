@@ -22,7 +22,7 @@ public class AlloyerScene {
 	public static void building(SceneBuilder builder, SceneBuildingUtil util) {
 		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
 
-		scene.title("alloyer_building", "Building the Alloyer");
+		scene.title("alloyer_building", "搭建合金炉");
 		NebulaSceneBuilder.init5x5(scene, util);
 
 		BlockPos fuelTank = util.grid().at(2, 1, 2);
@@ -42,13 +42,13 @@ public class AlloyerScene {
 		scene.overlay().showOutline(PonderPalette.GREEN, NebulaSceneBuilder.OBJECT, main, 130);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("The Alloyer is very similar to The Melter")
+				.text("合金炉和熔化炉非常相似")
 				.pointAt(util.vector().topOf(alloyer))
 				.attachKeyFrame();
 		scene.idle(45);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("This is a specialized device for making alloys")
+				.text("这是一种制造合金的专用设备")
 				.pointAt(util.vector().topOf(alloyer))
 				.attachKeyFrame();
 		scene.idle(70);
@@ -62,14 +62,14 @@ public class AlloyerScene {
 		scene.overlay().showOutline(PonderPalette.GREEN, NebulaSceneBuilder.OBJECT, s, 50);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("Place containers on sides of Alloyer")
+				.text("将容器放置在合金炉的侧面")
 				.pointAt(util.vector().topOf(alloyer))
 				.attachKeyFrame();
 		scene.idle(70);
 
 		scene.overlay().showText(25)
 				.colored(PonderPalette.GREEN)
-				.text("Add fuel with proper temperature")
+				.text("添加具有适当温度的燃料")
 				.pointAt(util.vector().blockSurface(fuelTank, Direction.NORTH))
 				.attachKeyFrame();
 
@@ -107,7 +107,7 @@ public class AlloyerScene {
 
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("Then it will automatically make alloys")
+				.text("随后它就会自动生成合金")
 				.pointAt(util.vector().topOf(alloyer));
 		scene.idle(45);
 

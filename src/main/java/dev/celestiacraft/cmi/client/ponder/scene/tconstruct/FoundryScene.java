@@ -13,7 +13,7 @@ import java.util.List;
 public class FoundryScene {
 	public static void building(SceneBuilder builder, SceneBuildingUtil util) {
 		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
-		scene.title("foundry_building", "Building the Foundry");
+		scene.title("foundry_building", "搭建熔铸炉");
 
 		NebulaSceneBuilder.init9x9(scene, util);
 
@@ -31,13 +31,13 @@ public class FoundryScene {
 		scene.overlay().showOutline(PonderPalette.GREEN, foundry, foundry, 130);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("The Foundry is very similar to The Smeltery")
+				.text("熔铸炉和冶炼炉非常相似")
 				.pointAt(util.vector().topOf(bottomCenter.above()))
 				.attachKeyFrame();
 		scene.idle(45);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("But it uses scorched blocks and its edges must be filled")
+				.text("但是熔铸炉使用的是焦褐方块, 并且边角必须填满")
 				.pointAt(util.vector().topOf(bottomCenter.above()))
 				.attachKeyFrame();
 		scene.idle(60);
@@ -48,7 +48,7 @@ public class FoundryScene {
 
 		scene.overlay().showText(100)
 				.colored(PonderPalette.GREEN)
-				.text("The outer wall can also be extended upwards by up to 63 blocks")
+				.text("外墙也可以向上延伸, 最多可达63个方块高")
 				.attachKeyFrame();
 
 		scene.idle(10);
@@ -101,7 +101,7 @@ public class FoundryScene {
 		scene.idle(30);
 
 		scene.overlay().showText(100)
-				.text("The Foundry has unique features:\nIt will produce some by-products when smelting\nAnd it can't be used to make alloys")
+				.text("熔铸炉具有独特特性:\n它在冶炼时会产生一些副产物\n并且无法用于制作合金")
 				.colored(PonderPalette.MEDIUM);
 		scene.idle(120);
 

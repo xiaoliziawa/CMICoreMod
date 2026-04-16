@@ -32,7 +32,7 @@ import java.util.List;
 public class SmelteryScene {
 	public static void building(SceneBuilder builder, SceneBuildingUtil util) {
 		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
-		scene.title("smeltery_building", "Build the Smeltery");
+		scene.title("smeltery_building", "搭建冶炼炉");
 
 		NebulaSceneBuilder.init9x9(scene, util);
 
@@ -53,13 +53,13 @@ public class SmelteryScene {
 		scene.overlay().showOutline(PonderPalette.GREEN, bottom, bottom, 100);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("The bottom of the Smelter is a rectangle composed of seared blocks")
+				.text("冶炼炉的底部是由焦黑方块组成的矩形结构")
 				.pointAt(util.vector().topOf(bottomCenter))
 				.attachKeyFrame();
 		scene.idle(50);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("The maximum size of a rectangle is 14x14 blocks")
+				.text("矩形的最大尺寸为14×14")
 				.pointAt(util.vector().topOf(bottomCenter));
 		scene.idle(100);
 
@@ -69,7 +69,7 @@ public class SmelteryScene {
 		scene.overlay().showOutline(PonderPalette.BLUE, controller, controller, 30);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.BLUE)
-				.text("You need place a controller outside the second layer")
+				.text("你需要在第二层外部放置一个冶炼炉控制器\n它是冶炼炉的核心设备")
 				.pointAt(util.vector().topOf(controllerPos))
 				.attachKeyFrame();
 		scene.idle(40);
@@ -77,7 +77,7 @@ public class SmelteryScene {
 		scene.overlay().showOutline(PonderPalette.BLUE, fluidFuelTank, fluidFuelTank, 30);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.BLUE)
-				.text("You need to place at least one tank for fuel")
+				.text("至少需要放置一个燃料储罐")
 				.pointAt(util.vector().topOf(controllerPos.east()))
 				.attachKeyFrame();
 		scene.idle(40);
@@ -85,7 +85,7 @@ public class SmelteryScene {
 		scene.overlay().showOutline(PonderPalette.BLUE, drain, drain, 30);
 		scene.overlay().showText(35)
 				.colored(PonderPalette.BLUE)
-				.text("To cast, you need plate a drain")
+				.text("若要进行浇注, 你至少需要放置一个排液口")
 				.pointAt(util.vector().topOf(controllerPos.west()))
 				.attachKeyFrame();
 		scene.idle(40);
@@ -104,14 +104,14 @@ public class SmelteryScene {
 
 		scene.overlay().showText(35)
 				.colored(PonderPalette.GREEN)
-				.text("The second layer should be closed")
+				.text("第二层应该是封闭的")
 				.pointAt(util.vector().topOf(util.grid().at(4, 2, 6)));
 		scene.idle(45);
 
 		scene.overlay().showOutline(PonderPalette.GREEN, second, second, 40);
 		scene.overlay().showText(45)
 				.colored(PonderPalette.GREEN)
-				.text("Forming a open-top hollow cuboid")
+				.text("形成一个顶部开放的空心长方体")
 				.pointAt(util.vector().topOf(bottomCenter.above()))
 				.attachKeyFrame();
 		scene.idle(60);
@@ -132,7 +132,7 @@ public class SmelteryScene {
 
 		scene.overlay().showText(100)
 				.colored(PonderPalette.GREEN)
-				.text("The outer wall can be extended upwards by up to 63 blocks")
+				.text("外墙也可以向上延伸, 最多可达63个方块高")
 				.attachKeyFrame();
 
 		scene.idle(10);
@@ -181,7 +181,7 @@ public class SmelteryScene {
 		scene.idle(30);
 		scene.overlay().showText(30)
 				.colored(PonderPalette.MEDIUM)
-				.text("Don’t forget to add fuel such as Lava")
+				.text("别忘了添加燃料, 例如熔岩")
 				.pointAt(util.vector().blockSurface(controllerPos.east(), Direction.NORTH))
 				.attachKeyFrame();
 
@@ -199,7 +199,7 @@ public class SmelteryScene {
 	}
 
 	public static void using(SceneBuilder builder, SceneBuildingUtil util) {
-		builder.title("smeltery_using", "Use the Smeltery");
+		builder.title("smeltery_using", "使用冶炼炉");
 
 		NebulaSceneBuilder.init9x9(builder, util);
 
@@ -220,18 +220,18 @@ public class SmelteryScene {
 
 		builder.idle(30);
 		builder.overlay().showText(30)
-				.text("Right Click to open the GUI of the Smeltery")
+				.text("右键冶炼炉控制器打开冶炼炉的GUI")
 				.colored(PonderPalette.MEDIUM)
 				.pointAt(util.vector().blockSurface(controllerPos, Direction.NORTH));
 		builder.idle(45);
 		builder.overlay().showText(30)
-				.text("You can put items in the GUI to start melting")
+				.text("你可以将物品放入GUI内开始熔化")
 				.colored(PonderPalette.MEDIUM)
 				.pointAt(util.vector().blockSurface(controllerPos, Direction.NORTH))
 				.attachKeyFrame();
 		builder.idle(45);
 		builder.overlay().showText(45)
-				.text("And next, some functional blocks are introduced")
+				.text("接下来将介绍一些功能性方块")
 				.colored(PonderPalette.MEDIUM);
 		builder.idle(15);
 
@@ -241,7 +241,7 @@ public class SmelteryScene {
 		builder.overlay().showOutline(PonderPalette.GREEN, chute, chute, 30);
 		builder.idle(5);
 		builder.overlay().showText(45)
-				.text("The Chute can input and output items to and from the Smeltery")
+				.text("滑槽可以向冶炼炉输入和输出物品")
 				.colored(PonderPalette.GREEN)
 				.pointAt(util.vector().blockSurface(chutePos, Direction.WEST))
 				.attachKeyFrame();
@@ -262,7 +262,7 @@ public class SmelteryScene {
 		builder.overlay().showOutline(PonderPalette.GREEN, drain, drain.add(duct), 30);
 		builder.idle(5);
 		builder.overlay().showText(45)
-				.text("The Drain and Duct can input and output fluids to and from the Smeltery")
+				.text("排液口和输导孔可以向冶炼炉输入和输出流体")
 				.colored(PonderPalette.GREEN)
 				.pointAt(util.vector().blockSurface(ductPos, Direction.WEST))
 				.attachKeyFrame();
@@ -271,13 +271,13 @@ public class SmelteryScene {
 		builder.overlay().showOutline(PonderPalette.GREEN, duct, duct, 30);
 		builder.idle(5);
 		builder.overlay().showText(45)
-				.text("The Duct has a GUI with a slot that can filter fluids")
+				.text("输导孔有一个带槽位的GUI, 用于过滤流体")
 				.colored(PonderPalette.GREEN)
 				.pointAt(util.vector().blockSurface(ductPos, Direction.WEST))
 				.attachKeyFrame();
 		builder.idle(60);
 		builder.overlay().showText(45)
-				.text("Try put a Can with Molten Gold")
+				.text("试着放入一个装有熔融金的铜罐")
 				.colored(PonderPalette.GREEN)
 				.pointAt(util.vector().blockSurface(ductPos, Direction.WEST));
 		builder.idle(60);
@@ -346,7 +346,7 @@ public class SmelteryScene {
 	}
 
 	public static void mini(SceneBuilder builder, SceneBuildingUtil util) {
-		builder.title("smeltery_mini", "Mini Smeltery");
+		builder.title("smeltery_mini", "迷你冶炼炉");
 
 		NebulaSceneBuilder.init7x7(builder, util);
 

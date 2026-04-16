@@ -19,6 +19,7 @@ public class ModResources {
 	public static final ResourcesEntry STEEL_INGOT;
 	public static final ResourcesEntry CRUCIBLE_BASE;
 	public static final ResourcesEntry CRUCIBLE_TUYERE;
+	public static final ResourcesEntry IRON_DEPOSIT_BLOCK;
 
 	static {
 		STEEL_INGOT = loadCmi("steel_ingot");
@@ -34,6 +35,8 @@ public class ModResources {
 		TREATED_WOOD_SLAB = loadIE("slab_treated_wood_horizontal");
 
 		COAL_COKE = loadThermal("coal_coke");
+
+		IRON_DEPOSIT_BLOCK = loadResource(ResourceLocation.parse("create_rns:iron_deposit_block"));
 	}
 
 	public static ResourcesEntry loadResource(ResourceLocation id) {

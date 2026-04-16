@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -66,6 +67,10 @@ public class ResourcesEntry {
 
 	public ItemStack getItemStack(int count) {
 		return new ItemStack(getItem(), count);
+	}
+
+	public BlockState defaultBlockState() {
+		return getBlock().defaultBlockState();
 	}
 
 	public FluidStack getFluidStack(int amount) {

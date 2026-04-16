@@ -20,6 +20,7 @@ public class Chinese extends LanguageProvider {
 		LangRegistryAccess access = PonderIndex.getLangAccess();
 		access.provideLang(Cmi.MODID, this::add);
 
+		// Common
 		for (List<String> item : LanguageGenerate.TRANSLATION_LIST) {
 			add(item.get(0), item.get(2));
 		}

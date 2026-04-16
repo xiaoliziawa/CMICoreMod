@@ -4,6 +4,7 @@ import blusunrize.immersiveengineering.common.register.IEBlocks;
 import com.teammoeg.immersiveindustry.IIContent;
 import dev.celestiacraft.cmi.common.register.CmiBlock;
 import dev.celestiacraft.cmi.utils.ModResources;
+import mekanism.common.registries.MekanismBlocks;
 import net.minecraft.world.item.Item;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
@@ -21,6 +22,14 @@ public class CmiPonderItem {
 				IEBlocks.StoneDecoration.BLASTBRICK.asItem(),
 				ModResources.CRUCIBLE_BASE.getItem(),
 				ModResources.CRUCIBLE_TUYERE.getItem()
+		};
+	}
+
+	public static class Mekanism {
+		public static final Item[] SPS = new Item[] {
+				MekanismBlocks.SUPERCHARGED_COIL.asItem(),
+				MekanismBlocks.SPS_CASING.asItem(),
+				MekanismBlocks.SPS_PORT.asItem()
 		};
 	}
 

@@ -2,7 +2,10 @@ package dev.celestiacraft.cmi.client.ponder;
 
 import dev.celestiacraft.cmi.client.ponder.scene.cmi.CrucibleScene;
 import dev.celestiacraft.cmi.client.ponder.scene.cmi.WaterPumpScene;
+import dev.celestiacraft.cmi.client.ponder.scene.mekanism.CardboardBox;
 import dev.celestiacraft.cmi.client.ponder.scene.tconstruct.*;
+import dev.celestiacraft.libs.NebulaLibs;
+import mekanism.common.registries.MekanismBlocks;
 import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
@@ -10,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class CmiPonderScene {
 	public static void register(@NotNull PonderSceneRegistrationHelper<Item> helper) {
 		cmi(helper);
+		mekanism(helper);
 		tconstruct(helper);
 	}
 
@@ -19,6 +23,13 @@ public class CmiPonderScene {
 
 		helper.forComponents(CmiPonderItem.Cmi.CRUCIBLE)
 				.addStoryBoard("cmi/crucible_usage", CrucibleScene::usage);
+	}
+
+	private static void mekanism(@NotNull PonderSceneRegistrationHelper<Item> helper) {
+		helper.forComponents(MekanismBlocks.CARDBOARD_BOX.asItem())
+				.addStoryBoard(NebulaLibs.loadResource("blank/5x5"), CardboardBox::usage);
+
+		helper.forComponents()
 	}
 
 	private static void tconstruct(@NotNull PonderSceneRegistrationHelper<Item> helper) {

@@ -8,6 +8,7 @@ import dev.celestiacraft.cmi.common.item.InitialItemKitItem;
 import dev.celestiacraft.cmi.common.item.MysticPomeloItem;
 import dev.celestiacraft.cmi.common.item.SimpleBatteryItem;
 import dev.celestiacraft.cmi.common.item.TestBrushItem;
+import dev.celestiacraft.cmi.common.item.handheld.HandheleCraftingTableItem;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 
 public class CmiItem {
@@ -16,6 +17,7 @@ public class CmiItem {
 	public static final ItemEntry<SimpleBatteryItem> SIMPLE_BATTERY;
 	public static final ItemEntry<ForgeSpawnEggItem> QI_MONTH_EGG;
 	public static final ItemEntry<InitialItemKitItem> INITIAL_ITEM_KIT;
+	public static final ItemEntry<HandheleCraftingTableItem> HANDHELE_CRAFTING_TABLE;
 
 	static {
 		TEST_BRUSH = Cmi.REGISTRATE.item("test_brush", TestBrushItem::new)
@@ -28,6 +30,9 @@ public class CmiItem {
 				.register();
 		INITIAL_ITEM_KIT = Cmi.REGISTRATE.item("initial_item_kit", InitialItemKitItem::new)
 				.model(NonNullBiConsumer.noop())
+				.register();
+		HANDHELE_CRAFTING_TABLE = Cmi.REGISTRATE.item("handheld_crafting_table", HandheleCraftingTableItem::new)
+				.model(Items.handheld("item/tool/handheld_crafting_table"))
 				.register();
 		QI_MONTH_EGG = Cmi.REGISTRATE.item("qi_month_spawn_egg", (properties) -> {
 					return new ForgeSpawnEggItem(

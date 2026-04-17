@@ -18,6 +18,11 @@ public class ItemLanguage extends LanguageGenerate {
 				"Initial Item Kit",
 				"初始套件"
 		);
+		addItemLanguage(
+				"handheld_crafting_table",
+				"Handheld Crafting Table",
+				"手持工作台"
+		);
 	}
 
 	private static @NotNull List<String> info(String id, String en, String zh) {

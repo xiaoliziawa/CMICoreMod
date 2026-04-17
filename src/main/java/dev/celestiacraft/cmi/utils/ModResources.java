@@ -36,11 +36,15 @@ public class ModResources {
 
 		COAL_COKE = loadThermal("coal_coke");
 
-		IRON_DEPOSIT_BLOCK = loadResource(ResourceLocation.parse("create_rns:iron_deposit_block"));
+		IRON_DEPOSIT_BLOCK = loadResource("create_rns:iron_deposit_block");
 	}
 
-	public static ResourcesEntry loadResource(ResourceLocation id) {
-		return new ResourcesEntry(id);
+	public static ResourcesEntry loadResource(ResourceLocation location) {
+		return new ResourcesEntry(location);
+	}
+
+	public static ResourcesEntry loadResource(String path) {
+		return loadResource(ResourceLocation.parse(path));
 	}
 
 	public static ResourcesEntry loadCmi(String path) {

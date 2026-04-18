@@ -62,8 +62,8 @@ public class CmiJeiPlugin implements IModPlugin {
 		IGuiHelper helper = registration.getJeiHelpers().getGuiHelper();
 
 		registration.addRecipeCategories(AcceleratorCategory.builder(helper));
-		registration.addRecipeCategories(WaterPumpCategory.builder(helper));
-		registration.addRecipeCategories(WaterPumpSeaWaterCategory.builder(helper));
+		registration.addRecipeCategories(WaterWellCategory.builder(helper));
+		registration.addRecipeCategories(WaterWellSeaWaterCategory.builder(helper));
 		registration.addRecipeCategories(VoidDustCollectorCategory.builder(helper));
 		registration.addRecipeCategories(GrindingCategory.builder(helper));
 

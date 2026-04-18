@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.common.util.Lazy;
 import org.jetbrains.annotations.NotNull;
 
-public class WaterPumpStructure extends AnimatedKinetics {
+public class WaterWellStructure extends AnimatedKinetics {
 	private static final Lazy<Block> SLAB = Lazy.of(() -> {
 		return ModResources.TREATED_WOOD_SLAB.getBlock();
 	});

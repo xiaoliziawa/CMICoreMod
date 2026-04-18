@@ -9,7 +9,7 @@ import dev.celestiacraft.cmi.common.recipe.water_pump.WaterPumpSeaWaterRecipe;
 import dev.celestiacraft.cmi.common.register.CmiBlock;
 import dev.celestiacraft.cmi.compat.jei.api.CmiGuiTextures;
 import dev.celestiacraft.cmi.compat.jei.api.CmiJeiRecipeType;
-import dev.celestiacraft.cmi.compat.jei.category.structure.WaterPumpStructure;
+import dev.celestiacraft.cmi.compat.jei.category.structure.WaterWellStructure;
 import dev.celestiacraft.cmi.utils.ModResources;
 import dev.celestiacraft.libs.client.ClientRenderUtils;
 import dev.celestiacraft.libs.compat.jei.categoty.SimpleJeiCategory;
@@ -19,8 +19,8 @@ import net.minecraft.network.chat.Component;
 
 import java.util.Collections;
 
-public class WaterPumpSeaWaterCategory {
-	private static final WaterPumpStructure WATER_PUMP_MB = new WaterPumpStructure();
+public class WaterWellSeaWaterCategory {
+	private static final WaterWellStructure WATER_PUMP_MB = new WaterWellStructure();
 
 	public static SimpleJeiCategory<WaterPumpSeaWaterRecipe> builder(IGuiHelper helper) {
 		return SimpleJeiCategory.builder(CmiJeiRecipeType.SEA_WATER_PUMP, helper)

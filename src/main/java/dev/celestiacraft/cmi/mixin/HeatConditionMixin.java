@@ -59,7 +59,8 @@ public abstract class HeatConditionMixin implements StringRepresentable {
 		if (this.equals(CMI$GRILLED)) {
 			returnable.setReturnValue(level == BlazeBurnerBlock.HeatLevel.valueOf("GRILLED")
 					|| level == BlazeBurnerBlock.HeatLevel.FADING
-					|| level == BlazeBurnerBlock.HeatLevel.KINDLED || level == BlazeBurnerBlock.HeatLevel.SEETHING);
+					|| level == BlazeBurnerBlock.HeatLevel.KINDLED
+					|| level == BlazeBurnerBlock.HeatLevel.SEETHING);
 		}
 	}
 

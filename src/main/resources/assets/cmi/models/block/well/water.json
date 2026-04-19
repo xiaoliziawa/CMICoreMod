@@ -1,5 +1,5 @@
 {
-	"format_version": "1.21.11",
+	"render_type": "cutout",
 	"parent": "minecraft:block/cube_all",
 	"textures": {
 		"1": "cmi:block/well/water",

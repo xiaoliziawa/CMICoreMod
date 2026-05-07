@@ -30,6 +30,20 @@ public class CmiRadialMenu {
 				"#77FFFFFF"
 		);
 		builder.slot(
+				"Open Guide",
+				ResourceLocation.parse("ae2:textures/item/guide.png"),
+				Actions.runCommand("guideme open @s ae2:guide"),
+				Component.translatable("radial.cmi.open_guide"),
+				"#77FFFFFF"
+		);
+		builder.slot(
+				"Open Ponder",
+				ResourceLocation.parse("ponder:textures/gui/logo.png"),
+				Actions.runCommand("ponder tags"),
+				Component.translatable("radial.cmi.open_ponder"),
+				"#77FFFFFF"
+		);
+		builder.slot(
 				"Pickup A Wrench",
 				ResourceLocation.parse("cmi:textures/gui/wrench.png"),
 				Actions.script(

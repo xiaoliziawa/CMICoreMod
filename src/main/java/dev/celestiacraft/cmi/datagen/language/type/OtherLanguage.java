@@ -77,6 +77,16 @@ public class OtherLanguage extends LanguageGenerate {
 				"打开任务书"
 		);
 		addRadialLang(
+				"open_guide",
+				"Open AE2 Guide",
+				"打开AE2指南"
+		);
+		addRadialLang(
+				"open_ponder",
+				"Open Ponder",
+				"打开思索界面"
+		);
+		addRadialLang(
 				"wrench",
 				"Pickup A Wrench",
 				"拿起扳手"

@@ -21,7 +21,7 @@ public class CmiPonderScene {
 
 	private static void cmi(@NotNull PonderSceneRegistrationHelper<Item> helper) {
 		helper.forComponents(CmiPonderItem.Cmi.SEA_WATER)
-				.addStoryBoard("cmi/sea_water", WaterPumpScene::seaWater, CmiPonderTags.CMI);
+				.addStoryBoard("cmi/sea_water", WaterPumpScene::getSeaWater, CmiPonderTags.CMI);
 
 		helper.forComponents(CmiPonderItem.Cmi.CRUCIBLE)
 				.addStoryBoard("cmi/crucible_usage", CrucibleScene::usage, CmiPonderTags.CMI);

@@ -10,7 +10,7 @@ import net.createmod.ponder.api.scene.Selection;
 import net.minecraft.core.Direction;
 
 public class WaterPumpScene {
-	public static void seaWater(SceneBuilder builder, SceneBuildingUtil util) {
+	public static void getSeaWater(SceneBuilder builder, SceneBuildingUtil util) {
 		NebulaSceneBuilder scene = new NebulaSceneBuilder(builder);
 
 		scene.title("sea_water", "海水井");

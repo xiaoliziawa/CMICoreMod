@@ -47,7 +47,7 @@ public abstract class SolarBoilerBlockEntity extends SmartBlockEntity {
 	 *
 	 * @return
 	 */
-	protected abstract int getWaterConsumptionPerTick();
+	public abstract int getWaterConsumptionPerTick();
 
 	/**
 	 * 容量

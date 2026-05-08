@@ -11,7 +11,7 @@ public class SteelSolarBoilerBlockEntity extends SolarBoilerBlockEntity {
 	}
 
 	@Override
-	protected int getWaterConsumptionPerTick() {
+	public int getWaterConsumptionPerTick() {
 		return 6;
 	}
 

@@ -11,7 +11,7 @@ public class BronzeSolarBoilerBlockEntity extends SolarBoilerBlockEntity {
 	}
 
 	@Override
-	protected int getWaterConsumptionPerTick() {
+	public int getWaterConsumptionPerTick() {
 		return 2;
 	}
 

@@ -12,7 +12,7 @@ import net.minecraft.world.item.Rarity;
 public class NutritionSyringeItem extends BasicItem implements ICuriosHelper {
 	public NutritionSyringeItem(Properties properties) {
 		super(properties.stacksTo(1)
-				.rarity(Rarity.RARE));
+				.rarity(Rarity.EPIC));
 	}
 
 	@Override

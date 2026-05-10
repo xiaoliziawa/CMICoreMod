@@ -16,6 +16,11 @@ public class GoldItem extends MechanismItem {
 		super(properties);
 	}
 
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
+
 	/**
 	 * 右键 {@link Tags.Blocks#STONE} 或 {@link Tags.Blocks#COBBLESTONE} 有 1% 的概率变成金块
 	 * <p>

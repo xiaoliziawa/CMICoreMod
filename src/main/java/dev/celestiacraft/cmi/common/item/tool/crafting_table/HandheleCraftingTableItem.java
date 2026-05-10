@@ -25,11 +25,9 @@ public class HandheleCraftingTableItem extends BasicItem {
 
 	private MenuProvider createScreenHandlerFactory(Level level, BlockPos pos) {
 		return new SimpleMenuProvider((id, inventory, player) -> {
-			return new CustomCraftingTableContainer(
-					id,
-					inventory,
-					ContainerLevelAccess.create(level, pos)
-			);
+			ContainerLevelAccess access = ContainerLevelAccess.create(level, pos);
+
+			return new CustomCraftingTableContainer(id, inventory, access);
 		}, Component.translatable("container.crafting"));
 	}
 }

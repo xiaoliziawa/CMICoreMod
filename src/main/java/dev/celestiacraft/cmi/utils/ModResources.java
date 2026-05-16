@@ -145,6 +145,6 @@ public enum ModResources {
 	}
 
 	public static ResourcesEntry loadKubeJS(String path) {
-		return loadResource(ResourceLocation.fromNamespaceAndPath(KubeJS.MOD_ID, path));
+		return loadResource(KubeJS.id(path));
 	}
 }

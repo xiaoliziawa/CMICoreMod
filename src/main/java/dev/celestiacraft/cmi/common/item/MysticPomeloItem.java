@@ -129,7 +129,7 @@ public class MysticPomeloItem extends BasicItem implements IUIHolder.ItemUI {
 		return "0";
 	}
 
-	public WidgetGroup createUI(Level level) {
+	private WidgetGroup createUI(Level level) {
 		WidgetGroup group = new WidgetGroup();
 		group.setSize(180, 180);
 		group.setBackground(ResourceBorderTexture.BORDERED_BACKGROUND);

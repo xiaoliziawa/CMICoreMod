@@ -612,16 +612,24 @@ public class CmiBlock {
 		SPACE_ELEVATOR_IO_PORT = Cmi.REGISTRATE.block("space_elevator_io_port", SpaceElevatorIoPortBlock::new)
 				.initialProperties(SharedProperties::stone)
 				.properties(properties -> properties.noOcclusion().noLootTable())
-				.blockstate((context, provider) -> provider.simpleBlock(context.get(),
-						provider.models().withExistingParent(context.getName(), provider.mcLoc("block/block"))))
+				.blockstate((context, provider) -> {
+					provider.simpleBlock(
+							context.get(),
+							provider.models()
+									.withExistingParent(
+											context.getName(), provider.mcLoc("block/block"))
+					);
+				})
 				.register();
 		WIND_VANE = Cmi.REGISTRATE.block("wind_vane", WindVaneBlock::new)
 				.initialProperties(SharedProperties::copperMetal)
 				.item()
+				.model(NonNullBiConsumer.noop())
 				.build()
 				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
 				.tag(BlockTags.NEEDS_STONE_TOOL)
 				.tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+				.blockstate(NonNullBiConsumer.noop())
 				.register();
 		STEEL_SOLAR_BOILER = Cmi.REGISTRATE.block("steel_solar_boiler", SteelSolarBoilerBlock::new)
 				.initialProperties(SharedProperties::softMetal)

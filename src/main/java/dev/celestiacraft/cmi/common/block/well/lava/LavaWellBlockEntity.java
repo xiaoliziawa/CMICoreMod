@@ -31,7 +31,7 @@ public class LavaWellBlockEntity extends MachineControllerBlockEntity {
 		if (level == null) {
 			return false;
 		}
-		return level.dimension() == Level.NETHER;
+		return level.dimension().equals(Level.NETHER);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package dev.celestiacraft.cmi.common.block.space_elevator_base_console;
 
 import net.minecraft.util.StringRepresentable;
+import org.jetbrains.annotations.NotNull;
 
 public enum IoPortType implements StringRepresentable {
 	NONE("none"),
@@ -17,7 +18,7 @@ public enum IoPortType implements StringRepresentable {
 	}
 
 	@Override
-	public String getSerializedName() {
+	public @NotNull String getSerializedName() {
 		return name;
 	}
 }

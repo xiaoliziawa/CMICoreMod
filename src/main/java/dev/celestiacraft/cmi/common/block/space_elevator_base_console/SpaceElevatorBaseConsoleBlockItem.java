@@ -7,6 +7,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
@@ -23,7 +24,7 @@ public class SpaceElevatorBaseConsoleBlockItem extends BlockItem implements GeoI
 	}
 
 	@Override
-	protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
+	protected boolean placeBlock(@NotNull BlockPlaceContext context, @NotNull BlockState state) {
 		boolean ok = super.placeBlock(context, state);
 		if (ok) {
 			Level level = context.getLevel();
@@ -55,6 +56,6 @@ public class SpaceElevatorBaseConsoleBlockItem extends BlockItem implements GeoI
 
 	@Override
 	public AnimatableInstanceCache getAnimatableInstanceCache() {
-		return this.cache;
+		return cache;
 	}
 }

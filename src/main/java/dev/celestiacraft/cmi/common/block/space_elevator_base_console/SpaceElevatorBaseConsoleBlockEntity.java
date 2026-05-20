@@ -44,17 +44,17 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 	private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
 	@Getter
-    private int energyStored = 0;
+	private int energyStored = 0;
 
 	@Getter
-    private final ItemStackHandler inputItems = new ItemStackHandler(ITEM_SLOT_COUNT) {
+	private final ItemStackHandler inputItems = new ItemStackHandler(ITEM_SLOT_COUNT) {
 		@Override
 		protected void onContentsChanged(int slot) {
 			setChanged();
 		}
 	};
 	@Getter
-    private final ItemStackHandler outputItems = new ItemStackHandler(ITEM_SLOT_COUNT) {
+	private final ItemStackHandler outputItems = new ItemStackHandler(ITEM_SLOT_COUNT) {
 		@Override
 		protected void onContentsChanged(int slot) {
 			setChanged();
@@ -67,7 +67,7 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 		}
 	};
 	@Getter
-    private final FluidTank outputFluid = new FluidTank(FLUID_TANK_CAPACITY) {
+	private final FluidTank outputFluid = new FluidTank(FLUID_TANK_CAPACITY) {
 		@Override
 		protected void onContentsChanged() {
 			setChanged();
@@ -75,15 +75,15 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 	};
 
 	@Getter
-    private LazyOptional<IEnergyStorage> energyCap = LazyOptional.empty();
+	private LazyOptional<IEnergyStorage> energyCap = LazyOptional.empty();
 	@Getter
-    private LazyOptional<IItemHandler> inputItemCap = LazyOptional.empty();
+	private LazyOptional<IItemHandler> inputItemCap = LazyOptional.empty();
 	@Getter
-    private LazyOptional<IItemHandler> outputItemCap = LazyOptional.empty();
+	private LazyOptional<IItemHandler> outputItemCap = LazyOptional.empty();
 	@Getter
-    private LazyOptional<IFluidHandler> inputFluidCap = LazyOptional.empty();
+	private LazyOptional<IFluidHandler> inputFluidCap = LazyOptional.empty();
 	@Getter
-    private LazyOptional<IFluidHandler> outputFluidCap = LazyOptional.empty();
+	private LazyOptional<IFluidHandler> outputFluidCap = LazyOptional.empty();
 
 	public SpaceElevatorBaseConsoleBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -151,7 +151,7 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 		return super.getCapability(capability, direction);
 	}
 
-    public int getEnergyCapacity() {
+	public int getEnergyCapacity() {
 		return ENERGY_CAPACITY;
 	}
 

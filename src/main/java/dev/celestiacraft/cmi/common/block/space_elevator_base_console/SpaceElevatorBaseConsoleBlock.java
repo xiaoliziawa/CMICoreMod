@@ -14,9 +14,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -33,7 +34,7 @@ import java.util.Map;
 
 public class SpaceElevatorBaseConsoleBlock extends BaseEntityBlock {
 	public SpaceElevatorBaseConsoleBlock(Properties properties) {
-		super(Properties.copy(net.minecraft.world.level.block.Blocks.IRON_BLOCK)
+		super(Properties.copy(Blocks.IRON_BLOCK)
 				.sound(SoundType.NETHERITE_BLOCK)
 				.noOcclusion()
 				.dynamicShape()

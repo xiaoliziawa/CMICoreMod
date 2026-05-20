@@ -16,7 +16,10 @@ public class CmiSurfaceRuleData {
 	private static final SurfaceRules.RuleSource PEAT = makeStateRule(ForgeRegistries.BLOCKS.getValue(Cmi.loadResource("peat_block")));
 
 	public static SurfaceRules.RuleSource makeRules() {
-		return SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.isBiome(CmiBiome.ANDESITE_CAVE), ANDESITE));
+		return SurfaceRules.sequence(SurfaceRules.ifTrue(
+				SurfaceRules.isBiome(CmiBiome.ANDESITE_CAVE),
+				ANDESITE
+		));
 	}
 
 	public static SurfaceRules.RuleSource makeInjections() {

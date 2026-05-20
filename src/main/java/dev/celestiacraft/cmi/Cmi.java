@@ -109,8 +109,17 @@ public class Cmi {
 		event.enqueueWork(() -> {
 			Regions.register(new CmiOverworldRegion(5));
 
-			SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, Cmi.MODID, CmiSurfaceRuleData.makeRules());
-			SurfaceRuleManager.addToDefaultSurfaceRulesAtStage(SurfaceRuleManager.RuleCategory.OVERWORLD, SurfaceRuleManager.RuleStage.AFTER_BEDROCK, 0, CmiSurfaceRuleData.makeInjections());
+			SurfaceRuleManager.addSurfaceRules(
+					SurfaceRuleManager.RuleCategory.OVERWORLD,
+					Cmi.MODID,
+					CmiSurfaceRuleData.makeRules()
+			);
+			SurfaceRuleManager.addToDefaultSurfaceRulesAtStage(
+					SurfaceRuleManager.RuleCategory.OVERWORLD,
+					SurfaceRuleManager.RuleStage.AFTER_BEDROCK,
+					0,
+					CmiSurfaceRuleData.makeInjections()
+			);
 			AdAstraOxygenCompat.register();
 		});
 	}

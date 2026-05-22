@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 
 public final class AdAstraSpaceElevatorTravelCompat {
 	private static final int GROUND_BASE_LINK_RADIUS = 16;
-	private static final int ORBIT_DOCK_DROP = 5;
 
 	private AdAstraSpaceElevatorTravelCompat() {
 	}
@@ -80,7 +79,7 @@ public final class AdAstraSpaceElevatorTravelCompat {
 	}
 
 	public static BlockPos toOrbitDockAnchor(BlockPos orbitAnchor) {
-		return orbitAnchor.below(ORBIT_DOCK_DROP);
+		return orbitAnchor;
 	}
 
 	public record TravelTarget(ServerLevel level, ChunkPos stationPos, BlockPos targetAnchor) {

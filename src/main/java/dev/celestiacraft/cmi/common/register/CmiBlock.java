@@ -33,6 +33,8 @@ import dev.celestiacraft.cmi.common.block.solar_boiler.steel.SteelSolarBoilerBlo
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleBlock;
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleBlockItem;
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorIoPortBlock;
+import dev.celestiacraft.cmi.common.block.space_elevator_top.SpaceElevatorTopBlock;
+import dev.celestiacraft.cmi.common.block.space_elevator_top.SpaceElevatorTopBlockItem;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerBlock;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerItem;
 import dev.celestiacraft.cmi.common.block.test_coke_oven.TestCokeOvenBlock;
@@ -89,6 +91,7 @@ public class CmiBlock {
 	public static final BlockEntry<SteelSolarBoilerBlock> STEEL_SOLAR_BOILER;
 	public static final BlockEntry<SpaceElevatorBaseConsoleBlock> SPACE_ELEVATOR_BASE_CONSOLE;
 	public static final BlockEntry<SpaceElevatorIoPortBlock> SPACE_ELEVATOR_IO_PORT;
+	public static final BlockEntry<SpaceElevatorTopBlock> SPACE_ELEVATOR_TOP;
 	public static final BlockEntry<WindVaneBlock> WIND_VANE;
 
 	static {
@@ -629,6 +632,64 @@ public class CmiBlock {
 									.withExistingParent(
 											context.getName(), provider.mcLoc("block/block"))
 					);
+				})
+				.register();
+		SPACE_ELEVATOR_TOP = Cmi.REGISTRATE.block("space_elevator_top", SpaceElevatorTopBlock::new)
+				.initialProperties(SharedProperties::stone)
+				.properties(BlockBehaviour.Properties::noOcclusion)
+				.item(SpaceElevatorTopBlockItem::new)
+				.model((context, provider) -> {
+					provider.getBuilder(context.getName())
+							.parent(new ModelFile.UncheckedModelFile("minecraft:builtin/entity"))
+							.transforms()
+							.transform(ItemDisplayContext.GUI)
+							.rotation(30.0F, 45.0F, 0.0F)
+							.translation(0.0F, 0.0F, 0.0F)
+							.scale(0.10F)
+							.end()
+							.transform(ItemDisplayContext.GROUND)
+							.rotation(0.0F, 0.0F, 0.0F)
+							.translation(0.0F, 2.0F, 0.0F)
+							.scale(0.08F)
+							.end()
+							.transform(ItemDisplayContext.FIXED)
+							.rotation(0.0F, 0.0F, 0.0F)
+							.translation(0.0F, 0.0F, 0.0F)
+							.scale(0.12F)
+							.end()
+							.transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)
+							.rotation(75.0F, 45.0F, 0.0F)
+							.translation(0.0F, 2.5F, 0.0F)
+							.scale(0.10F)
+							.end()
+							.transform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND)
+							.rotation(75.0F, 45.0F, 0.0F)
+							.translation(0.0F, 2.5F, 0.0F)
+							.scale(0.10F)
+							.end()
+							.transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)
+							.rotation(0.0F, 45.0F, 0.0F)
+							.translation(0.0F, 4.0F, 2.0F)
+							.scale(0.12F)
+							.end()
+							.transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND)
+							.rotation(0.0F, 225.0F, 0.0F)
+							.translation(0.0F, 4.0F, 2.0F)
+							.scale(0.12F)
+							.end()
+							.end();
+				})
+				.build()
+				.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+				.tag(BlockTags.NEEDS_IRON_TOOL)
+				.tag(AllTags.AllBlockTags.WRENCH_PICKUP.tag)
+				.blockstate((context, provider) -> {
+					provider.getVariantBuilder(context.get())
+							.forAllStatesExcept((state) -> {
+								return ConfiguredModel.builder()
+										.modelFile(provider.models().getExistingFile(provider.modLoc("block/space_elevator_top")))
+										.build();
+							});
 				})
 				.register();
 		WIND_VANE = Cmi.REGISTRATE.block("wind_vane", WindVaneBlock::new)

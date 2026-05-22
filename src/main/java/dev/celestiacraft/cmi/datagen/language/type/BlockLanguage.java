@@ -110,6 +110,11 @@ public class BlockLanguage extends LanguageGenerate {
 				"太空电梯接口"
 		);
 		addBlockLanguage(
+				"space_elevator_top",
+				"Space Elevator Top Receiver",
+				"太空电梯顶部接收器"
+		);
+		addBlockLanguage(
 				"wind_vane",
 				"Wind Vane",
 				"风向标"

@@ -12,6 +12,7 @@ import dev.celestiacraft.cmi.client.overlay.SpaceElevatorConstructionOverlay;
 import dev.celestiacraft.cmi.client.overlay.SpaceElevatorFlightOverlay;
 import dev.celestiacraft.cmi.client.render.SpaceElevatorHudRenderer;
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleRenderer;
+import dev.celestiacraft.cmi.common.block.space_elevator_top.SpaceElevatorTopRenderer;
 import dev.celestiacraft.cmi.common.entity.dev.qi_month.QiMonthRenderer;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorRenderer;
 import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
@@ -59,6 +60,9 @@ public class CmiClient {
 	public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerBlockEntityRenderer(CmiBlockEntity.SPACE_ELEVATOR_BASE_CONSOLE.get(), (context) -> {
 			return new SpaceElevatorBaseConsoleRenderer();
+		});
+		event.registerBlockEntityRenderer(CmiBlockEntity.SPACE_ELEVATOR_TOP.get(), (context) -> {
+			return new SpaceElevatorTopRenderer();
 		});
 	}
 }

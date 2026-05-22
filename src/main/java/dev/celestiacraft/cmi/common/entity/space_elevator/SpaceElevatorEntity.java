@@ -1,8 +1,6 @@
 package dev.celestiacraft.cmi.common.entity.space_elevator;
 
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleBlockEntity;
-import dev.celestiacraft.cmi.common.register.CmiBlock;
 import dev.celestiacraft.cmi.common.register.CmiEntity;
 import dev.celestiacraft.cmi.compat.adastra.AdAstraSpaceElevatorTravelCompat;
 import dev.celestiacraft.cmi.network.CmiNetwork;
@@ -46,6 +44,7 @@ import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -91,7 +90,8 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 	private static final int STATE_ARRIVE_GROUND = 6;
 
 	private static final double ANCHOR_Y_OFFSET = 2.01D;
-	private static final double ORBIT_DOCK_Y_OFFSET = -1.35D;
+	private static final double ORBIT_DOCK_Y_OFFSET = -0.35D;
+	private static final double ORBIT_EXIT_Y_OFFSET = 4.02D;
 	private static final int COUNTDOWN_TICKS = Rocket.COUNTDOWN_LENGTH;
 	private static final double GROUND_ASCENT_BLOCKS_PER_TICK = 192.0D / 180.0D;
 	private static final double ORBIT_APPROACH_DISTANCE = 96.0D;
@@ -104,8 +104,6 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 	private static final double CONFLICT_SEARCH_RADIUS = 3.5D;
 	private static final double CONFLICT_SEARCH_HEIGHT = 256.0D;
 	private static final double CABLE_BOTTOM_Y = -64.0D;
-	private static final int CONSOLE_SEARCH_RADIUS = 12;
-	private static final int CONSOLE_SEARCH_HEIGHT = 16;
 	public static final int CARGO_ITEM_SLOTS = 54;
 	public static final int CARGO_FLUID_CAPACITY = 16_000;
 	private static final Vec3[] CABLE_OFFSETS = new Vec3[] {
@@ -226,14 +224,20 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 			return false;
 		}
 
-		SpaceElevatorBaseConsoleBlockEntity console = findNearbyConsole(serverLevel, getAnchor());
-		if (console == null) {
-			player.displayClientMessage(Component.translatable("text.cmi.space_elevator.no_console"), false);
-			return false;
-		}
-		if (console.getEnergyStored() < SpaceElevatorBaseConsoleBlockEntity.LAUNCH_ENERGY_COST) {
-			player.displayClientMessage(Component.translatable("text.cmi.space_elevator.not_enough_energy"), false);
-			return false;
+		// Energy is only required when launching from the ground; the orbital receiver
+		// dispatches elevators back to Earth for free.
+		BlockEntity energySource = null;
+		if (!isOrbitSide()) {
+			energySource = SpaceElevatorAnchors.findEnergySource(serverLevel, getAnchor());
+			if (energySource == null) {
+				player.displayClientMessage(Component.translatable("text.cmi.space_elevator.no_console"), false);
+				return false;
+			}
+			int launchCost = SpaceElevatorAnchors.getLaunchEnergyCost(energySource);
+			if (SpaceElevatorAnchors.getEnergyStored(energySource) < launchCost) {
+				player.displayClientMessage(Component.translatable("text.cmi.space_elevator.not_enough_energy"), false);
+				return false;
+			}
 		}
 
 		SpaceElevatorEntity counterpart = findOrCreateElevator(target.level(), target.targetAnchor());
@@ -246,35 +250,22 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 			return false;
 		}
 
-		if (!console.consumeEnergy(SpaceElevatorBaseConsoleBlockEntity.LAUNCH_ENERGY_COST)) {
+		if (energySource != null && !SpaceElevatorAnchors.consumeLaunchEnergy(energySource)) {
 			player.displayClientMessage(Component.translatable("text.cmi.space_elevator.not_enough_energy"), false);
 			return false;
 		}
 
 		this.pendingDestinationDimension = target.level().dimension();
 		this.pendingDestinationAnchor = target.targetAnchor().immutable();
+		if (isOrbitSide()) {
+			SpaceElevatorAnchors.onElevatorDeparting(serverLevel, getAnchor());
+		}
 		beginState(isOrbitSide() ? STATE_COUNTDOWN_DOWN : STATE_COUNTDOWN_UP);
 		return true;
 	}
 
 	private boolean isAnchorStillValid() {
-		return level().getBlockState(getAnchor()).is(CmiBlock.SPACE_ELEVATOR_BASE_CONSOLE.get());
-	}
-
-	@Nullable
-	private static SpaceElevatorBaseConsoleBlockEntity findNearbyConsole(ServerLevel level, BlockPos anchorPos) {
-		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
-		for (int dy = -CONSOLE_SEARCH_HEIGHT; dy <= CONSOLE_SEARCH_HEIGHT; dy++) {
-			for (int dx = -CONSOLE_SEARCH_RADIUS; dx <= CONSOLE_SEARCH_RADIUS; dx++) {
-				for (int dz = -CONSOLE_SEARCH_RADIUS; dz <= CONSOLE_SEARCH_RADIUS; dz++) {
-					cursor.set(anchorPos.getX() + dx, anchorPos.getY() + dy, anchorPos.getZ() + dz);
-					if (level.getBlockEntity(cursor) instanceof SpaceElevatorBaseConsoleBlockEntity console) {
-						return console;
-					}
-				}
-			}
-		}
-		return null;
+		return SpaceElevatorAnchors.isValidAnchor(level(), getAnchor());
 	}
 
 	@Override
@@ -518,6 +509,9 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 			player.stopRiding();
 			player.teleportTo((ServerLevel) level(), exitPos.x, exitPos.y, exitPos.z, player.getYRot(), player.getXRot());
 		}
+		if (isOrbitSide() && level() instanceof ServerLevel serverLevel) {
+			SpaceElevatorAnchors.onElevatorArrived(serverLevel, getAnchor());
+		}
 		clearTransport();
 	}
 
@@ -526,7 +520,10 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 			return new Vec3(getX(), getY() + 0.15D, getZ());
 		}
 		if (isOrbitSide()) {
-			return new Vec3(getAnchor().getX() + 0.5D, getAnchor().getY() + 1.02D, getAnchor().getZ() + 0.5D);
+			// Anchor is the TOP receiver block (3 blocks below the NBT structure's bottom trapdoor).
+			// Drop the player on top of that trapdoor so they land on the station floor instead of
+			// inside the receiver model.
+			return new Vec3(getAnchor().getX() + 0.5D, getAnchor().getY() + ORBIT_EXIT_Y_OFFSET, getAnchor().getZ() + 0.5D);
 		}
 
 		List<BlockPos> candidates = new ArrayList<>();
@@ -688,6 +685,10 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 
 	private boolean isTransporting() {
 		return getTransportState() != STATE_IDLE;
+	}
+
+	public boolean isCurrentlyTransporting() {
+		return isTransporting();
 	}
 
 	private boolean isOrbitSide() {

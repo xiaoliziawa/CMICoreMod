@@ -26,6 +26,7 @@ import dev.celestiacraft.cmi.common.block.solar_boiler.cast_iron.CastIronSolarBo
 import dev.celestiacraft.cmi.common.block.solar_boiler.steel.SteelSolarBoilerBlockEntity;
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleBlockEntity;
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorIoPortBlockEntity;
+import dev.celestiacraft.cmi.common.block.space_elevator_top.SpaceElevatorTopBlockEntity;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerBlockEntity;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerInstance;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerRenderer;
@@ -61,6 +62,7 @@ public class CmiBlockEntity {
 	public static final BlockEntityEntry<SteelSolarBoilerBlockEntity> STEEL_SOLAR_BOILER;
 	public static final BlockEntityEntry<SpaceElevatorBaseConsoleBlockEntity> SPACE_ELEVATOR_BASE_CONSOLE;
 	public static final BlockEntityEntry<SpaceElevatorIoPortBlockEntity> SPACE_ELEVATOR_IO_PORT;
+	public static final BlockEntityEntry<SpaceElevatorTopBlockEntity> SPACE_ELEVATOR_TOP;
 	public static final BlockEntityEntry<MetalCogWheelBlockEntity> COGWHEEL;
 	public static final BlockEntityEntry<WindVaneBlockEntity> WIND_VANE;
 
@@ -137,6 +139,9 @@ public class CmiBlockEntity {
 				.register();
 		SPACE_ELEVATOR_IO_PORT = Cmi.REGISTRATE.blockEntity("space_elevator_io_port", SpaceElevatorIoPortBlockEntity::new)
 				.validBlock(CmiBlock.SPACE_ELEVATOR_IO_PORT)
+				.register();
+		SPACE_ELEVATOR_TOP = Cmi.REGISTRATE.blockEntity("space_elevator_top", SpaceElevatorTopBlockEntity::new)
+				.validBlock(CmiBlock.SPACE_ELEVATOR_TOP)
 				.register();
 		WIND_VANE = Cmi.REGISTRATE.blockEntity("wind_vane", WindVaneBlockEntity::new)
 				.validBlock(CmiBlock.WIND_VANE)

@@ -7,7 +7,6 @@ import dev.celestiacraft.cmi.common.register.CmiEntity;
 import dev.celestiacraft.cmi.compat.adastra.AdAstraSpaceElevatorTravelCompat;
 import dev.celestiacraft.cmi.network.CmiNetwork;
 import dev.celestiacraft.cmi.network.c2s.StartSpaceElevatorTransportPacket;
-import dev.celestiacraft.libs.debug.DebugUserManager;
 import earth.terrarium.adastra.api.planets.Planet;
 import earth.terrarium.adastra.common.config.AdAstraConfig;
 import earth.terrarium.adastra.common.entities.vehicles.Rocket;
@@ -31,11 +30,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.Container;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -332,10 +327,14 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 		switch (getTransportState()) {
 			case STATE_COUNTDOWN_UP -> tickCountdown(clientSide, STATE_DEPART_UP);
 			case STATE_COUNTDOWN_DOWN -> tickCountdown(clientSide, STATE_DEPART_DOWN);
-			case STATE_DEPART_UP -> tickDeparture(clientSide, getDockY(), getGroundTransferY(), getGroundDepartureTicks());
-			case STATE_ARRIVE_ORBIT -> tickArrival(clientSide, getDockY() - ORBIT_APPROACH_DISTANCE, getDockY(), ORBIT_APPROACH_TICKS);
-			case STATE_DEPART_DOWN -> tickDeparture(clientSide, getDockY(), getDockY() - ORBIT_DESCENT_DISTANCE, ORBIT_DESCENT_TICKS);
-			case STATE_ARRIVE_GROUND -> tickArrival(clientSide, getGroundTransferY(), getDockY(), getGroundArrivalTicks());
+			case STATE_DEPART_UP ->
+					tickDeparture(clientSide, getDockY(), getGroundTransferY(), getGroundDepartureTicks());
+			case STATE_ARRIVE_ORBIT ->
+					tickArrival(clientSide, getDockY() - ORBIT_APPROACH_DISTANCE, getDockY(), ORBIT_APPROACH_TICKS);
+			case STATE_DEPART_DOWN ->
+					tickDeparture(clientSide, getDockY(), getDockY() - ORBIT_DESCENT_DISTANCE, ORBIT_DESCENT_TICKS);
+			case STATE_ARRIVE_GROUND ->
+					tickArrival(clientSide, getGroundTransferY(), getDockY(), getGroundArrivalTicks());
 			default -> {
 			}
 		}
@@ -780,7 +779,9 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 	private static SpaceElevatorEntity findElevator(Level level, BlockPos anchorPos) {
 		Vec3 center = Vec3.atCenterOf(anchorPos);
 		AABB bounds = AABB.ofSize(center, SEARCH_RADIUS * 2.0D, SEARCH_HEIGHT, SEARCH_RADIUS * 2.0D);
-		return level.getEntitiesOfClass(SpaceElevatorEntity.class, bounds, entity -> entity.isAlive() && entity.isAnchoredTo(anchorPos))
+		return level.getEntitiesOfClass(SpaceElevatorEntity.class, bounds, (entity) -> {
+					return entity.isAlive() && entity.isAnchoredTo(anchorPos);
+				})
 				.stream()
 				.findFirst()
 				.orElse(null);
@@ -944,7 +945,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 		if (level().isClientSide()) {
 			return false;
 		}
-		if (source.getEntity() instanceof Player player && DebugUserManager.isDebugger(player)) {
+		if (source.getEntity() instanceof Player player && player.isCreative()) {
 			discard();
 			return true;
 		}

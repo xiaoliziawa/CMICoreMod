@@ -8,7 +8,7 @@ public class AdvancedSpoutConfig extends ConfigModule {
 	public static ForgeConfigSpec.IntValue CAPACITY;
 
 	public AdvancedSpoutConfig(ForgeConfigSpec.Builder builder) {
-		super(builder, "advanced_spout", "Advanced Spout settings");
+		super(builder, "advanced_spout", "Advanced Spout");
 	}
 
 	@Override

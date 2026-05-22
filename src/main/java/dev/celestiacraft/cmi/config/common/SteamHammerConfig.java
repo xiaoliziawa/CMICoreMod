@@ -9,7 +9,7 @@ public class SteamHammerConfig extends ConfigModule {
 	public static ForgeConfigSpec.DoubleValue STRESS_IMPACT;
 
 	public SteamHammerConfig(ForgeConfigSpec.Builder builder) {
-		super(builder, "steam_hammer", "Steam Hammer settings");
+		super(builder, "steam_hammer", "Steam Hammer");
 	}
 
 	@Override

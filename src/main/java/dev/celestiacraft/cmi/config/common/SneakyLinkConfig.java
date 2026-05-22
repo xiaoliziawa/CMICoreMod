@@ -10,7 +10,7 @@ public class SneakyLinkConfig extends ConfigModule {
 	public static ForgeConfigSpec.ConfigValue<Boolean> INSTANT_PICKUP;
 
 	public SneakyLinkConfig(ForgeConfigSpec.Builder builder) {
-		super(builder, "sneak_link", "SneakyLink settings");
+		super(builder, "sneak_link", "SneakyLink");
 	}
 
 	@Override

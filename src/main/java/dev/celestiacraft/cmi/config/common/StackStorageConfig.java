@@ -8,7 +8,7 @@ public class StackStorageConfig extends ConfigModule {
 	public static ForgeConfigSpec.BooleanValue NO_STORAGE_STACK_ENABLED;
 
 	public StackStorageConfig(ForgeConfigSpec.Builder builder) {
-		super(builder, "stack_storage", "Stack Storage settings");
+		super(builder, "stack_storage", "Stack Storage");
 	}
 
 	@Override

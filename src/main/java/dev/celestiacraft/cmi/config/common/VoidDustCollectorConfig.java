@@ -12,7 +12,7 @@ public class VoidDustCollectorConfig extends ConfigModule {
 	public static ForgeConfigSpec.IntValue MIN_WORK_HEIGHT;
 
 	public VoidDustCollectorConfig(ForgeConfigSpec.Builder builder) {
-		super(builder, "void_dust_collector", "Void Dust Collector settings");
+		super(builder, "void_dust_collector", "Void Dust Collector");
 	}
 
 	@Override

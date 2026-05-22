@@ -8,7 +8,7 @@ public class AcceleratorMotorConfig extends ConfigModule {
 	public static ForgeConfigSpec.IntValue MAX_SPEED;
 
 	public AcceleratorMotorConfig(ForgeConfigSpec.Builder builder) {
-		super(builder, "accelerator_motor", "Accelerator Motor settings");
+		super(builder, "accelerator_motor", "Accelerator Motor");
 	}
 
 	@Override

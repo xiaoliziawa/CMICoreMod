@@ -5,11 +5,11 @@ import dev.celestiacraft.cmi.common.register.CmiEntity;
 import dev.celestiacraft.cmi.compat.adastra.AdAstraSpaceElevatorTravelCompat;
 import dev.celestiacraft.cmi.network.CmiNetwork;
 import dev.celestiacraft.cmi.network.c2s.StartSpaceElevatorTransportPacket;
-import dev.celestiacraft.libs.debug.DebugUserManager;
 import earth.terrarium.adastra.api.planets.Planet;
 import earth.terrarium.adastra.common.config.AdAstraConfig;
 import earth.terrarium.adastra.common.entities.vehicles.Rocket;
 import earth.terrarium.adastra.common.registry.ModSoundEvents;
+import lombok.Getter;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -17,6 +17,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -28,16 +29,13 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.Container;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
@@ -59,7 +57,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
@@ -131,6 +128,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 	private BlockPos pendingDestinationAnchor;
 
 	private final SimpleContainer cargoItems = new SimpleContainer(CARGO_ITEM_SLOTS);
+	@Getter
 	private final FluidTank cargoFluid = new FluidTank(CARGO_FLUID_CAPACITY);
 	private LazyOptional<IItemHandler> cargoItemsCap = LazyOptional.empty();
 	private LazyOptional<IFluidHandler> cargoFluidCap = LazyOptional.empty();
@@ -322,10 +320,14 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 		switch (getTransportState()) {
 			case STATE_COUNTDOWN_UP -> tickCountdown(clientSide, STATE_DEPART_UP);
 			case STATE_COUNTDOWN_DOWN -> tickCountdown(clientSide, STATE_DEPART_DOWN);
-			case STATE_DEPART_UP -> tickDeparture(clientSide, getDockY(), getGroundTransferY(), getGroundDepartureTicks());
-			case STATE_ARRIVE_ORBIT -> tickArrival(clientSide, getDockY() - ORBIT_APPROACH_DISTANCE, getDockY(), ORBIT_APPROACH_TICKS);
-			case STATE_DEPART_DOWN -> tickDeparture(clientSide, getDockY(), getDockY() - ORBIT_DESCENT_DISTANCE, ORBIT_DESCENT_TICKS);
-			case STATE_ARRIVE_GROUND -> tickArrival(clientSide, getGroundTransferY(), getDockY(), getGroundArrivalTicks());
+			case STATE_DEPART_UP ->
+					tickDeparture(clientSide, getDockY(), getGroundTransferY(), getGroundDepartureTicks());
+			case STATE_ARRIVE_ORBIT ->
+					tickArrival(clientSide, getDockY() - ORBIT_APPROACH_DISTANCE, getDockY(), ORBIT_APPROACH_TICKS);
+			case STATE_DEPART_DOWN ->
+					tickDeparture(clientSide, getDockY(), getDockY() - ORBIT_DESCENT_DISTANCE, ORBIT_DESCENT_TICKS);
+			case STATE_ARRIVE_GROUND ->
+					tickArrival(clientSide, getGroundTransferY(), getDockY(), getGroundArrivalTicks());
 			default -> {
 			}
 		}
@@ -540,16 +542,20 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 		return new Vec3(getX(), getY() + 0.15D, getZ());
 	}
 
-	private boolean hasStandingRoom(BlockPos floorPos) {
-		BlockState floorState = level().getBlockState(floorPos);
-		if (floorState.getCollisionShape(level(), floorPos).isEmpty()) {
+	private boolean hasStandingRoom(BlockPos pos) {
+		BlockState state = level().getBlockState(pos);
+		if (state.getCollisionShape(level(), pos).isEmpty()) {
 			return false;
 		}
 
-		BlockPos bodyPos = floorPos.above();
-		BlockPos headPos = floorPos.above(2);
-		return level().getBlockState(bodyPos).getCollisionShape(level(), bodyPos).isEmpty()
-				&& level().getBlockState(headPos).getCollisionShape(level(), headPos).isEmpty();
+		BlockPos bodyPos = pos.above();
+		BlockPos headPos = pos.above(2);
+		return level().getBlockState(bodyPos)
+				.getCollisionShape(level(), bodyPos)
+				.isEmpty()
+				&& level().getBlockState(headPos)
+				.getCollisionShape(level(), headPos)
+				.isEmpty();
 	}
 
 	private void spawnCableParticlesClient() {
@@ -780,7 +786,9 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 	private static SpaceElevatorEntity findElevator(Level level, BlockPos anchorPos) {
 		Vec3 center = Vec3.atCenterOf(anchorPos);
 		AABB bounds = AABB.ofSize(center, SEARCH_RADIUS * 2.0D, SEARCH_HEIGHT, SEARCH_RADIUS * 2.0D);
-		return level.getEntitiesOfClass(SpaceElevatorEntity.class, bounds, entity -> entity.isAlive() && entity.isAnchoredTo(anchorPos))
+		return level.getEntitiesOfClass(SpaceElevatorEntity.class, bounds, (entity) -> {
+					return entity.isAlive() && entity.isAnchoredTo(anchorPos);
+				})
 				.stream()
 				.findFirst()
 				.orElse(null);
@@ -820,8 +828,8 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 		if (tag.contains("AnchorPos")) {
 			setAnchor(BlockPos.of(tag.getLong("AnchorPos")));
 		}
-		if (tag.contains("CargoItems", net.minecraft.nbt.Tag.TAG_LIST)) {
-			cargoItems.fromTag(tag.getList("CargoItems", net.minecraft.nbt.Tag.TAG_COMPOUND));
+		if (tag.contains("CargoItems", Tag.TAG_LIST)) {
+			cargoItems.fromTag(tag.getList("CargoItems", Tag.TAG_COMPOUND));
 		}
 		if (tag.contains("CargoFluid")) {
 			cargoFluid.readFromNBT(tag.getCompound("CargoFluid"));
@@ -840,10 +848,6 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 
 	public Container getCargoItems() {
 		return cargoItems;
-	}
-
-	public FluidTank getCargoFluid() {
-		return cargoFluid;
 	}
 
 	private void rebuildCargoCaps() {
@@ -882,7 +886,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 
 	@Nullable
 	@Override
-	public AbstractContainerMenu createMenu(int containerId, @NotNull net.minecraft.world.entity.player.Inventory playerInventory, @NotNull Player player) {
+	public AbstractContainerMenu createMenu(int containerId, @NotNull Inventory playerInventory, @NotNull Player player) {
 		return new ChestMenu(MenuType.GENERIC_9x6, containerId, playerInventory, cargoItems, 6);
 	}
 
@@ -948,7 +952,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, MenuProvid
 		if (level().isClientSide()) {
 			return false;
 		}
-		if (source.getEntity() instanceof Player player && DebugUserManager.isDebugger(player)) {
+		if (source.getEntity() instanceof Player player && player.isCreative()) {
 			discard();
 			return true;
 		}

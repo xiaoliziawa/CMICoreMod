@@ -5,7 +5,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class SolarBoilerConfig extends ConfigModule {
 	public SolarBoilerConfig(ForgeConfigSpec.Builder builder) {
-		super(builder, "solar_boilder", "Solar Boiler setting");
+		super(builder, "solar_boilder", "Solar Boiler");
 	}
 
 	private final String consumComment = "Water consumption and steam production per tick";

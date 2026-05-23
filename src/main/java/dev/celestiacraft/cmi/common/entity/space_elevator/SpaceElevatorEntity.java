@@ -107,7 +107,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, IUIHolder 
 	private static final double CONFLICT_SEARCH_RADIUS = 3.5D;
 	private static final double CONFLICT_SEARCH_HEIGHT = 256.0D;
 	private static final double CABLE_BOTTOM_Y = -64.0D;
-	public static final int CARGO_ITEM_SLOTS = 54;
+	public static final int CARGO_ITEM_SLOTS = 60;
 	public static final int CARGO_FLUID_CAPACITY = 64_000;
 	private static final Vec3[] CABLE_OFFSETS = new Vec3[] {
 			new Vec3(-20.0D / 16.0D, 20.0D / 16.0D, -20.0D / 16.0D),

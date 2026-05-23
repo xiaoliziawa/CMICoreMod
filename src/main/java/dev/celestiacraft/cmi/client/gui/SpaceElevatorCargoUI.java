@@ -17,7 +17,7 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 public final class SpaceElevatorCargoUI {
 	private static final int SLOT_SIZE = 18;
-	private static final int CARGO_COLS = 9;
+	private static final int CARGO_COLS = 10;
 	private static final int CARGO_ROWS = 6;
 
 	private static final int CARGO_X = 30;
@@ -31,12 +31,14 @@ public final class SpaceElevatorCargoUI {
 	private static final int ARMOR_X = 8;
 	private static final int OFFHAND_X_OFFSET = 4;
 
-	private static final int PLAYER_INV_X = 30;
+	private static final int PLAYER_COLS = 9;
+	private static final int CARGO_GRID_CENTER = CARGO_X + (CARGO_COLS * SLOT_SIZE) / 2;
+	private static final int PLAYER_INV_X = CARGO_GRID_CENTER - (PLAYER_COLS * SLOT_SIZE) / 2;
 	private static final int PLAYER_INV_Y = CARGO_Y + CARGO_ROWS * SLOT_SIZE + 18;
 	private static final int PLAYER_HOTBAR_Y = PLAYER_INV_Y + 3 * SLOT_SIZE + 4;
 
 	private static final int ARMOR_Y = PLAYER_INV_Y;
-	private static final int OFFHAND_X = PLAYER_INV_X + 9 * SLOT_SIZE + OFFHAND_X_OFFSET;
+	private static final int OFFHAND_X = PLAYER_INV_X + PLAYER_COLS * SLOT_SIZE + OFFHAND_X_OFFSET;
 	private static final int OFFHAND_Y = PLAYER_HOTBAR_Y;
 
 	private static final int GUI_WIDTH = Math.max(TANK_X + TANK_WIDTH, OFFHAND_X + SLOT_SIZE) + 12;

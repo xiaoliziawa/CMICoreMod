@@ -133,21 +133,39 @@ public class SpaceElevatorConstructionRecipe implements Recipe<SimpleContainer> 
 		return result;
 	}
 
-	public static float getCompletionRatio(SpaceElevatorConstructionRecipe recipe, IntUnaryOperator ownedProvider, boolean bypassRequirements) {
+	public static float getCompletionRatio(SpaceElevatorConstructionRecipe recipe, IntUnaryOperator ownedProvider, IntUnaryOperator fluidOwnedProvider, boolean bypassRequirements) {
 		if (bypassRequirements) {
 			return 1.0F;
 		}
 
-		int totalRequired = 0;
-		int totalOwned = 0;
-		for (DisplayIngredient ingredient : getDisplayIngredients(recipe, ownedProvider)) {
-			totalRequired += ingredient.required();
-			totalOwned += Math.min(ingredient.owned(), ingredient.required());
+		float itemRatio = computeDimensionRatio(getDisplayIngredients(recipe, ownedProvider).stream()
+				.mapToLong(DisplayIngredient::required).sum(),
+				getDisplayIngredients(recipe, ownedProvider).stream()
+						.mapToLong(ing -> Math.min(ing.owned(), ing.required())).sum());
+		float fluidRatio = computeDimensionRatio(getDisplayFluidIngredients(recipe, fluidOwnedProvider).stream()
+				.mapToLong(DisplayFluidIngredient::required).sum(),
+				getDisplayFluidIngredients(recipe, fluidOwnedProvider).stream()
+						.mapToLong(ing -> Math.min(ing.owned(), ing.required())).sum());
+
+		boolean hasItems = !recipe.ingredients().isEmpty();
+		boolean hasFluids = !recipe.fluidIngredients().isEmpty();
+		if (hasItems && hasFluids) {
+			return Math.min(itemRatio, fluidRatio);
 		}
-		if (totalRequired <= 0) {
+		if (hasItems) {
+			return itemRatio;
+		}
+		if (hasFluids) {
+			return fluidRatio;
+		}
+		return 1.0F;
+	}
+
+	private static float computeDimensionRatio(long required, long owned) {
+		if (required <= 0) {
 			return 1.0F;
 		}
-		return Math.min(1.0F, totalOwned / (float) totalRequired);
+		return Math.min(1.0F, owned / (float) required);
 	}
 
 	public record IngredientEntry(Ingredient ingredient, int count) {

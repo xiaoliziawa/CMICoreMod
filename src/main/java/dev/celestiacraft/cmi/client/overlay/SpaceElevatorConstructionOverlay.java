@@ -1,5 +1,6 @@
 package dev.celestiacraft.cmi.client.overlay;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import dev.celestiacraft.cmi.client.render.SpaceElevatorHudRenderer;
 import dev.celestiacraft.cmi.common.recipe.space_elevator_construction.SpaceElevatorConstructionRecipe;
 import dev.celestiacraft.cmi.compat.adastra.SpaceElevatorConstructionHandler;
@@ -8,17 +9,22 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -59,6 +65,7 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 
 		SpaceElevatorConstructionRecipe recipe = SpaceElevatorConstructionHandler.getRecipe(player.level());
 		List<SpaceElevatorConstructionRecipe.DisplayIngredient> ingredients = recipe == null ? List.of() : getSortedIngredients(anchorPos, player, recipe);
+		List<SpaceElevatorConstructionRecipe.DisplayFluidIngredient> fluidIngredients = recipe == null ? List.of() : getFluidIngredients(anchorPos, recipe);
 		boolean bypassRequirements = player.isCreative() || player.isSpectator();
 		boolean deployed = SpaceElevatorConstructionHandler.hasNearbyElevator(player.level(), anchorPos);
 		boolean ready = recipe != null && !deployed && SpaceElevatorWrenchClientHandler.hasStoredMaterials(anchorPos, recipe, bypassRequirements);
@@ -67,11 +74,13 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 				: SpaceElevatorConstructionRecipe.getCompletionRatio(
 						recipe,
 						ingredientIndex -> SpaceElevatorWrenchClientHandler.getStoredCount(anchorPos, ingredientIndex),
+						fluidIndex -> SpaceElevatorWrenchClientHandler.getStoredFluidAmount(anchorPos, fluidIndex),
 						bypassRequirements
 				);
 		float holdProgress = SpaceElevatorWrenchClientHandler.getHoldProgress(anchorPos);
 		boolean charging = SpaceElevatorWrenchClientHandler.isCharging(anchorPos);
-		int visibleRows = Math.min(ingredients.size(), SpaceElevatorWrenchClientHandler.maxVisibleRows());
+		int totalEntries = ingredients.size() + fluidIngredients.size();
+		int visibleRows = Math.min(totalEntries, SpaceElevatorWrenchClientHandler.maxVisibleRows());
 		int cardHeight = CARD_BASE_HEIGHT + visibleRows * ROW_HEIGHT;
 		float hudScale = resolveHudScale(mc, width, height, cardHeight);
 		float layoutWidth = width / hudScale;
@@ -99,7 +108,7 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 		drawSignalLine(graphics, layoutWidth * 0.5F, layoutHeight * 0.5F, anchorX, anchorY, coolBlue, 1);
 		drawSignalLine(graphics, anchorX, anchorY, cardAttachX, cardAttachY, accentOrange, 2);
 		drawAnchorMarker(graphics, anchorX, anchorY, deployed ? withAlpha(0x7EF7C7, 1.0F) : accentOrange);
-		renderCard(graphics, mc.font, player, cardX, cardY, cardHeight, ingredients, completion, holdProgress, charging, bypassRequirements, deployed, ready, recipe != null);
+		renderCard(graphics, mc.font, player, cardX, cardY, cardHeight, ingredients, fluidIngredients, completion, holdProgress, charging, bypassRequirements, deployed, ready, recipe != null);
 		graphics.pose().popPose();
 	}
 
@@ -158,6 +167,7 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 			int y,
 			int height,
 			List<SpaceElevatorConstructionRecipe.DisplayIngredient> ingredients,
+			List<SpaceElevatorConstructionRecipe.DisplayFluidIngredient> fluidIngredients,
 			float completion,
 			float holdProgress,
 			boolean charging,
@@ -175,9 +185,10 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 		int textGood   = withAlpha(0x78C878, 1.0F);
 		int textWarn   = withAlpha(0xE8883A, 1.0F);
 		int buildColor = deployed ? withAlpha(0x78C878, 1.0F) : withAlpha(0xE8883A, 1.0F);
-		int visibleRows = Math.min(ingredients.size(), SpaceElevatorWrenchClientHandler.maxVisibleRows());
-		int scrollOffset = SpaceElevatorWrenchClientHandler.getScrollOffset(ingredients.size());
-		List<SpaceElevatorConstructionRecipe.DisplayIngredient> visibleIngredients = ingredients.subList(scrollOffset, Math.min(ingredients.size(), scrollOffset + visibleRows));
+		int totalEntries = ingredients.size() + fluidIngredients.size();
+		int visibleRows = Math.min(totalEntries, SpaceElevatorWrenchClientHandler.maxVisibleRows());
+		int scrollOffset = SpaceElevatorWrenchClientHandler.getScrollOffset(totalEntries);
+		int visibleEnd = Math.min(totalEntries, scrollOffset + visibleRows);
 		String status = statusText(deployed, ready, hasRecipe);
 		int pillWidth = font.width(status) + 14;
 
@@ -198,24 +209,18 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 		String dimPath = player.level().dimension().location().getPath().toUpperCase().replace("_", " ");
 		graphics.drawString(font, dimPath, x + 12, y + 21, textMuted, false);
 		graphics.drawString(font, translation("gui.cmi.space_elevator.header.materials"), x + 12, y + 38, textMuted, false);
-		if (ingredients.size() > visibleRows) {
-			String scrollHint = (scrollOffset + 1) + "-" + (scrollOffset + visibleIngredients.size()) + "/" + ingredients.size();
+		if (totalEntries > visibleRows) {
+			String scrollHint = (scrollOffset + 1) + "-" + visibleEnd + "/" + totalEntries;
 			graphics.drawString(font, scrollHint, x + CARD_WIDTH - 12 - font.width(scrollHint), y + 38, textMuted, false);
 		}
 
-		for (int i = 0; i < visibleIngredients.size(); i++) {
-			int rowY = y + 48 + i * ROW_HEIGHT;
-			SpaceElevatorConstructionRecipe.DisplayIngredient ingredient = visibleIngredients.get(i);
-			boolean complete = ingredient.complete(bypassRequirements);
-			int accentColor = complete ? textGood : textWarn;
-			graphics.fill(x + 10, rowY + 2, x + 13, rowY + ROW_HEIGHT - 3, accentColor);
-			if (!ingredient.stack().isEmpty()) {
-				graphics.renderItem(ingredient.stack(), x + 16, rowY + 1);
+		for (int i = scrollOffset; i < visibleEnd; i++) {
+			int rowY = y + 48 + (i - scrollOffset) * ROW_HEIGHT;
+			if (i < ingredients.size()) {
+				renderItemRow(graphics, font, x, rowY, ingredients.get(i), bypassRequirements, textMain, textGood, textWarn);
+			} else {
+				renderFluidRow(graphics, font, x, rowY, fluidIngredients.get(i - ingredients.size()), bypassRequirements, textMain, textGood, textWarn);
 			}
-			String itemName = ingredient.stack().isEmpty() ? translation("gui.cmi.space_elevator.material.unknown") : ingredient.stack().getHoverName().getString();
-			graphics.drawString(font, font.plainSubstrByWidth(itemName, 114), x + 36, rowY + 5, textMain, false);
-			String countText = ingredient.owned() + "/" + ingredient.required();
-			graphics.drawString(font, countText, x + CARD_WIDTH - 12 - font.width(countText), rowY + 5, complete ? textGood : textWarn, false);
 		}
 
 		String footerValue = charging ? holdFooterText(deployed, ready, hasRecipe) : footerText(deployed, ready, hasRecipe);
@@ -244,6 +249,81 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 			graphics.fill(barX, barY, barX + barWidth, barY + 6, withAlpha(0x3A3228, 0.95F));
 			graphics.fill(barX, barY, barX + barFillWidth, barY + 6, buildColor);
 		}
+	}
+
+	private static void renderItemRow(
+			GuiGraphics graphics,
+			Font font,
+			int cardX,
+			int rowY,
+			SpaceElevatorConstructionRecipe.DisplayIngredient ingredient,
+			boolean bypassRequirements,
+			int textMain,
+			int textGood,
+			int textWarn
+	) {
+		boolean complete = ingredient.complete(bypassRequirements);
+		int accentColor = complete ? textGood : textWarn;
+		graphics.fill(cardX + 10, rowY + 2, cardX + 13, rowY + ROW_HEIGHT - 3, accentColor);
+		if (!ingredient.stack().isEmpty()) {
+			graphics.renderItem(ingredient.stack(), cardX + 16, rowY + 1);
+		}
+		String itemName = ingredient.stack().isEmpty() ? translation("gui.cmi.space_elevator.material.unknown") : ingredient.stack().getHoverName().getString();
+		graphics.drawString(font, font.plainSubstrByWidth(itemName, 114), cardX + 36, rowY + 5, textMain, false);
+		String countText = ingredient.owned() + "/" + ingredient.required();
+		graphics.drawString(font, countText, cardX + CARD_WIDTH - 12 - font.width(countText), rowY + 5, complete ? textGood : textWarn, false);
+	}
+
+	private static void renderFluidRow(
+			GuiGraphics graphics,
+			Font font,
+			int cardX,
+			int rowY,
+			SpaceElevatorConstructionRecipe.DisplayFluidIngredient ingredient,
+			boolean bypassRequirements,
+			int textMain,
+			int textGood,
+			int textWarn
+	) {
+		boolean complete = ingredient.complete(bypassRequirements);
+		int accentColor = complete ? textGood : textWarn;
+		graphics.fill(cardX + 10, rowY + 2, cardX + 13, rowY + ROW_HEIGHT - 3, accentColor);
+		drawFluidIcon(graphics, ingredient.stack(), cardX + 16, rowY + 1);
+		String fluidName = ingredient.stack().isEmpty() ? translation("gui.cmi.space_elevator.material.unknown") : ingredient.stack().getDisplayName().getString();
+		graphics.drawString(font, font.plainSubstrByWidth(fluidName, 114), cardX + 36, rowY + 5, textMain, false);
+		String countText = formatBuckets(ingredient.owned()) + "/" + formatBuckets(ingredient.required()) + "B";
+		graphics.drawString(font, countText, cardX + CARD_WIDTH - 12 - font.width(countText), rowY + 5, complete ? textGood : textWarn, false);
+	}
+
+	private static void drawFluidIcon(GuiGraphics graphics, FluidStack stack, int x, int y) {
+		if (stack.isEmpty()) {
+			return;
+		}
+		IClientFluidTypeExtensions ext = IClientFluidTypeExtensions.of(stack.getFluid());
+		ResourceLocation spriteLocation = ext.getStillTexture(stack);
+		if (spriteLocation == null) {
+			return;
+		}
+		TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(spriteLocation);
+		int tint = ext.getTintColor(stack);
+		float r = ((tint >> 16) & 0xFF) / 255.0F;
+		float g = ((tint >> 8) & 0xFF) / 255.0F;
+		float b = (tint & 0xFF) / 255.0F;
+		float a = ((tint >> 24) & 0xFF) / 255.0F;
+		if (a <= 0.0F) {
+			a = 1.0F;
+		}
+		RenderSystem.setShaderColor(r, g, b, a);
+		graphics.blit(x, y, 0, 16, 16, sprite);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+	}
+
+	private static String formatBuckets(int milliBuckets) {
+		float buckets = milliBuckets / 1000.0F;
+		if (Math.abs(buckets - Math.round(buckets)) < 0.01F) {
+			return Integer.toString(Math.round(buckets));
+		}
+		return String.format("%.1f", buckets);
 	}
 
 	private static String statusText(boolean deployed, boolean ready, boolean hasRecipe) {
@@ -275,6 +355,10 @@ public class SpaceElevatorConstructionOverlay implements IGuiOverlay {
 		boolean bypassRequirements = player.isCreative() || player.isSpectator();
 		ingredients.sort(Comparator.comparing((SpaceElevatorConstructionRecipe.DisplayIngredient ingredient) -> ingredient.complete(bypassRequirements)).thenComparing((a, b) -> Integer.compare(b.required() - Math.min(b.owned(), b.required()), a.required() - Math.min(a.owned(), a.required()))));
 		return ingredients;
+	}
+
+	private static List<SpaceElevatorConstructionRecipe.DisplayFluidIngredient> getFluidIngredients(BlockPos anchorPos, SpaceElevatorConstructionRecipe recipe) {
+		return SpaceElevatorConstructionRecipe.getDisplayFluidIngredients(recipe, fluidIndex -> SpaceElevatorWrenchClientHandler.getStoredFluidAmount(anchorPos, fluidIndex));
 	}
 
 	private static void drawStatusPill(GuiGraphics graphics, Font font, int x, int y, String text, int color) {

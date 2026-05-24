@@ -160,18 +160,22 @@ public class SpaceElevatorWrenchClientHandler {
 
 		Minecraft mc = Minecraft.getInstance();
 		Player player = mc.player;
-		if (player == null || mc.level == null || mc.screen != null) {
+		if (player == null || mc.level == null) {
 			resetAll();
 			return;
 		}
+		if (mc.screen != null) {
+			resetCharging();
+			return;
+		}
 		if (!SpaceElevatorConstructionHandler.isWrench(player.getMainHandItem())) {
-			resetAll();
+			resetCharging();
 			return;
 		}
 
 		BlockPos anchorPos = getLookedAtAnchor(mc, player);
 		if (anchorPos == null) {
-			resetAll();
+			resetCharging();
 			return;
 		}
 
@@ -223,14 +227,18 @@ public class SpaceElevatorWrenchClientHandler {
 		return hasStoredMaterials(anchorPos, recipe, player.isCreative() || player.isSpectator());
 	}
 
-	private static void resetAll() {
+	private static void resetCharging() {
 		trackedAnchor = null;
+		holdTicks = 0;
+		packetSent = false;
+	}
+
+	private static void resetAll() {
+		resetCharging();
 		syncedAnchor = null;
 		syncedCounts = new int[0];
 		syncedFluidAmounts = new int[0];
 		syncedOrbitalCounterpartPresent = false;
-		holdTicks = 0;
-		packetSent = false;
 		scrollOffset = 0;
 	}
 }

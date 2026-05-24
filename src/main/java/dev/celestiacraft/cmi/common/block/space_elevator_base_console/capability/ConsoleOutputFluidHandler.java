@@ -6,25 +6,31 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 
 public class ConsoleOutputFluidHandler implements IFluidHandler {
-	private final FluidTank backing;
+	private final FluidTank[] tanks;
 
-	public ConsoleOutputFluidHandler(FluidTank backing) {
-		this.backing = backing;
+	public ConsoleOutputFluidHandler(FluidTank[] tanks) {
+		this.tanks = tanks;
 	}
 
 	@Override
 	public int getTanks() {
-		return 1;
+		return tanks.length;
 	}
 
 	@Override
 	public @NotNull FluidStack getFluidInTank(int tank) {
-		return backing.getFluid();
+		if (tank < 0 || tank >= tanks.length) {
+			return FluidStack.EMPTY;
+		}
+		return tanks[tank].getFluid();
 	}
 
 	@Override
 	public int getTankCapacity(int tank) {
-		return backing.getCapacity();
+		if (tank < 0 || tank >= tanks.length) {
+			return 0;
+		}
+		return tanks[tank].getCapacity();
 	}
 
 	@Override
@@ -39,11 +45,34 @@ public class ConsoleOutputFluidHandler implements IFluidHandler {
 
 	@Override
 	public @NotNull FluidStack drain(FluidStack resource, FluidAction action) {
-		return backing.drain(resource, action);
+		if (resource.isEmpty()) {
+			return FluidStack.EMPTY;
+		}
+		for (FluidTank tank : tanks) {
+			FluidStack existing = tank.getFluid();
+			if (!existing.isEmpty() && existing.isFluidEqual(resource)) {
+				FluidStack drained = tank.drain(resource, action);
+				if (!drained.isEmpty()) {
+					return drained;
+				}
+			}
+		}
+		return FluidStack.EMPTY;
 	}
 
 	@Override
 	public @NotNull FluidStack drain(int maxDrain, FluidAction action) {
-		return backing.drain(maxDrain, action);
+		if (maxDrain <= 0) {
+			return FluidStack.EMPTY;
+		}
+		for (FluidTank tank : tanks) {
+			if (!tank.getFluid().isEmpty()) {
+				FluidStack drained = tank.drain(maxDrain, action);
+				if (!drained.isEmpty()) {
+					return drained;
+				}
+			}
+		}
+		return FluidStack.EMPTY;
 	}
 }

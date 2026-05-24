@@ -3,7 +3,7 @@
 	"dimension": "minecraft:overworld",
 	"ingredients": [
 		{
-			"item": "ad_astra:steel_ingot",
+			"tag": "forge:ingots/steel",
 			"count": 24
 		},
 		{
@@ -53,7 +53,7 @@
 	],
 	"fluid_ingredients": [
 		{
-			"tag": "forge:water",
+			"tag": "tconstruct:molten_obsidian",
 			"amount": 16000
 		},
 		{

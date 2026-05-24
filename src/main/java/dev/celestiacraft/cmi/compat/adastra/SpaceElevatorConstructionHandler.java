@@ -1,9 +1,11 @@
 package dev.celestiacraft.cmi.compat.adastra;
 
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.IoPortShape;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleBlockEntity;
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseStructure;
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorIoPortBlock;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorEntity;
+import dev.celestiacraft.cmi.common.recipe.space_elevator_construction.FluidIngredientEntry;
 import dev.celestiacraft.cmi.common.recipe.space_elevator_construction.SpaceElevatorConstructionRecipe;
 import dev.celestiacraft.cmi.common.register.CmiBlock;
 import dev.celestiacraft.cmi.common.register.CmiEntity;
@@ -21,9 +23,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
@@ -74,11 +81,119 @@ public final class SpaceElevatorConstructionHandler {
 	}
 
 	public static int[] getStoredCounts(ServerLevel level, BlockPos anchorPos, int ingredientCount) {
-		return SpaceElevatorMaterialStorage.getStoredCounts(level, anchorPos, ingredientCount);
+		SpaceElevatorBaseConsoleBlockEntity console = getConsole(level, anchorPos);
+		SpaceElevatorConstructionRecipe recipe = getRecipe(level);
+		if (console == null || recipe == null) {
+			return new int[ingredientCount];
+		}
+		return countMaterials(console, recipe, ingredientCount);
 	}
 
 	public static int[] getStoredFluidAmounts(ServerLevel level, BlockPos anchorPos, int fluidIngredientCount) {
-		return SpaceElevatorMaterialStorage.getStoredFluidAmounts(level, anchorPos, fluidIngredientCount);
+		SpaceElevatorBaseConsoleBlockEntity console = getConsole(level, anchorPos);
+		SpaceElevatorConstructionRecipe recipe = getRecipe(level);
+		if (console == null || recipe == null) {
+			return new int[fluidIngredientCount];
+		}
+		return countFluids(console, recipe, fluidIngredientCount);
+	}
+
+	@Nullable
+	private static SpaceElevatorBaseConsoleBlockEntity getConsole(Level level, BlockPos anchorPos) {
+		BlockEntity be = level.getBlockEntity(anchorPos);
+		return be instanceof SpaceElevatorBaseConsoleBlockEntity console ? console : null;
+	}
+
+	private static int[] countMaterials(SpaceElevatorBaseConsoleBlockEntity console, SpaceElevatorConstructionRecipe recipe, int ingredientCount) {
+		int[] result = new int[ingredientCount];
+		ItemStackHandler items = console.getInputItems();
+		int slots = items.getSlots();
+		int recipeSize = Math.min(ingredientCount, recipe.ingredients().size());
+		for (int i = 0; i < recipeSize; i++) {
+			SpaceElevatorConstructionRecipe.IngredientEntry entry = recipe.ingredients().get(i);
+			int count = 0;
+			for (int slot = 0; slot < slots; slot++) {
+				ItemStack stack = items.getStackInSlot(slot);
+				if (stack.isEmpty() || !entry.ingredient().test(stack)) {
+					continue;
+				}
+				count += stack.getCount();
+			}
+			result[i] = count;
+		}
+		return result;
+	}
+
+	private static int[] countFluids(SpaceElevatorBaseConsoleBlockEntity console, SpaceElevatorConstructionRecipe recipe, int fluidIngredientCount) {
+		int[] result = new int[fluidIngredientCount];
+		FluidTank[] tanks = console.getInputFluids();
+		int recipeSize = Math.min(fluidIngredientCount, recipe.fluidIngredients().size());
+		for (int i = 0; i < recipeSize; i++) {
+			FluidIngredientEntry entry = recipe.fluidIngredients().get(i);
+			int amount = 0;
+			for (FluidTank tank : tanks) {
+				FluidStack stack = tank.getFluid();
+				if (stack.isEmpty() || !entry.test(stack)) {
+					continue;
+				}
+				amount += stack.getAmount();
+			}
+			result[i] = amount;
+		}
+		return result;
+	}
+
+	public static boolean hasAllMaterials(ServerLevel level, BlockPos anchorPos, SpaceElevatorConstructionRecipe recipe) {
+		SpaceElevatorBaseConsoleBlockEntity console = getConsole(level, anchorPos);
+		if (console == null) {
+			return false;
+		}
+		int[] itemCounts = countMaterials(console, recipe, recipe.ingredients().size());
+		for (int i = 0; i < recipe.ingredients().size(); i++) {
+			if (itemCounts[i] < recipe.ingredients().get(i).count()) {
+				return false;
+			}
+		}
+		int[] fluidCounts = countFluids(console, recipe, recipe.fluidIngredients().size());
+		for (int i = 0; i < recipe.fluidIngredients().size(); i++) {
+			if (fluidCounts[i] < recipe.fluidIngredients().get(i).amount()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static void consumeMaterials(SpaceElevatorBaseConsoleBlockEntity console, SpaceElevatorConstructionRecipe recipe) {
+		ItemStackHandler items = console.getInputItems();
+		for (SpaceElevatorConstructionRecipe.IngredientEntry entry : recipe.ingredients()) {
+			int remaining = entry.count();
+			for (int slot = 0; slot < items.getSlots() && remaining > 0; slot++) {
+				ItemStack stack = items.getStackInSlot(slot);
+				if (stack.isEmpty() || !entry.ingredient().test(stack)) {
+					continue;
+				}
+				int take = Math.min(remaining, stack.getCount());
+				items.extractItem(slot, take, false);
+				remaining -= take;
+			}
+		}
+		FluidTank[] tanks = console.getInputFluids();
+		for (FluidIngredientEntry entry : recipe.fluidIngredients()) {
+			int remaining = entry.amount();
+			for (FluidTank tank : tanks) {
+				if (remaining <= 0) {
+					break;
+				}
+				FluidStack stack = tank.getFluid();
+				if (stack.isEmpty() || !entry.test(stack)) {
+					continue;
+				}
+				int take = Math.min(remaining, stack.getAmount());
+				FluidStack drainTarget = new FluidStack(stack, take);
+				FluidStack drained = tank.drain(drainTarget, IFluidHandler.FluidAction.EXECUTE);
+				remaining -= drained.getAmount();
+			}
+		}
 	}
 
 	public static boolean hasNearbyElevator(Level level, BlockPos anchorPos) {
@@ -144,7 +259,8 @@ public final class SpaceElevatorConstructionHandler {
 		if (hasOrbitalCounterpart(level, anchorPos)) {
 			return ConstructResult.ALREADY_IN_ORBIT;
 		}
-		if (!(player.isCreative() || player.isSpectator()) && !SpaceElevatorMaterialStorage.hasAllMaterials(level, anchorPos, recipe)) {
+		boolean creativeBypass = player.isCreative() || player.isSpectator();
+		if (!creativeBypass && !hasAllMaterials(level, anchorPos, recipe)) {
 			return ConstructResult.NOT_ENOUGH_MATERIALS;
 		}
 
@@ -153,7 +269,12 @@ public final class SpaceElevatorConstructionHandler {
 		}
 		AdAstraSpaceElevatorTravelCompat.bindConstructedGroundAnchor(level, anchorPos);
 		SpaceElevatorLinkHandler.markElevatorPresent(level, anchorPos, true);
-		SpaceElevatorMaterialStorage.clear(level, anchorPos);
+		if (!creativeBypass) {
+			SpaceElevatorBaseConsoleBlockEntity console = getConsole(level, anchorPos);
+			if (console != null) {
+				consumeMaterials(console, recipe);
+			}
+		}
 		playFeedback(level, anchorPos);
 		return ConstructResult.SUCCESS;
 	}

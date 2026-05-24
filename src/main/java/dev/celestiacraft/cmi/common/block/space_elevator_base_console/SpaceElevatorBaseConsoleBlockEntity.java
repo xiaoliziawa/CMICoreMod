@@ -5,13 +5,14 @@ import dev.celestiacraft.cmi.common.entity.space_elevator.ElevatorEnergyAnchor;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorEntity;
 import dev.celestiacraft.cmi.common.recipe.space_elevator_construction.SpaceElevatorConstructionRecipe;
 import dev.celestiacraft.cmi.compat.adastra.SpaceElevatorConstructionHandler;
-import dev.celestiacraft.cmi.compat.adastra.SpaceElevatorMaterialStorage;
 import dev.celestiacraft.cmi.network.CmiNetwork;
 import dev.celestiacraft.cmi.network.s2c.SyncSpaceElevatorMaterialsPacket;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -47,7 +48,8 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 	public static final int ENERGY_MAX_RECEIVE = 50_000;
 	public static final int LAUNCH_ENERGY_COST = 1_000_000;
 	public static final int FLUID_TANK_CAPACITY = 64_000;
-	public static final int ITEM_SLOT_COUNT = 9;
+	public static final int FLUID_TANK_COUNT = 4;
+	public static final int ITEM_SLOT_COUNT = 128;
 
 	public static final Direction INPUT_SIDE = Direction.EAST;
 	public static final Direction OUTPUT_SIDE = Direction.WEST;
@@ -77,19 +79,29 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 			setChanged();
 		}
 	};
-	private final FluidTank inputFluid = new FluidTank(FLUID_TANK_CAPACITY) {
-		@Override
-		protected void onContentsChanged() {
-			setChanged();
+	private final FluidTank[] inputFluids = createTankArray();
+	private final FluidTank[] outputFluids = createTankArray();
+
+	public FluidTank[] getInputFluids() {
+		return inputFluids;
+	}
+
+	public FluidTank[] getOutputFluids() {
+		return outputFluids;
+	}
+
+	private FluidTank[] createTankArray() {
+		FluidTank[] array = new FluidTank[FLUID_TANK_COUNT];
+		for (int i = 0; i < FLUID_TANK_COUNT; i++) {
+			array[i] = new FluidTank(FLUID_TANK_CAPACITY) {
+				@Override
+				protected void onContentsChanged() {
+					setChanged();
+				}
+			};
 		}
-	};
-	@Getter
-	private final FluidTank outputFluid = new FluidTank(FLUID_TANK_CAPACITY) {
-		@Override
-		protected void onContentsChanged() {
-			setChanged();
-		}
-	};
+		return array;
+	}
 
 	@Getter
 	private LazyOptional<IEnergyStorage> energyCap = LazyOptional.empty();
@@ -119,8 +131,8 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 		this.energyCap = LazyOptional.of(() -> new ConsoleEnergyStorage(this));
 		this.inputItemCap = LazyOptional.of(() -> new ConsoleInputItemHandler(inputItems));
 		this.outputItemCap = LazyOptional.of(() -> new ConsoleOutputItemHandler(outputItems));
-		this.inputFluidCap = LazyOptional.of(() -> new ConsoleInputFluidHandler(inputFluid));
-		this.outputFluidCap = LazyOptional.of(() -> new ConsoleOutputFluidHandler(outputFluid));
+		this.inputFluidCap = LazyOptional.of(() -> new ConsoleInputFluidHandler(inputFluids));
+		this.outputFluidCap = LazyOptional.of(() -> new ConsoleOutputFluidHandler(outputFluids));
 	}
 
 	@Override
@@ -214,36 +226,18 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 			return;
 		}
 		SpaceElevatorEntity elevator = SpaceElevatorConstructionHandler.getNearbyElevator(serverLevel, pos);
-		if (elevator == null) {
-			entity.pullInputsIntoConstructionStorage(serverLevel);
-		} else {
+		if (elevator != null) {
 			entity.pushInputsToElevatorCargo(elevator);
+		} else {
+			entity.broadcastConstructionMaterials(serverLevel);
 		}
 	}
 
-	private void pullInputsIntoConstructionStorage(ServerLevel level) {
+	private void broadcastConstructionMaterials(ServerLevel level) {
 		SpaceElevatorConstructionRecipe recipe = SpaceElevatorConstructionHandler.getRecipe(level);
 		if (recipe == null) {
 			return;
 		}
-		if (SpaceElevatorMaterialStorage.hasAllMaterials(level, worldPosition, recipe)) {
-			return;
-		}
-
-		boolean changed = false;
-		SpaceElevatorMaterialStorage.StoreResult itemResult = SpaceElevatorMaterialStorage.storeFromItemHandler(level, worldPosition, recipe, inputItems);
-		if (itemResult != SpaceElevatorMaterialStorage.StoreResult.NOTHING_TO_STORE) {
-			changed = true;
-		}
-		SpaceElevatorMaterialStorage.StoreResult fluidResult = SpaceElevatorMaterialStorage.storeFromFluidHandler(level, worldPosition, recipe, inputFluid);
-		if (fluidResult != SpaceElevatorMaterialStorage.StoreResult.NOTHING_TO_STORE) {
-			changed = true;
-		}
-		if (!changed) {
-			return;
-		}
-
-		setChanged();
 		broadcastStoredCounts(level, recipe);
 	}
 
@@ -292,16 +286,20 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 	}
 
 	private boolean transferFluidToCargo(IFluidHandler cargoTank) {
-		FluidStack stored = inputFluid.getFluid();
-		if (stored.isEmpty()) {
-			return false;
+		boolean moved = false;
+		for (FluidTank tank : inputFluids) {
+			FluidStack stored = tank.getFluid();
+			if (stored.isEmpty()) {
+				continue;
+			}
+			int accepted = cargoTank.fill(stored.copy(), IFluidHandler.FluidAction.EXECUTE);
+			if (accepted <= 0) {
+				continue;
+			}
+			tank.drain(accepted, IFluidHandler.FluidAction.EXECUTE);
+			moved = true;
 		}
-		int accepted = cargoTank.fill(stored.copy(), IFluidHandler.FluidAction.EXECUTE);
-		if (accepted <= 0) {
-			return false;
-		}
-		inputFluid.drain(accepted, IFluidHandler.FluidAction.EXECUTE);
-		return true;
+		return moved;
 	}
 
 	private void broadcastStoredCounts(ServerLevel level, SpaceElevatorConstructionRecipe recipe) {
@@ -320,8 +318,8 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 		tag.putInt("Energy", energyStored);
 		tag.put("InputItems", inputItems.serializeNBT());
 		tag.put("OutputItems", outputItems.serializeNBT());
-		tag.put("InputFluid", inputFluid.writeToNBT(new CompoundTag()));
-		tag.put("OutputFluid", outputFluid.writeToNBT(new CompoundTag()));
+		tag.put("InputFluids", serializeTanks(inputFluids));
+		tag.put("OutputFluids", serializeTanks(outputFluids));
 	}
 
 	@Override
@@ -330,8 +328,33 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 		energyStored = tag.getInt("Energy");
 		inputItems.deserializeNBT(tag.getCompound("InputItems"));
 		outputItems.deserializeNBT(tag.getCompound("OutputItems"));
-		inputFluid.readFromNBT(tag.getCompound("InputFluid"));
-		outputFluid.readFromNBT(tag.getCompound("OutputFluid"));
+		deserializeTanks(inputFluids, tag, "InputFluids", "InputFluid");
+		deserializeTanks(outputFluids, tag, "OutputFluids", "OutputFluid");
+	}
+
+	private static ListTag serializeTanks(FluidTank[] tanks) {
+		ListTag list = new ListTag();
+		for (FluidTank tank : tanks) {
+			list.add(tank.writeToNBT(new CompoundTag()));
+		}
+		return list;
+	}
+
+	private static void deserializeTanks(FluidTank[] tanks, CompoundTag tag, String listKey, String legacySingleKey) {
+		for (FluidTank tank : tanks) {
+			tank.setFluid(FluidStack.EMPTY);
+		}
+		if (tag.contains(listKey, Tag.TAG_LIST)) {
+			ListTag list = tag.getList(listKey, Tag.TAG_COMPOUND);
+			int count = Math.min(list.size(), tanks.length);
+			for (int i = 0; i < count; i++) {
+				tanks[i].readFromNBT(list.getCompound(i));
+			}
+			return;
+		}
+		if (tag.contains(legacySingleKey, Tag.TAG_COMPOUND)) {
+			tanks[0].readFromNBT(tag.getCompound(legacySingleKey));
+		}
 	}
 
 	@Override

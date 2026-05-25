@@ -1,9 +1,9 @@
 package dev.celestiacraft.cmi.compat.adastra;
 
-import dev.celestiacraft.cmi.common.block.space_elevator_base_console.IoPortShape;
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleBlockEntity;
-import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseStructure;
-import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorIoPortBlock;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.io.IoPortShape;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.io.SpaceElevatorIoPortBlock;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.structure.SpaceElevatorBaseStructure;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorEntity;
 import dev.celestiacraft.cmi.common.recipe.space_elevator_construction.FluidIngredientEntry;
 import dev.celestiacraft.cmi.common.recipe.space_elevator_construction.SpaceElevatorConstructionRecipe;

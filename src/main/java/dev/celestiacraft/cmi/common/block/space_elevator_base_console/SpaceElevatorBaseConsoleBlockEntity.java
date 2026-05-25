@@ -1,6 +1,7 @@
 package dev.celestiacraft.cmi.common.block.space_elevator_base_console;
 
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.capability.*;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.transfer.SpaceElevatorConsoleFluidTransferEvent;
 import dev.celestiacraft.cmi.common.entity.space_elevator.ElevatorEnergyAnchor;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorEntity;
 import dev.celestiacraft.cmi.common.recipe.space_elevator_construction.SpaceElevatorConstructionRecipe;
@@ -25,6 +26,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fluids.FluidStack;
@@ -56,6 +58,7 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 	public static final Direction ENERGY_SIDE = Direction.SOUTH;
 
 	private static final int INPUT_PULL_INTERVAL_TICKS = 20;
+	private static final int ELEVATOR_CHECK_INTERVAL_TICKS = 10;
 	private static final double MATERIAL_SYNC_RADIUS = 32.0D;
 
 	private static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("idle");
@@ -64,6 +67,9 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 
 	@Getter
 	private int energyStored = 0;
+
+	@Getter
+	private boolean elevatorPresent = false;
 
 	@Getter
 	private final ItemStackHandler inputItems = new ItemStackHandler(ITEM_SLOT_COUNT) {
@@ -222,12 +228,20 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 		if (!(level instanceof ServerLevel serverLevel)) {
 			return;
 		}
+		if ((serverLevel.getGameTime() + pos.asLong()) % ELEVATOR_CHECK_INTERVAL_TICKS == 0) {
+			boolean nowPresent = SpaceElevatorConstructionHandler.hasNearbyElevator(serverLevel, pos);
+			if (nowPresent != entity.elevatorPresent) {
+				entity.elevatorPresent = nowPresent;
+				entity.setChanged();
+				serverLevel.sendBlockUpdated(pos, state, state, 3);
+			}
+		}
 		if ((serverLevel.getGameTime() + pos.asLong()) % INPUT_PULL_INTERVAL_TICKS != 0) {
 			return;
 		}
 		SpaceElevatorEntity elevator = SpaceElevatorConstructionHandler.getNearbyElevator(serverLevel, pos);
 		if (elevator != null) {
-			entity.pushInputsToElevatorCargo(elevator);
+			entity.pushInputsToElevatorCargo(serverLevel, elevator);
 		} else {
 			entity.broadcastConstructionMaterials(serverLevel);
 		}
@@ -241,7 +255,7 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 		broadcastStoredCounts(level, recipe);
 	}
 
-	private void pushInputsToElevatorCargo(SpaceElevatorEntity elevator) {
+	private void pushInputsToElevatorCargo(ServerLevel level, SpaceElevatorEntity elevator) {
 		boolean[] changed = {false};
 		elevator.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(cargo -> {
 			if (transferItemsToCargo(cargo)) {
@@ -249,8 +263,10 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 			}
 		});
 		elevator.getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(cargo -> {
-			if (transferFluidToCargo(cargo)) {
+			int moved = transferFluidToCargo(cargo);
+			if (moved > 0) {
 				changed[0] = true;
+				MinecraftForge.EVENT_BUS.post(new SpaceElevatorConsoleFluidTransferEvent(level, worldPosition, moved));
 			}
 		});
 		if (changed[0]) {
@@ -285,8 +301,8 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 		return movedAny;
 	}
 
-	private boolean transferFluidToCargo(IFluidHandler cargoTank) {
-		boolean moved = false;
+	private int transferFluidToCargo(IFluidHandler cargoTank) {
+		int moved = 0;
 		for (FluidTank tank : inputFluids) {
 			FluidStack stored = tank.getFluid();
 			if (stored.isEmpty()) {
@@ -297,7 +313,7 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 				continue;
 			}
 			tank.drain(accepted, IFluidHandler.FluidAction.EXECUTE);
-			moved = true;
+			moved += accepted;
 		}
 		return moved;
 	}
@@ -316,6 +332,7 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 	protected void saveAdditional(@NotNull CompoundTag tag) {
 		super.saveAdditional(tag);
 		tag.putInt("Energy", energyStored);
+		tag.putBoolean("ElevatorPresent", elevatorPresent);
 		tag.put("InputItems", inputItems.serializeNBT());
 		tag.put("OutputItems", outputItems.serializeNBT());
 		tag.put("InputFluids", serializeTanks(inputFluids));
@@ -326,6 +343,7 @@ public class SpaceElevatorBaseConsoleBlockEntity extends BlockEntity implements 
 	public void load(@NotNull CompoundTag tag) {
 		super.load(tag);
 		energyStored = tag.getInt("Energy");
+		elevatorPresent = tag.getBoolean("ElevatorPresent");
 		inputItems.deserializeNBT(tag.getCompound("InputItems"));
 		outputItems.deserializeNBT(tag.getCompound("OutputItems"));
 		deserializeTanks(inputFluids, tag, "InputFluids", "InputFluid");

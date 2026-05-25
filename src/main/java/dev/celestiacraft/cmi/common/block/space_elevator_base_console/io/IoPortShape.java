@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.common.block.space_elevator_base_console;
+package dev.celestiacraft.cmi.common.block.space_elevator_base_console.io;
 
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.phys.shapes.Shapes;

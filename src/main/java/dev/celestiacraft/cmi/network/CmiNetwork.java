@@ -3,6 +3,7 @@ package dev.celestiacraft.cmi.network;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.network.c2s.*;
 import dev.celestiacraft.cmi.network.s2c.SeedPacket;
+import dev.celestiacraft.cmi.network.s2c.SyncSpaceElevatorConsoleFluidTransferPacket;
 import dev.celestiacraft.cmi.network.s2c.SyncSpaceElevatorBaseStatePacket;
 import dev.celestiacraft.cmi.network.s2c.SyncSpaceElevatorMaterialsPacket;
 import net.minecraftforge.network.NetworkRegistry;
@@ -76,6 +77,13 @@ public class CmiNetwork {
 				StartSpaceElevatorTransportPacket::encode,
 				StartSpaceElevatorTransportPacket::decode,
 				StartSpaceElevatorTransportPacket::handle
+		);
+		CHANNEL.registerMessage(
+				id++,
+				SyncSpaceElevatorConsoleFluidTransferPacket.class,
+				SyncSpaceElevatorConsoleFluidTransferPacket::encode,
+				SyncSpaceElevatorConsoleFluidTransferPacket::decode,
+				SyncSpaceElevatorConsoleFluidTransferPacket::handle
 		);
 	}
 }

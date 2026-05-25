@@ -32,7 +32,7 @@ import dev.celestiacraft.cmi.common.block.solar_boiler.cast_iron.CastIronSolarBo
 import dev.celestiacraft.cmi.common.block.solar_boiler.steel.SteelSolarBoilerBlock;
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleBlock;
 import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleBlockItem;
-import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorIoPortBlock;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.io.SpaceElevatorIoPortBlock;
 import dev.celestiacraft.cmi.common.block.space_elevator_top.SpaceElevatorTopBlock;
 import dev.celestiacraft.cmi.common.block.space_elevator_top.SpaceElevatorTopBlockItem;
 import dev.celestiacraft.cmi.common.block.steam_hammer.SteamHammerBlock;

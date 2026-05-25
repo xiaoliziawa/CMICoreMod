@@ -13,9 +13,7 @@ public class CmiItemTags {
 			BURNER,
 			COGWHEEL,
 			LARGE_COGWHEEL,
-			WORKBENCHES,
-			NO_STACK_UPGRADE,
-			NO_STORAGE_STACK;
+			WORKBENCHES;
 
 	static {
 		MECHANISMS = TagsBuilder.item("mechanisms").create();
@@ -26,8 +24,6 @@ public class CmiItemTags {
 		COGWHEEL = TagsBuilder.item("cogwheel").create();
 		LARGE_COGWHEEL = TagsBuilder.item("large_cogwheel").create();
 		WORKBENCHES = TagsBuilder.item("workbenches").forge();
-		NO_STACK_UPGRADE = TagsBuilder.item("no_stack_upgrade").cmi();
-		NO_STORAGE_STACK = TagsBuilder.item("no_storage_stack").cmi();
 	}
 
 	public static TagKey<Item> mechanism(String name) {

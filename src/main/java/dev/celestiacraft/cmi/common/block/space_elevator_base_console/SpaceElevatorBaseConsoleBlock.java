@@ -1,5 +1,10 @@
 package dev.celestiacraft.cmi.common.block.space_elevator_base_console;
 
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.io.IoPortShape;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.io.IoPortType;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.io.SpaceElevatorIoPortBlock;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.io.SpaceElevatorIoPortBlockEntity;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.structure.SpaceElevatorBaseStructure;
 import dev.celestiacraft.cmi.common.register.CmiBlock;
 import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 import net.minecraft.core.BlockPos;

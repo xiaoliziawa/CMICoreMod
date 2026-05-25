@@ -1,6 +1,7 @@
-package dev.celestiacraft.cmi.common.block.space_elevator_base_console;
+package dev.celestiacraft.cmi.common.block.space_elevator_base_console.render;
 
 import dev.celestiacraft.cmi.Cmi;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleBlockEntity;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 

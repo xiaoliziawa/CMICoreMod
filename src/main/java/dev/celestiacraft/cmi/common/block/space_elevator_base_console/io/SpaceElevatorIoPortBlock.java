@@ -1,5 +1,6 @@
-package dev.celestiacraft.cmi.common.block.space_elevator_base_console;
+package dev.celestiacraft.cmi.common.block.space_elevator_base_console.io;
 
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.SpaceElevatorBaseConsoleBlock;
 import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;

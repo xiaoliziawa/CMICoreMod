@@ -1,5 +1,7 @@
-package dev.celestiacraft.cmi.common.block.space_elevator_base_console;
+package dev.celestiacraft.cmi.common.block.space_elevator_base_console.structure;
 
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.io.IoPortShape;
+import dev.celestiacraft.cmi.common.block.space_elevator_base_console.io.IoPortType;
 import net.minecraft.core.Vec3i;
 
 import java.util.EnumMap;

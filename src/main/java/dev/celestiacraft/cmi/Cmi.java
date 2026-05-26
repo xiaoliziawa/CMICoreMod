@@ -19,6 +19,7 @@ import dev.celestiacraft.cmi.compat.create.CmiStress;
 import dev.celestiacraft.cmi.config.main.CommonConfig;
 import dev.celestiacraft.cmi.datagen.worldgen.region.CmiOverworldRegion;
 import dev.celestiacraft.cmi.datagen.worldgen.surfacerule.CmiSurfaceRuleData;
+import dev.celestiacraft.cmi.feature.cargogrid.CargoGridRules;
 import dev.celestiacraft.cmi.network.CmiNetwork;
 import net.createmod.catnip.lang.FontHelper;
 import net.createmod.ponder.foundation.PonderIndex;
@@ -125,6 +126,7 @@ public class Cmi {
 					CmiSurfaceRuleData.makeInjections()
 			);
 			AdAstraOxygenCompat.register();
+			CargoGridRules.load();
 		});
 	}
 

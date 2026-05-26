@@ -13,6 +13,7 @@ public class CommonConfig {
 	public static final AdvancedSpoutConfig ADVANCED_SPOUT;
 	public static final VoidDustCollectorConfig VOID_DUST_COLLECTOR;
 	public static final SolarBoilerConfig SOLAR_BOILER;
+	public static final SpaceElevatorConfig SPACE_ELEVATOR;
 
 	static {
 		BUILDER.comment("All settings below will only take effect after restarting the server or client.")
@@ -24,6 +25,7 @@ public class CommonConfig {
 		ADVANCED_SPOUT = new AdvancedSpoutConfig(BUILDER);
 		VOID_DUST_COLLECTOR = new VoidDustCollectorConfig(BUILDER);
 		SOLAR_BOILER = new SolarBoilerConfig(BUILDER);
+		SPACE_ELEVATOR = new SpaceElevatorConfig(BUILDER);
 
 		BUILDER.pop();
 

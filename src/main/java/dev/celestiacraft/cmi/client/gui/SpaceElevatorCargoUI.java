@@ -10,6 +10,8 @@ import com.lowdragmc.lowdraglib.gui.widget.TankWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.side.fluid.forge.FluidTransferWrapper;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorEntity;
+import dev.celestiacraft.cmi.config.main.CommonConfig;
+import dev.celestiacraft.cmi.feature.cargogrid.CargoGridWidget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
@@ -61,14 +63,18 @@ public final class SpaceElevatorCargoUI {
 				.setTextColor(LABEL_COLOR)
 				.setDropShadow(false));
 
-		for (int row = 0; row < CARGO_ROWS; row++) {
-			for (int col = 0; col < CARGO_COLS; col++) {
-				int index = row * CARGO_COLS + col;
-				int x = CARGO_X + col * SLOT_SIZE;
-				int y = CARGO_Y + row * SLOT_SIZE;
-				SlotWidget cargoSlot = new SlotWidget(elevator.getCargoItems(), index, x, y, true, true);
-				cargoSlot.setLocationInfo(false, false);
-				root.addWidget(cargoSlot);
+		if (CommonConfig.SPACE_ELEVATOR != null && CommonConfig.SPACE_ELEVATOR.ENABLE_CARGO_GRID.get()) {
+			root.addWidget(new CargoGridWidget(CARGO_X, CARGO_Y, CARGO_COLS, CARGO_ROWS, elevator.getCargoItems()));
+		} else {
+			for (int row = 0; row < CARGO_ROWS; row++) {
+				for (int col = 0; col < CARGO_COLS; col++) {
+					int index = row * CARGO_COLS + col;
+					int x = CARGO_X + col * SLOT_SIZE;
+					int y = CARGO_Y + row * SLOT_SIZE;
+					SlotWidget cargoSlot = new SlotWidget(elevator.getCargoItems(), index, x, y, true, true);
+					cargoSlot.setLocationInfo(false, false);
+					root.addWidget(cargoSlot);
+				}
 			}
 		}
 

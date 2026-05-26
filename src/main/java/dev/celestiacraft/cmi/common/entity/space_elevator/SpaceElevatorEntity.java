@@ -22,6 +22,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
@@ -863,7 +864,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, IUIHolder 
 			setAnchor(BlockPos.of(tag.getLong("AnchorPos")));
 		}
 		if (tag.contains("CargoItems", Tag.TAG_LIST)) {
-			cargoItems.fromTag(tag.getList("CargoItems", Tag.TAG_COMPOUND));
+			loadCargoItems(tag.getList("CargoItems", Tag.TAG_COMPOUND));
 		}
 		if (tag.contains("CargoFluid")) {
 			cargoFluid.readFromNBT(tag.getCompound("CargoFluid"));
@@ -877,7 +878,7 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, IUIHolder 
 		if (hasAnchor()) {
 			tag.putLong("AnchorPos", getAnchor().asLong());
 		}
-		tag.put("CargoItems", cargoItems.createTag());
+		tag.put("CargoItems", saveCargoItems());
 		tag.put("CargoFluid", cargoFluid.writeToNBT(new CompoundTag()));
 		if (transferringToCounterpart) {
 			tag.putBoolean("TransferringToCounterpart", true);
@@ -886,6 +887,44 @@ public class SpaceElevatorEntity extends Entity implements GeoEntity, IUIHolder 
 
 	public Container getCargoItems() {
 		return cargoItems;
+	}
+
+	private ListTag saveCargoItems() {
+		ListTag list = new ListTag();
+		for (int i = 0; i < cargoItems.getContainerSize(); i++) {
+			ItemStack stack = cargoItems.getItem(i);
+			if (stack.isEmpty()) continue;
+			CompoundTag entry = new CompoundTag();
+			entry.putByte("Slot", (byte) i);
+			stack.save(entry);
+			list.add(entry);
+		}
+		return list;
+	}
+
+	private void loadCargoItems(ListTag list) {
+		for (int i = 0; i < cargoItems.getContainerSize(); i++) {
+			cargoItems.setItem(i, ItemStack.EMPTY);
+		}
+		boolean hasSlotIndex = false;
+		for (int i = 0; i < list.size(); i++) {
+			if (list.getCompound(i).contains("Slot", Tag.TAG_BYTE)) {
+				hasSlotIndex = true;
+				break;
+			}
+		}
+		if (hasSlotIndex) {
+			for (int i = 0; i < list.size(); i++) {
+				CompoundTag entry = list.getCompound(i);
+				int slot = entry.getByte("Slot") & 0xFF;
+				ItemStack stack = ItemStack.of(entry);
+				if (!stack.isEmpty() && slot < cargoItems.getContainerSize()) {
+					cargoItems.setItem(slot, stack);
+				}
+			}
+		} else {
+			cargoItems.fromTag(list);
+		}
 	}
 
 	private void rebuildCargoCaps() {

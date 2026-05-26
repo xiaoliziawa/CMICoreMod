@@ -85,5 +85,12 @@ public class CmiNetwork {
 				SyncSpaceElevatorConsoleFluidTransferPacket::decode,
 				SyncSpaceElevatorConsoleFluidTransferPacket::handle
 		);
+		CHANNEL.registerMessage(
+				id++,
+				RotateCarriedItemPacket.class,
+				RotateCarriedItemPacket::encode,
+				RotateCarriedItemPacket::decode,
+				RotateCarriedItemPacket::handle
+		);
 	}
 }

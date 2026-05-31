@@ -2,11 +2,11 @@ package dev.celestiacraft.cmi.common.block.test_coke_oven;
 
 import com.simibubi.create.foundation.block.IBE;
 import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
-import net.minecraft.world.level.block.Block;
+import dev.celestiacraft.libs.api.register.block.BasicBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-public class TestCokeOvenIOBlock extends Block implements IBE<TestCokeOvenIOBlockEntity> {
+public class TestCokeOvenIOBlock extends BasicBlock implements IBE<TestCokeOvenIOBlockEntity> {
 	public TestCokeOvenIOBlock(Properties properties) {
 		super(Properties.copy(Blocks.STONE));
 		this.registerDefaultState(this.stateDefinition.any());

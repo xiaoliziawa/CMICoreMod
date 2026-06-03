@@ -25,8 +25,10 @@ public class CmiStress extends ConfigBase {
 	protected final Map<ResourceLocation, ForgeConfigSpec.ConfigValue<Double>> capacities = new HashMap<>();
 	protected final Map<ResourceLocation, ForgeConfigSpec.ConfigValue<Double>> impacts = new HashMap<>();
 
+	private static final ForgeConfigSpec.Builder CONFIG_BUILDER = new ForgeConfigSpec.Builder();
+
 	public static Pair<CmiStress, ForgeConfigSpec> createConfig() {
-		Pair<CmiStress, ForgeConfigSpec> pair = new ForgeConfigSpec.Builder().configure(builder -> {
+		Pair<CmiStress, ForgeConfigSpec> pair = CONFIG_BUILDER.configure((builder) -> {
 			CmiStress stress = new CmiStress();
 			stress.registerAll(builder);
 			return stress;

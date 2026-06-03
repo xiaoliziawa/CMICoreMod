@@ -36,7 +36,9 @@ public class SolarBoilerFluidCapability {
 			// 外部只能输入水
 			@Override
 			public int fill(FluidStack resource, FluidAction action) {
-				if (!resource.getFluid().is(FluidTags.WATER)) return 0;
+				if (!resource.getFluid().is(FluidTags.WATER)) {
+					return 0;
+				}
 				return waterTank.fill(resource, action);
 			}
 

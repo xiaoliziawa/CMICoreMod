@@ -40,6 +40,7 @@ public class CmiKubeJSPlugin extends KubeJSPlugin {
 				.register("wire_cutting", CdgRecipesSchema.CUTTING);
 	}
 
+	@Override
 	public void registerBindings(BindingsEvent event) {
 		event.add("Cmi", Cmi.class);
 		event.add("CmiLang", CmiLang.class);
@@ -52,6 +53,7 @@ public class CmiKubeJSPlugin extends KubeJSPlugin {
 		event.add("CmiMiningLevel", CmiMiningLevel.class);
 	}
 
+	@Override
 	public void init() {
 		RegistryInfo.ITEM.addType(
 				"createdieselgenerators:hammer",

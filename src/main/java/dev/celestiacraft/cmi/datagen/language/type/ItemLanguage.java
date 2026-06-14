@@ -28,6 +28,26 @@ public class ItemLanguage extends LanguageGenerate {
 				"Nutrition Syringe",
 				"营养注射器"
 		);
+		addItemLanguage(
+				"prospecting_rocket_tier1",
+				"Tier 1 Prospecting Rocket",
+				"壹级勘探火箭"
+		);
+		addItemLanguage(
+				"prospecting_rocket_tier2",
+				"Tier 2 Prospecting Rocket",
+				"贰级勘探火箭"
+		);
+		addItemLanguage(
+				"prospecting_rocket_tier3",
+				"Tier 3 Prospecting Rocket",
+				"叁级勘探火箭"
+		);
+		addItemLanguage(
+				"prospecting_rocket_tier4",
+				"Tier 4 Prospecting Rocket",
+				"肆级勘探火箭"
+		);
 	}
 
 	private static @NotNull List<String> info(String id, String en, String zh) {

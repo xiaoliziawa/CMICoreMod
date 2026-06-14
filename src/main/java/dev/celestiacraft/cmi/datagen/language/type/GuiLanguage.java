@@ -203,6 +203,16 @@ public class GuiLanguage extends LanguageGenerate {
 				"太空电梯货舱"
 		);
 		addCustomLang(
+				"gui.cmi.prospecting_rocket.cargo",
+				"Cargo",
+				"货舱"
+		);
+		addCustomLang(
+				"gui.cmi.prospecting_rocket.fuel",
+				"Fuel",
+				"燃料"
+		);
+		addCustomLang(
 				"jade.tip.cmi.space_elevator.cargo_fluid",
 				"Cargo Fluid: %1$s %2$s / %3$s mB",
 				"货舱流体: %1$s %2$s / %3$s mB"

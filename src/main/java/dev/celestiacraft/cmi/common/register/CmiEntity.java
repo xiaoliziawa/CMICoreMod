@@ -24,7 +24,9 @@ public class CmiEntity {
 	static {
 		for (ProspectingRocketTier tier : ProspectingRocketTier.values()) {
 			EntityEntry<ProspectingRocketEntity> entry = Cmi.REGISTRATE
-					.<ProspectingRocketEntity>entity(tier.registryName(), (type, level) -> new ProspectingRocketEntity(type, level, tier), MobCategory.MISC)
+					.<ProspectingRocketEntity>entity(tier.registryName(), (type, level) -> {
+						return new ProspectingRocketEntity(type, level, tier);
+					}, MobCategory.MISC)
 					.properties((builder) -> {
 						builder.sized(tier.width(), tier.height())
 								.clientTrackingRange(10)

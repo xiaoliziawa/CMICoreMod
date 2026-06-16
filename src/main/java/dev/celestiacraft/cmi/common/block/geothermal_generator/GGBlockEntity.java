@@ -58,7 +58,31 @@ public class GGBlockEntity extends BasicBlockEntity {
 	}
 
 	/**
-	 * 工作方法
+	 * 计算当前地热发电机的发电量
+	 *
+	 * <p>发电机将检查六个相邻方向(上, 下, 北, 南, 西, 东)
+	 * 是否存在 {@link CmiFluidTags#GG_WORK_FLUID} 标签中的流体
+	 *
+	 * <p>每检测到一个有效接触面, 发电机的产能倍率都会翻倍:
+	 *
+	 * <pre>
+	 * 1面 = 1×基础产能
+	 * 2面 = 2×基础产能
+	 * 3面 = 4×基础产能
+	 * 4面 = 8×基础产能
+	 * 5面 = 16×基础产能
+	 * 6面 = 32×基础产能
+	 * </pre>
+	 *
+	 * <p>最终产能计算公式为:
+	 *
+	 * <pre>
+	 * BASE_PRODUCTION × 2^(接触面数 - 1)
+	 * </pre>
+	 *
+	 * <p>当没有任何有效流体接触时, 发电机停止工作并返回 0
+	 *
+	 * @return 当前 Tick 产生的 FE 数量
 	 */
 	private int working() {
 		// 流体接触面

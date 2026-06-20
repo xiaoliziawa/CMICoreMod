@@ -5,7 +5,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class CommonConfig {
 	private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-	public static final ForgeConfigSpec SPEC = BUILDER.build();
+	public static final ForgeConfigSpec SPEC;
 
 	public static final SneakyLinkConfig SNEAKY_LINK;
 	public static final SteamHammerConfig STEAM_HAMMER;
@@ -28,6 +28,8 @@ public class CommonConfig {
 		SOLAR_BOILER = new SolarBoilerConfig(BUILDER);
 		SPACE_ELEVATOR = new SpaceElevatorConfig(BUILDER);
 		GEOTHERMAL_GENERATOR = new GeothermalGeneratorConfig(BUILDER);
+
+		SPEC = BUILDER.build();
 
 		BUILDER.pop();
 	}

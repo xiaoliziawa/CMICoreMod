@@ -47,11 +47,7 @@ public class GGBlockEntity extends BasicBlockEntity {
 		BlockState state = getBlockState();
 
 		if (state.getValue(BasicBlock.LIT) != working) {
-			level.setBlock(
-					worldPosition,
-					state.setValue(BasicBlock.LIT, working),
-					3
-			);
+			level.setBlockAndUpdate(worldPosition, state.setValue(BasicBlock.LIT, working));
 		}
 
 		if (working) {

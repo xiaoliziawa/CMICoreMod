@@ -82,10 +82,13 @@ public class MercuryGeothermalVentBlock extends BasicBlock implements IBE<Mercur
 
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
-		if (level.isClientSide) {
+		if (level.isClientSide()) {
 			return state.getValue(SMOKE_TYPE) > 0 && state.getValue(SPAWNING_PARTICLES) ?
-					createTickerHelper(type, CmiBlockEntity.MERCURY_GEO.get(),
-							MercuryGeothermalVentBlockEntity::particleTick) : null;
+					createTickerHelper(
+							type,
+							CmiBlockEntity.MERCURY_GEO.get(),
+							MercuryGeothermalVentBlockEntity::particleTick
+					) : null;
 		} else {
 			return null;
 		}

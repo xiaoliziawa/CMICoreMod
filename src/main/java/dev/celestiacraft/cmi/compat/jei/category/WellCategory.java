@@ -14,7 +14,7 @@ import dev.celestiacraft.cmi.compat.jei.category.structure.LavaWellStructure;
 import dev.celestiacraft.cmi.compat.jei.category.structure.WaterWellStructure;
 import dev.celestiacraft.cmi.utils.ModResources;
 import dev.celestiacraft.libs.client.ClientRenderUtils;
-import dev.celestiacraft.libs.compat.jei.categoty.SimpleJeiCategory;
+import dev.celestiacraft.libs.compat.jei.api.SimpleJeiCategory;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.network.chat.Component;

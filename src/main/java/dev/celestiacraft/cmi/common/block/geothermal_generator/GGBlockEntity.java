@@ -1,10 +1,11 @@
 package dev.celestiacraft.cmi.common.block.geothermal_generator;
 
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
+import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import dev.celestiacraft.cmi.common.block.geothermal_generator.capability.GGEnergyStorage;
 import dev.celestiacraft.cmi.config.common.GeothermalGeneratorConfig;
 import dev.celestiacraft.cmi.tags.CmiFluidTags;
 import dev.celestiacraft.libs.api.register.block.BasicBlock;
-import dev.celestiacraft.libs.api.register.block.BasicBlockEntity;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,7 +19,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class GGBlockEntity extends BasicBlockEntity {
+import java.util.List;
+
+public class GGBlockEntity extends SmartBlockEntity {
 	@Getter
 	private int selfIncreasingEnergy = 0;
 	private final GGEnergyStorage storage;
@@ -30,6 +33,10 @@ public class GGBlockEntity extends BasicBlockEntity {
 	public GGBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 		storage = new GGEnergyStorage(this);
+	}
+
+	@Override
+	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
 	}
 
 	@Override

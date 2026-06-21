@@ -11,7 +11,7 @@ import dev.celestiacraft.cmi.api.client.CmiLang;
 import dev.celestiacraft.cmi.common.recipe.accelerator.AcceleratorRecipe;
 import dev.celestiacraft.cmi.common.register.block.MachineBlocks;
 import dev.celestiacraft.cmi.compat.jei.api.CmiJeiRecipeType;
-import dev.celestiacraft.libs.compat.jei.categoty.SimpleJeiCategory;
+import dev.celestiacraft.libs.compat.jei.api.SimpleJeiCategory;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.ChatFormatting;
@@ -26,8 +26,8 @@ public class AcceleratorCategory {
 				.setSize(178, 72)
 				.setIcon(() -> {
 					return new DoubleItemIcon(
-							() -> MachineBlocks.ACCELERATOR.asStack(),
-							() -> AllItems.PRECISION_MECHANISM.asStack()
+							MachineBlocks.ACCELERATOR::asStack,
+							AllItems.PRECISION_MECHANISM::asStack
 					);
 				})
 				.setBackground(0, 0)
@@ -67,7 +67,7 @@ public class AcceleratorCategory {
 										 * 如果写1就指在第一行添加Tooltip
 										 * 其它数字同理
 										 */
-										tooltip.add(1, tranKey);
+										tooltip.add( tranKey);
 									}
 								});
 						id++;

@@ -21,6 +21,7 @@ import dev.celestiacraft.cmi.common.recipe.well.LavaWellRecipe;
 import dev.celestiacraft.cmi.common.recipe.well.SeaWaterWellRecipe;
 import dev.celestiacraft.cmi.common.recipe.well.WaterWellRecipe;
 import dev.celestiacraft.cmi.common.register.CmiCreateRecipe;
+import dev.celestiacraft.cmi.common.register.CmiRecipeType;
 import dev.celestiacraft.cmi.common.register.block.MachineBlocks;
 import dev.celestiacraft.cmi.common.register.block.WallBlocks;
 import dev.celestiacraft.cmi.compat.jei.api.CmiJeiRecipeType;
@@ -83,7 +84,7 @@ public class CmiJeiPlugin implements IModPlugin {
 	public void registerRecipes(IRecipeRegistration registration) {
 		RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
 
-		List<AcceleratorRecipe> acceleratorRecipe = manager.getAllRecipesFor(AcceleratorRecipe.Type.INSTANCE);
+		List<AcceleratorRecipe> acceleratorRecipe = manager.getAllRecipesFor(CmiRecipeType.ACCELERATOR.get());
 		List<VoidDustCollectorRecipe> voidDustCollectorRecipe = List.of(new VoidDustCollectorRecipe());
 		List<GrindingRecipe> grindingRecipe = manager.getAllRecipesFor(CmiCreateRecipe.GRINDING.getType());
 
@@ -245,7 +246,7 @@ public class CmiJeiPlugin implements IModPlugin {
 					return recipes;
 				};
 			} else {
-				recipesSupplier = () -> Collections.emptyList();
+				recipesSupplier = Collections::emptyList;
 			}
 
 			CreateRecipeCategory.Info<T> info = new CreateRecipeCategory.Info<>(

@@ -10,7 +10,7 @@ import dev.celestiacraft.cmi.common.register.block.MachineBlocks;
 import dev.celestiacraft.cmi.compat.jei.api.CmiJeiRecipeType;
 import dev.celestiacraft.cmi.compat.jei.category.structure.VoidDustCollectorStructure;
 import dev.celestiacraft.cmi.utils.ModResources;
-import dev.celestiacraft.libs.compat.jei.categoty.SimpleJeiCategory;
+import dev.celestiacraft.libs.compat.jei.api.SimpleJeiCategory;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 
@@ -23,8 +23,8 @@ public class VoidDustCollectorCategory {
 				.setSize(178, 72)
 				.setIcon(() -> {
 					return new DoubleItemIcon(
-							() -> ModResources.VOID_SPRING.getItemStack(),
-							() -> MachineBlocks.VOID_DUST_COLLECTOR.asStack()
+							ModResources.VOID_SPRING::getItemStack,
+							MachineBlocks.VOID_DUST_COLLECTOR::asStack
 					);
 				})
 				.setBackground(0, 0)

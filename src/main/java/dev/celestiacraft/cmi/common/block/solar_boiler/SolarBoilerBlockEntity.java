@@ -1,13 +1,13 @@
 package dev.celestiacraft.cmi.common.block.solar_boiler;
 
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import dev.celestiacraft.cmi.api.client.CmiLang;
 import dev.celestiacraft.cmi.common.block.solar_boiler.capability.SolarBoilerFluidCapability;
 import dev.celestiacraft.cmi.common.block.solar_boiler.capability.SolarBoilerFluidTank;
 import dev.celestiacraft.cmi.common.register.block.SolarBoilerBlocks;
 import dev.celestiacraft.cmi.config.common.SolarBoilerConfig;
 import dev.celestiacraft.cmi.utils.ModResources;
-import dev.celestiacraft.libs.api.register.block.BasicBlockEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public abstract class SolarBoilerBlockEntity extends BasicBlockEntity implements IHaveGoggleInformation {
+public abstract class SolarBoilerBlockEntity extends SmartBlockEntity implements IHaveGoggleInformation {
 	protected final SolarBoilerFluidTank waterTank;
 	protected final SolarBoilerFluidTank steamTank;
 	private boolean working;

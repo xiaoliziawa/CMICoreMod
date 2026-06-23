@@ -1,13 +1,9 @@
 package dev.celestiacraft.cmi.common.item.mechanism;
 
 import dev.celestiacraft.cmi.common.item.MechanismItem;
-import dev.celestiacraft.cmi.common.register.block.MachineBlocks;
-import dev.celestiacraft.libs.api.interaction.context.UseContext;
-import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrownPotion;
@@ -15,11 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 
 public class CopperItem extends MechanismItem {
 	public CopperItem(Properties properties) {
@@ -47,6 +39,11 @@ public class CopperItem extends MechanismItem {
 				1.0F,
 				0.0F
 		);
+
+		if (!level.isClientSide()) {
+			level.addFreshEntity(potion);
+		}
+
 		level.playSound(
 				null,
 				player.getX(),
@@ -58,7 +55,6 @@ public class CopperItem extends MechanismItem {
 				0.3F
 		);
 
-		player.swing(hand);
-		return super.onMechanismUse(level, player, hand);
+		return InteractionResultHolder.success(player.getItemInHand(hand));
 	}
 }

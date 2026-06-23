@@ -1,6 +1,5 @@
 package dev.celestiacraft.cmi.common.item;
 
-import dev.celestiacraft.libs.api.interaction.context.UseContext;
 import dev.celestiacraft.libs.api.register.item.BasicItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -14,10 +13,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 public abstract class MechanismItem extends BasicItem {
-	protected static final Random RANDOM = new Random();
+	protected static final Random RANDOM = new SecureRandom();
 
 	public MechanismItem(Properties properties) {
 		super(properties);
@@ -258,19 +258,16 @@ public abstract class MechanismItem extends BasicItem {
 	 * 只需重写 {@link #onMechanismUse(Level, Player, InteractionHand)} 即可实现新的构件行为
 	 * </p>
 	 */
-
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
 		InteractionResultHolder<ItemStack> resultHolder = onMechanismUse(level, player, usedHand);
 
 		if (resultHolder.getResult().consumesAction()) {
 			ItemStack stack = player.getItemInHand(usedHand);
 
-			if (player != null) {
-				handleItemSwing(usedHand, player);
-				handleCooldown(player, stack);
-				applyConsume(player, stack);
-			}
+			handleItemSwing(usedHand, player);
+			handleCooldown(player, stack);
+			applyConsume(player, stack);
 		}
 
 		return resultHolder;

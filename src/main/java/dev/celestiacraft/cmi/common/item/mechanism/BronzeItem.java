@@ -42,7 +42,7 @@ public class BronzeItem extends MechanismItem {
 					player.getBoundingBox().inflate(2)
 			);
 			entities.forEach((entity) -> {
-				if (entity.distanceToSqr(player) <= 4 && trigger(entity, player)) {
+				if (entity.distanceToSqr(player) <= 4 && !trigger(entity, player)) {
 					entity.hurt(entity.damageSources().hotFloor(), 8.0F);
 				}
 			});

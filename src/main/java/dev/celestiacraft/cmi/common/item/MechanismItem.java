@@ -255,9 +255,10 @@ public abstract class MechanismItem extends BasicItem {
 	 */
 	@Override
 	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
-		InteractionResultHolder<ItemStack> resultHolder = onMechanismUse(level, player, hand);
+		InteractionResultHolder<ItemStack> holder = onMechanismUse(level, player, hand);
+		InteractionResult result = holder.getResult();
 
-		if (resultHolder.getResult().consumesAction()) {
+		if (result.consumesAction()) {
 			ItemStack stack = player.getItemInHand(hand);
 
 			handleItemSwing(hand, player);
@@ -265,6 +266,6 @@ public abstract class MechanismItem extends BasicItem {
 			applyConsume(player, stack);
 		}
 
-		return resultHolder;
+		return holder;
 	}
 }

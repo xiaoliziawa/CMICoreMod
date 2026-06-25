@@ -6,4 +6,9 @@ public class ThermalItem extends MechanismItem {
 	public ThermalItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

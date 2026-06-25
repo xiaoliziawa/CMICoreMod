@@ -19,6 +19,11 @@ public class EnchantedItem extends MechanismItem {
 		super(properties);
 	}
 
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
+
 	@SubscribeEvent
 	public static void onRightClick(PlayerInteractEvent.RightClickBlock event) {
 		Level level = event.getLevel();

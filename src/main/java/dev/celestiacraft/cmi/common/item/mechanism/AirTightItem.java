@@ -6,4 +6,9 @@ public class AirTightItem extends MechanismItem {
 	public AirTightItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

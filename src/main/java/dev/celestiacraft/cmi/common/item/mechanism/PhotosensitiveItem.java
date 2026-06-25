@@ -13,6 +13,11 @@ public class PhotosensitiveItem extends MechanismItem implements ICuriosHelper {
 	}
 
 	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
+
+	@Override
 	public void onCuriosTick(CuriosContext context) {
 		Player player = context.getPlayer();
 

@@ -6,4 +6,9 @@ public class ReinforcedItem extends MechanismItem {
 	public ReinforcedItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

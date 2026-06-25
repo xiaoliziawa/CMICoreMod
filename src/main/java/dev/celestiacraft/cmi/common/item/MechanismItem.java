@@ -25,10 +25,7 @@ public abstract class MechanismItem extends BasicItem {
 
 	/**
 	 * 是否在使用后消耗该物品
-	 * <p>
-	 * 默认返回 {@code true}
 	 *
-	 * </p>
 	 * <p>
 	 * 如果不想要使用后消耗该物品, 重写该方法并直接返回 {@code false}
 	 *
@@ -40,9 +37,7 @@ public abstract class MechanismItem extends BasicItem {
 	 * }
 	 * }</pre>
 	 */
-	protected boolean useAfterConsume() {
-		return true;
-	}
+	protected abstract boolean useAfterConsume();
 
 	/**
 	 * 当构件对方块使用时调用
@@ -82,7 +77,7 @@ public abstract class MechanismItem extends BasicItem {
 	 *
 	 * <pre>{@code
 	 * @Override
-	 * protected InteractionResult MechanismItemUse(UseContext context) {
+	 * protected InteractionResult onMechanismUseOn(UseContext context) {
 	 *     // 在这里实现构件的具体逻辑
 	 *     return InteractionResult.SUCCESS;
 	 * }

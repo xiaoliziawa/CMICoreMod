@@ -6,4 +6,9 @@ public class LightEngineeringItem extends MechanismItem {
 	public LightEngineeringItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

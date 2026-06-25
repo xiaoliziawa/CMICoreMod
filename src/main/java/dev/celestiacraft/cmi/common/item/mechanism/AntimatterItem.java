@@ -6,4 +6,9 @@ public class AntimatterItem extends MechanismItem {
 	public AntimatterItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

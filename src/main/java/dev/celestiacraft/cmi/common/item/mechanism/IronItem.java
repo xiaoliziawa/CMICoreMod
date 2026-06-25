@@ -6,4 +6,9 @@ public class IronItem extends MechanismItem {
 	public IronItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

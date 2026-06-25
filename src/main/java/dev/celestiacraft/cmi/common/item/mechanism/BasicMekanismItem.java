@@ -6,4 +6,9 @@ public class BasicMekanismItem extends MechanismItem {
 	public BasicMekanismItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

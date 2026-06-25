@@ -6,4 +6,9 @@ public class AeronauticItem extends MechanismItem {
 	public AeronauticItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

@@ -6,4 +6,9 @@ public class CreativeItem extends MechanismItem {
 	public CreativeItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

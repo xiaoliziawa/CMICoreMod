@@ -18,6 +18,11 @@ public class SmartItem extends MechanismItem {
 		super(properties);
 	}
 
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
+
 	@SubscribeEvent
 	public static void onLivingHurt(LivingHurtEvent event) {
 		if (!(event.getSource().getEntity() instanceof Player player)) {

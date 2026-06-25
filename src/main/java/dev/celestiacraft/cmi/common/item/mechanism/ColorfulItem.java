@@ -9,6 +9,11 @@ public class ColorfulItem extends MechanismItem {
 	}
 
 	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
+
+	@Override
 	public boolean hasCraftingRemainingItem(ItemStack stack) {
 		return true;
 	}

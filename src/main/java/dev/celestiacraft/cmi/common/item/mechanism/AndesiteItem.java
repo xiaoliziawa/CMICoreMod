@@ -6,4 +6,9 @@ public class AndesiteItem extends MechanismItem {
 	public AndesiteItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

@@ -27,6 +27,11 @@ public class EnderItem extends MechanismItem {
 		super(properties);
 	}
 
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
+
 	@SubscribeEvent
 	public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
 		Level level = event.getLevel();

@@ -27,6 +27,11 @@ public class SculkItem extends MechanismItem {
 		super(properties);
 	}
 
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
+
 	@SubscribeEvent
 	public static void onRightClickEvent(PlayerInteractEvent.RightClickItem event) {
 		Level level = event.getLevel();

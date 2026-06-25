@@ -6,4 +6,9 @@ public class EliteMekanismItem extends MechanismItem {
 	public EliteMekanismItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

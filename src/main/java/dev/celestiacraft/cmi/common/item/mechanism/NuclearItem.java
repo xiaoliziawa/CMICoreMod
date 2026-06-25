@@ -19,6 +19,11 @@ public class NuclearItem extends MechanismItem {
 		super(properties);
 	}
 
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
+
 	private static final Capability<ICurio> CURIO_CAP = CapabilityManager.get(new CapabilityToken<>() {
 	});
 
@@ -29,21 +34,11 @@ public class NuclearItem extends MechanismItem {
 	public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
 		return new ICapabilityProvider() {
 			private final LazyOptional<ICurio> curio = LazyOptional.of(() -> {
-				return new ICurio() {
-					@Override
-					public ItemStack getStack() {
-						return stack;
-					}
-				};
+				return (ICurio) () -> stack;
 			});
 
 			private final LazyOptional<IRadiationShielding> shielding = LazyOptional.of(() -> {
-				return new IRadiationShielding() {
-					@Override
-					public double getRadiationShielding() {
-						return 1.0;
-					}
-				};
+				return (IRadiationShielding) () -> 1.0;
 			});
 
 			@Override

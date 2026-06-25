@@ -6,4 +6,9 @@ public class RailwayItem extends MechanismItem {
 	public RailwayItem(Properties properties) {
 		super(properties);
 	}
+
+	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
 }

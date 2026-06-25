@@ -22,6 +22,11 @@ public class PotionItem extends MechanismItem {
 	}
 
 	@Override
+	protected boolean useAfterConsume() {
+		return false;
+	}
+
+	@Override
 	protected InteractionResult onMechanismUseOn(UseOnContext context) {
 		Player player = context.getPlayer();
 		Level level = context.getLevel();

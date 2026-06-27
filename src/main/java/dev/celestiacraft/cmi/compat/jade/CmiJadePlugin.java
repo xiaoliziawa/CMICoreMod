@@ -1,9 +1,11 @@
 package dev.celestiacraft.cmi.compat.jade;
 
-import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.common.block.advanced_spout.AdvancedSpoutBlock;
 import dev.celestiacraft.cmi.common.entity.space_elevator.SpaceElevatorEntity;
-import dev.celestiacraft.cmi.compat.jade.provider.*;
+import dev.celestiacraft.cmi.compat.jade.provider.CardboardBoxProvider;
+import dev.celestiacraft.cmi.compat.jade.provider.CmiComponentProvider;
+import dev.celestiacraft.cmi.compat.jade.provider.SpaceElevatorEntityProvider;
+import dev.celestiacraft.cmi.compat.jade.provider.UpgradeProvider;
 import mekanism.common.block.BlockCardboardBox;
 import mekanism.common.block.prefab.BlockTile;
 import mekanism.common.tile.TileEntityCardboardBox;
@@ -27,7 +29,5 @@ public class CmiJadePlugin implements IWailaPlugin {
 		registration.registerEntityComponent(SpaceElevatorEntityProvider.INSTANCE, SpaceElevatorEntity.class);
 		registration.registerBlockComponent(UpgradeProvider.INSTANCE, BlockTile.class);
 		registration.registerBlockComponent(CardboardBoxProvider.INSTANCE, BlockCardboardBox.class);
-
-		Cmi.LOGGER.info("Jade Plugin is registered!");
 	}
 }

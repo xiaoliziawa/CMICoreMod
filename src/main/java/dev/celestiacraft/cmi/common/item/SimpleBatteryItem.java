@@ -1,14 +1,10 @@
 package dev.celestiacraft.cmi.common.item;
 
-import dev.celestiacraft.libs.api.register.item.BasicItem;
-import dev.celestiacraft.libs.common.item.energy.EnergyItemCapabilityProvider;
-import dev.celestiacraft.libs.common.item.energy.IEnergyItem;
-import net.minecraft.nbt.CompoundTag;
+import dev.celestiacraft.libs.api.register.item.energy.BasicEnergyItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.NotNull;
 
-public class SimpleBatteryItem extends BasicItem implements IEnergyItem {
+public class SimpleBatteryItem extends BasicEnergyItem {
 	public SimpleBatteryItem(Properties properties) {
 		super(properties.stacksTo(1));
 	}
@@ -29,18 +25,8 @@ public class SimpleBatteryItem extends BasicItem implements IEnergyItem {
 	}
 
 	@Override
-	public boolean isBarVisible(@NotNull ItemStack stack) {
-		return isEnergyBarVisible(stack);
-	}
-
-	@Override
 	public int getBarWidth(@NotNull ItemStack stack) {
 		return getEnergyBarWidth(stack);
-	}
-
-	@Override
-	public int getBarColor(@NotNull ItemStack stack) {
-		return getEnergyBarColor(stack);
 	}
 
 	@Override
@@ -54,10 +40,5 @@ public class SimpleBatteryItem extends BasicItem implements IEnergyItem {
 		} else {
 			return 0xFF0000;
 		}
-	}
-
-	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
-		return new EnergyItemCapabilityProvider(stack, this);
 	}
 }

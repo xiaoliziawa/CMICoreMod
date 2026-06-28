@@ -6,6 +6,7 @@ import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 import dev.celestiacraft.libs.api.register.block.BasicBlock;
+import dev.celestiacraft.libs.api.register.block.IEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
@@ -39,7 +40,7 @@ public class MarsGeothermalVentBlock extends BasicBlock implements IBE<MarsGeoth
 				.strength(2.0F, 5.0F)
 				.sound(SoundType.TUFF));
 		registerDefaultState(stateDefinition.any()
-				.setValue(SMOKE_TYPE, Integer.valueOf(0))
+				.setValue(SMOKE_TYPE, 0)
 				.setValue(SPAWNING_PARTICLES, true));
 	}
 
@@ -84,7 +85,7 @@ public class MarsGeothermalVentBlock extends BasicBlock implements IBE<MarsGeoth
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
 		if (level.isClientSide()) {
 			return state.getValue(SMOKE_TYPE) > 0 && state.getValue(SPAWNING_PARTICLES) ?
-					createTickerHelper(
+					IEntityBlock.createTickerHelper(
 							type,
 							CmiBlockEntity.MARS_GEO.get(),
 							MarsGeothermalVentBlockEntity::particleTick

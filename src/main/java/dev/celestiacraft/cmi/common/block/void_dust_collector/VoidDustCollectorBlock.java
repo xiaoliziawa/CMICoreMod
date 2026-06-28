@@ -6,7 +6,8 @@ import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 import dev.celestiacraft.libs.api.register.block.BasicBlock;
-import dev.celestiacraft.libs.api.register.block.BasicBlockFacing;
+import dev.celestiacraft.libs.api.register.block.BlockFacing;
+import dev.celestiacraft.libs.api.register.block.IEntityBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -27,8 +28,8 @@ public class VoidDustCollectorBlock extends BasicBlock implements IBE<VoidDustCo
 	}
 
 	@Override
-	protected BasicBlockFacing useFacingType() {
-		return BasicBlockFacing.HORIZONTAL;
+	protected BlockFacing useFacingType() {
+		return BlockFacing.HORIZONTAL;
 	}
 
 	@Override
@@ -42,7 +43,7 @@ public class VoidDustCollectorBlock extends BasicBlock implements IBE<VoidDustCo
 			return null;
 		}
 
-		return createTickerHelper(
+		return IEntityBlock.createTickerHelper(
 				type,
 				CmiBlockEntity.VOID_DUST_COLLECTOR.get(),
 				VoidDustCollectorBlockEntity::tick

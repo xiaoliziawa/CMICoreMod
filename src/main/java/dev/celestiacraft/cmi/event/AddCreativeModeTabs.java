@@ -6,10 +6,9 @@ import dev.celestiacraft.cmi.common.register.CmiCreativeTab;
 import dev.celestiacraft.cmi.common.register.CmiItem;
 import dev.celestiacraft.cmi.common.register.block.*;
 import dev.celestiacraft.cmi.utils.ModResources;
-import net.minecraft.core.registries.Registries;
+import dev.celestiacraft.libs.utils.TabUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,12 +17,7 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AddCreativeModeTabs {
-	private static final ResourceKey<CreativeModeTab> KUBEJS_TAB = ResourceKey.create(
-			Registries.CREATIVE_MODE_TAB,
-			ModResources.loadKubeJS("tab").getLocation()
-	);
-
-	private static final Item REDSTONE_MECHANISM = ModResources.RESSTONE_MODULE.getItem();
+	private static final ResourceKey<CreativeModeTab> KUBEJS_TAB = TabUtils.getTabKey(ModResources.loadKubeJS("tab").getLocation());
 
 	@SubscribeEvent
 	public static void buildContents(BuildCreativeModeTabContentsEvent event) {
@@ -56,7 +50,8 @@ public class AddCreativeModeTabs {
 
 			List.of(
 					CmiItem.INITIAL_ITEM_KIT,
-					CmiItem.HANDHELE_CRAFTING_TABLE
+					CmiItem.HANDHELE_CRAFTING_TABLE,
+					CmiItem.SIMPLE_BATTERY
 			).forEach((item) -> {
 				event.accept(item.asItem());
 			});
@@ -68,7 +63,7 @@ public class AddCreativeModeTabs {
 
 		if (key.equals(CmiCreativeTab.MECHANISMS)) {
 			event.accept(AllItems.PRECISION_MECHANISM.get());
-			event.accept(REDSTONE_MECHANISM);
+			event.accept(ModResources.RESSTONE_MODULE.getItem());
 		}
 	}
 }

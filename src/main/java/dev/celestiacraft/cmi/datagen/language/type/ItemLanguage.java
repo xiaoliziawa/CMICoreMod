@@ -48,6 +48,11 @@ public class ItemLanguage extends LanguageGenerate {
 				"Tier 4 Prospecting Rocket",
 				"肆级勘探火箭"
 		);
+		addItemLanguage(
+				"simple_battery",
+				"Simple Battery",
+				"简易电池"
+		);
 	}
 
 	private static @NotNull List<String> info(String id, String en, String zh) {

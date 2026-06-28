@@ -5,7 +5,7 @@ import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import dev.celestiacraft.libs.api.register.block.BasicBlock;
-import dev.celestiacraft.libs.api.register.block.BasicBlockFacing;
+import dev.celestiacraft.libs.api.register.block.BlockFacing;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -21,8 +21,8 @@ public abstract class FluidBurnerBlock extends BasicBlock implements IBE<FluidBu
 	}
 
 	@Override
-	protected BasicBlockFacing useFacingType() {
-		return BasicBlockFacing.HORIZONTAL;
+	protected BlockFacing useFacingType() {
+		return BlockFacing.HORIZONTAL;
 	}
 
 	@Override

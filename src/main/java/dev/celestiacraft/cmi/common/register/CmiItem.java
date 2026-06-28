@@ -33,11 +33,13 @@ public class CmiItem {
 
 	static {
 		for (ProspectingRocketTier tier : ProspectingRocketTier.values()) {
-			ItemEntry<ProspectingRocketItem> entry = Cmi.REGISTRATE
-					.item(tier.registryName(), (properties) -> new ProspectingRocketItem(
-							tier,
-							() -> CmiEntity.prospectingRocket(tier).get(),
-							properties))
+			ItemEntry<ProspectingRocketItem> entry = Cmi.REGISTRATE.item(tier.registryName(), (properties) -> {
+						return new ProspectingRocketItem(
+								tier,
+								() -> CmiEntity.prospectingRocket(tier).get(),
+								properties
+						);
+					})
 					.model(NonNullBiConsumer.noop())
 					.register();
 			PROSPECTING_ROCKETS.put(tier, entry);

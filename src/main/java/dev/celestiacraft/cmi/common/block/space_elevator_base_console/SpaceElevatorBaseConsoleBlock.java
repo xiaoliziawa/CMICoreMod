@@ -12,6 +12,7 @@ import dev.celestiacraft.cmi.common.block.space_elevator_base_console.structure.
 import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 import dev.celestiacraft.cmi.common.register.block.SpaceElevatorBlocks;
 import dev.celestiacraft.libs.api.register.block.BasicBlock;
+import dev.celestiacraft.libs.api.register.block.IEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.entity.LivingEntity;
@@ -84,7 +85,11 @@ public class SpaceElevatorBaseConsoleBlock extends BasicBlock implements IBE<Spa
 		if (level.isClientSide()) {
 			return null;
 		}
-		return createTickerHelper(type, CmiBlockEntity.SPACE_ELEVATOR_BASE_CONSOLE.get(), SpaceElevatorBaseConsoleBlockEntity::serverTick);
+		return IEntityBlock.createTickerHelper(
+				type,
+				CmiBlockEntity.SPACE_ELEVATOR_BASE_CONSOLE.get(),
+				SpaceElevatorBaseConsoleBlockEntity::serverTick
+		);
 	}
 
 	@Nullable

@@ -149,9 +149,9 @@ public class AcceleratorRecipe implements Recipe<SimpleContainer> {
 			int outSize = buf.readInt();
 			List<OutputEntry> outputs = new ArrayList<>();
 			for (int i = 0; i < outSize; i++) {
-				Block b = ForgeRegistries.BLOCKS.getValue(buf.readResourceLocation());
-				float c = buf.readFloat();
-				outputs.add(new OutputEntry(b, c));
+				Block block = ForgeRegistries.BLOCKS.getValue(buf.readResourceLocation());
+				float chance = buf.readFloat();
+				outputs.add(new OutputEntry(block, chance));
 			}
 
 			return new AcceleratorRecipe(id, inputs, targetBlock, outputs);

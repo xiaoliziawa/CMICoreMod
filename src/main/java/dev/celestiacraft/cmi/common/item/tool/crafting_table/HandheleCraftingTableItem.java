@@ -17,11 +17,13 @@ public class HandheleCraftingTableItem extends BasicItem {
 
 	@Override
 	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, @NotNull InteractionHand hand) {
-		if (!level.isClientSide()) {
-			player.swing(hand);
-			player.openMenu(createScreenHandlerFactory(level, player.getOnPos()));
+		if (level.isClientSide()) {
+			return InteractionResultHolder.success(player.getItemInHand(hand));
 		}
-		return new InteractionResultHolder<>(InteractionResult.PASS, player.getItemInHand(hand));
+
+		player.swing(hand);
+		player.openMenu(createScreenHandlerFactory(level, player.getOnPos()));
+		return InteractionResultHolder.pass(player.getItemInHand(hand));
 	}
 
 	private MenuProvider createScreenHandlerFactory(Level level, BlockPos pos) {

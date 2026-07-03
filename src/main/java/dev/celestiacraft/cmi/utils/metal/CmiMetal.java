@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class CmiMetal {
 	private final String id;
-
 	private int meltingPoint;
 	private String namespace;
 	private String byProduct;

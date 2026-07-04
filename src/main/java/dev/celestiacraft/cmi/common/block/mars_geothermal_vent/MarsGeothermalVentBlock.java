@@ -34,8 +34,7 @@ public class MarsGeothermalVentBlock extends BasicBlock implements IBE<MarsGeoth
 	public static final BooleanProperty SPAWNING_PARTICLES = BooleanProperty.create("spawning_particles");
 
 	public MarsGeothermalVentBlock(Properties properties) {
-		super(Properties.of()
-				.mapColor(MapColor.STONE)
+		super(properties.mapColor(MapColor.STONE)
 				.requiresCorrectToolForDrops()
 				.strength(2.0F, 5.0F)
 				.sound(SoundType.TUFF));

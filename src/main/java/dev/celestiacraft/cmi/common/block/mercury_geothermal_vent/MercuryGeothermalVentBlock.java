@@ -34,13 +34,12 @@ public class MercuryGeothermalVentBlock extends BasicBlock implements IBE<Mercur
 	public static final BooleanProperty SPAWNING_PARTICLES = BooleanProperty.create("spawning_particles");
 
 	public MercuryGeothermalVentBlock(Properties properties) {
-		super(Properties.of()
-				.mapColor(MapColor.STONE)
+		super(properties.mapColor(MapColor.STONE)
 				.requiresCorrectToolForDrops()
 				.strength(2.0F, 5.0F)
 				.sound(SoundType.TUFF));
 		registerDefaultState(stateDefinition.any()
-				.setValue(SMOKE_TYPE, Integer.valueOf(0))
+				.setValue(SMOKE_TYPE, 0)
 				.setValue(SPAWNING_PARTICLES, true));
 	}
 

@@ -3,7 +3,6 @@ package dev.celestiacraft.cmi.compat.kubejs;
 import com.jesz.createdieselgenerators.CreateDieselGenerators;
 import dev.celestiacraft.cmi.Cmi;
 import dev.celestiacraft.cmi.api.client.CmiLang;
-import dev.celestiacraft.cmi.api.interaction.context.BlockCraftingOnBuild;
 import dev.celestiacraft.cmi.compat.create.CmiHeatLevel;
 import dev.celestiacraft.cmi.compat.kubejs.custom.item.CdgCuttersItemBuilder;
 import dev.celestiacraft.cmi.compat.kubejs.custom.item.CdgHammerItemBuilder;
@@ -52,7 +51,6 @@ public class CmiKubeJSPlugin extends KubeJSPlugin {
 		event.add("CmiMetalRegistry", CmiMetalRegistry.class);
 		event.add("CmiToolType", CmiToolType.class);
 		event.add("CmiMiningLevel", CmiMiningLevel.class);
-		event.add("BlockCraftingOnBuild", BlockCraftingOnBuild.class);
 	}
 
 	@Override

@@ -1,22 +1,19 @@
 package dev.celestiacraft.cmi.common.block.test_gravel;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import com.simibubi.create.foundation.block.IBE;
+import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
+import dev.celestiacraft.libs.api.register.block.BasicBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import dev.celestiacraft.cmi.common.register.CmiBlockEntity;
 
-public class TestGravelBlock extends BaseEntityBlock implements EntityBlock {
+public class TestGravelBlock extends BasicBlock implements IBE<TestGravelBlockEntity> {
 	public TestGravelBlock(Properties properties) {
 		super(Properties.copy(Blocks.GRAVEL));
-		this.registerDefaultState(this.stateDefinition.any().setValue(DUSTED, 0));
+		registerDefaultState(stateDefinition.any().setValue(DUSTED, 0));
 	}
 
 	public static final IntegerProperty DUSTED = IntegerProperty.create("dusted", 0, 3);
@@ -27,19 +24,12 @@ public class TestGravelBlock extends BaseEntityBlock implements EntityBlock {
 	}
 
 	@Override
-	public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
-		return RenderShape.MODEL;
+	public Class<TestGravelBlockEntity> getBlockEntityClass() {
+		return TestGravelBlockEntity.class;
 	}
 
-	@Nullable
 	@Override
-	public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-		return new TestGravelBlockEntity(CmiBlockEntity.TEST_GRAVEL.get(), pos, state);
-	}
-
-	@Nullable
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
-		return null;
+	public BlockEntityType<? extends TestGravelBlockEntity> getBlockEntityType() {
+		return CmiBlockEntity.TEST_GRAVEL.get();
 	}
 }

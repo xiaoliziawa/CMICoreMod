@@ -1,13 +1,14 @@
 package dev.celestiacraft.cmi.common.item.tool;
 
 import dev.celestiacraft.cmi.api.client.CmiLang;
+import dev.celestiacraft.cmi.common.register.CmiSound;
 import dev.celestiacraft.libs.api.client.context.TooltipContext;
 import dev.celestiacraft.libs.api.register.item.BasicItem;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -16,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
@@ -29,33 +29,39 @@ public class MetalDetector extends BasicItem {
 
 	@Override
 	public void addTooltips(TooltipContext context) {
-		context.addTranslatable(CmiLang.translateDirect("metal_detector").toString());
+		context.add(CmiLang.translateDirect("tooltip.metal_detector"));
 	}
 
 	@Override
 	public @NotNull InteractionResult useOn(UseOnContext context) {
-		ItemStack itemInHand = context.getItemInHand();
 		Player player = context.getPlayer();
 		Level level = context.getLevel();
 
 		if (!level.isClientSide()) {
-			BlockPos positionClicked = context.getClickedPos();
-			boolean foundBlock = true;
+			BlockPos clickedPos = context.getClickedPos();
+			boolean found = false;
 
-			for (int i = 0; i <= positionClicked.getY() + 64; i++) {
-				BlockState state = level.getBlockState(positionClicked.below(i));
-				Block block = state.getBlock();
-				BlockPos foundPos = positionClicked.below(i);
+			for (int y = clickedPos.getY(); y >= level.getMinBuildHeight(); y--) {
+				BlockPos pos = new BlockPos(clickedPos.getX(), y, clickedPos.getZ());
+				BlockState state = level.getBlockState(pos);
 
 				if (isValuableBlock(state)) {
-					foundBlock = false;
-					outputValuableCoordinates(foundPos, player, block);
-					spawnFoundParticles(level, player);
+					found = true;
+					outputValuableCoordinates(pos, player, state);
+					spawnFoundParticles(context);
+					level.playSound(
+							null,
+							player.blockPosition(),
+							CmiSound.DING.get(),
+							SoundSource.PLAYERS,
+							0.5F,
+							1.0F
+					);
 					break;
 				}
 			}
 
-			if (foundBlock) {
+			if (!found) {
 				player.sendSystemMessage(Component.translatable("info.cmi.metal_detector.not"));
 			}
 		}
@@ -68,69 +74,76 @@ public class MetalDetector extends BasicItem {
 	/**
 	 * 损坏物品
 	 *
-	 * @param player
-	 * @param hand
+	 * @param player 玩家
+	 * @param hand   手
 	 */
 	private void brokenItem(Player player, InteractionHand hand) {
-		ItemStack item = player.getMainHandItem();
-
 		if (player.isCreative()) {
 			return;
 		}
 
-		if (item.getMaxDamage() > item.getDamageValue()) {
-			EquipmentSlot slot = hand == InteractionHand.MAIN_HAND
-					? EquipmentSlot.MAINHAND
-					: EquipmentSlot.OFFHAND;
-			item.hurtAndBreak(1, player, (entity) -> {
-				entity.broadcastBreakEvent(entity.getUsedItemHand());
-			});
+		ItemStack item = player.getItemInHand(hand);
+
+		if (item.getDamageValue() >= item.getMaxDamage()) {
+			return;
 		}
+
+		EquipmentSlot slot = hand == InteractionHand.MAIN_HAND
+				? EquipmentSlot.MAINHAND
+				: EquipmentSlot.OFFHAND;
+
+		item.hurtAndBreak(1, player, (entity) -> {
+			entity.broadcastBreakEvent(slot);
+		});
 	}
 
 	/**
 	 * 打印信息
 	 *
-	 * @param pos
-	 * @param player
-	 * @param block
+	 * @param pos    方块坐标
+	 * @param player 玩家
+	 * @param state  方块状态
 	 */
-	private void outputValuableCoordinates(BlockPos pos, Player player, Block block) {
+	private void outputValuableCoordinates(BlockPos pos, Player player, BlockState state) {
 		player.sendSystemMessage(Component.translatable(
 				"info.cmi.metal_detector.have",
 				pos.getX(),
 				pos.getY(),
 				pos.getZ(),
-				I18n.get(block.getDescriptionId())
+				state.getBlock().getName()
 		));
 	}
 
 	/**
 	 * 生成粒子效果
 	 *
-	 * @param level
-	 * @param player
+	 * @param context
 	 */
-	private void spawnFoundParticles(Level level, Player player) {
-		BlockPos playerPos = player.blockPosition();
-		double nextDouble = level.getRandom().nextDouble();
+	private void spawnFoundParticles(UseOnContext context) {
+		Level level = context.getLevel();
+		Player player = context.getPlayer();
+		BlockPos clickedPos = context.getClickedPos();
 
 		if (!(level instanceof ServerLevel serverLevel)) {
 			return;
 		}
-		// 玩家腰部高度约为1.0格
-		for (int j = 0; j < 12; j++) {
-			double offsetX = nextDouble * 0.5D - 0.25D;
-			double offsetZ = nextDouble * 0.5D - 0.25D;
-			double offsetY = nextDouble * 0.2D - 0.1D;
+
+		BlockPos playerPos = player.blockPosition();
+
+		for (int i = 0; i < 12; i++) {
+			double offsetX = level.getRandom().nextDouble() * 0.5D - 0.25D;
+			double offsetY = level.getRandom().nextDouble() * 0.2D - 0.1D;
+			double offsetZ = level.getRandom().nextDouble() * 0.5D - 0.25D;
 
 			serverLevel.sendParticles(
 					ParticleTypes.GLOW,
-					playerPos.getX() + 0.5D + offsetX,
-					playerPos.getY() + 1.0D + offsetY,
-					playerPos.getZ() + 0.5D + offsetZ,
+					clickedPos.getX() + 0.5D + offsetX,
+					clickedPos.getY() + 1.0D + offsetY,
+					clickedPos.getZ() + 0.5D + offsetZ,
 					1,
-					0.0D, 0.0D, 0.0D,
+					0.0D,
+					0.0D,
+					0.0D,
 					0.0D
 			);
 		}
@@ -139,8 +152,8 @@ public class MetalDetector extends BasicItem {
 	/**
 	 * 检测方块
 	 *
-	 * @param state
-	 * @return
+	 * @param state 方块状态
+	 * @return 是否为矿石
 	 */
 	private boolean isValuableBlock(BlockState state) {
 		return state.is(Tags.Blocks.ORES);

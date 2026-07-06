@@ -1,16 +1,8 @@
 {
-	"record.mechanism": {
+	"meme.ding": {
 		"sounds": [
 			{
-				"name": "cmi:music/record/mechanism",
-				"stream": true
-			}
-		]
-	},
-	"record.togni_leets": {
-		"sounds": [
-			{
-				"name": "cmi:music/record/togni_leets",
+				"name": "cmi:meme/ding",
 				"stream": true
 			}
 		]

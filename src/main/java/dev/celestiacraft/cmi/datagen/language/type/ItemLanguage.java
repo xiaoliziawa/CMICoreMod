@@ -14,6 +14,11 @@ public class ItemLanguage extends LanguageGenerate {
 				"神秘的柚子"
 		);
 		addItemLanguage(
+				"metal_detector",
+				"Metal Detector",
+				"金属探测仪"
+		);
+		addItemLanguage(
 				"initial_item_kit",
 				"Initial Item Kit",
 				"初始套件"

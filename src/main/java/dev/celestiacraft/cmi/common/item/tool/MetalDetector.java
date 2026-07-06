@@ -5,6 +5,7 @@ import dev.celestiacraft.cmi.common.register.CmiSound;
 import dev.celestiacraft.cmi.config.common.MetalDetectorConfig;
 import dev.celestiacraft.libs.api.client.context.TooltipContext;
 import dev.celestiacraft.libs.api.register.item.BasicItem;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -30,7 +31,8 @@ public class MetalDetector extends BasicItem {
 
 	@Override
 	public void addTooltips(TooltipContext context) {
-		context.add(CmiLang.translateDirect("tooltip.metal_detector"));
+		context.add(CmiLang.translateDirect("tooltip.metal_detector")
+				.withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override

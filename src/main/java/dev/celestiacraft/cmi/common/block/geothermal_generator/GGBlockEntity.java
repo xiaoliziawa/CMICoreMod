@@ -27,7 +27,6 @@ public class GGBlockEntity extends SmartBlockEntity {
 	private final GGEnergyStorage storage;
 	@Getter
 	private int storagedEnergy;
-	@Getter
 	private static final int BASE_PRODUCTION = GeothermalGeneratorConfig.PRODUCTION_EFFICIENCY.get();
 
 	public GGBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {

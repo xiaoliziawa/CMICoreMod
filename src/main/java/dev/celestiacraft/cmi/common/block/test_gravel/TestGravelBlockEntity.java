@@ -23,7 +23,7 @@ public class TestGravelBlockEntity extends BrushableBlockEntity {
 			return false;
 		}
 
-		BlockState state = this.getBlockState();
+		BlockState state = getBlockState();
 		int current = state.getValue(TestGravelBlock.DUSTED);
 
 		if (current < 3) {
@@ -33,11 +33,10 @@ public class TestGravelBlockEntity extends BrushableBlockEntity {
 		// 设置战利品表
 		if (player.getMainHandItem().is(CmiItem.TEST_BRUSH.get())) {
 			ResourceLocation customLootTables = Cmi.loadResource("archaeology/custom_brush_loot");
-			this.setLootTable(customLootTables, gameTime);
+			setLootTable(customLootTables, gameTime);
 		} else {
-			ResourceLocation vanillaLootTables =
-					ResourceLocation.withDefaultNamespace("archaeology/desert_pyramid");
-			this.setLootTable(vanillaLootTables, gameTime);
+			ResourceLocation vanillaLootTables = ResourceLocation.withDefaultNamespace("archaeology/desert_pyramid");
+			setLootTable(vanillaLootTables, gameTime);
 		}
 		level.setBlock(worldPosition, Blocks.GRAVEL.defaultBlockState(), 3);
 		return super.brush(gameTime, player, direction);

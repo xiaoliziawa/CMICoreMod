@@ -46,28 +46,28 @@ public class CokeOvenWorking {
 		Direction direction = machine.getFrontFacing().orElse(Direction.NORTH);
 
 		for (int i = 0; i < 9; i++) {
-			double localX = RANDOM.nextDouble() * 3 - 1;
-			double localZ = 0 - RANDOM.nextDouble() * 3;
+			double randX = RANDOM.nextDouble() * 3;
+			double randZ = RANDOM.nextDouble() * 3;
 
 			double worldX;
 			double worldZ;
 
 			switch (direction) {
 				case NORTH -> {
-					worldX = -localX;
-					worldZ = -localZ;
+					worldX = randX - 1;
+					worldZ = randZ + 1;
 				}
 				case EAST -> {
-					worldX = localZ;
-					worldZ = -localX;
+					worldX = -randX;
+					worldZ = randZ - 1;
 				}
 				case WEST -> {
-					worldX = -localZ;
-					worldZ = localX;
+					worldX = randX + 1;
+					worldZ = randZ - 1;
 				}
 				default -> {
-					worldX = localX;
-					worldZ = localZ;
+					worldX = randX - 1;
+					worldZ = -randZ;
 				}
 			}
 

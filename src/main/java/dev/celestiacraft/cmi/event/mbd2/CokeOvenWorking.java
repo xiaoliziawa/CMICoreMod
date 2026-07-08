@@ -46,8 +46,8 @@ public class CokeOvenWorking {
 		Direction direction = machine.getFrontFacing().orElse(Direction.NORTH);
 
 		for (int i = 0; i < 9; i++) {
-			double localX = RANDOM.nextDouble() * 2 - 1;
-			double localZ = -1 - RANDOM.nextDouble() * 2;
+			double localX = RANDOM.nextDouble() * 3 - 1;
+			double localZ = 0 - RANDOM.nextDouble() * 3;
 
 			double worldX;
 			double worldZ;

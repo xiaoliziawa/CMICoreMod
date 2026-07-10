@@ -21,7 +21,7 @@ public class AddCreativeModeTabs {
 	private static final ResourceKey<CreativeModeTab> KUBEJS_TAB = TabUtils.getTabKey(KubeJS.id("tab"));
 
 	@SubscribeEvent
-	public static void onTabConten(BuildCreativeModeTabContentsEvent event) {
+	public static void onCreativeModeTabContents(BuildCreativeModeTabContentsEvent event) {
 		ResourceKey<CreativeModeTab> key = event.getTabKey();
 
 		if (key.equals(KUBEJS_TAB)) {

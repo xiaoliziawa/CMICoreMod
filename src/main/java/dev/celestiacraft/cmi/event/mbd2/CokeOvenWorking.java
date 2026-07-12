@@ -8,6 +8,7 @@ import dev.celestiacraft.cmi.config.common.mbd2.ReinforcedCokeOvenConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,12 +25,13 @@ public class CokeOvenWorking {
 		MBDMachine machine = event.getMachine();
 		Level level = machine.getLevel();
 		MBDRecipeType type = machine.getRecipeType();
+		ResourceLocation name = type.getRegistryName();
 
 		if (!(level instanceof ServerLevel serverLevel)) {
 			return;
 		}
 
-		if (!type.toString().equals("cmi:reinforced_coke_oven")) {
+		if (!name.equals(Cmi.loadResource("reinforced_coke_oven"))) {
 			return;
 		}
 

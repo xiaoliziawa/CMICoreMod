@@ -24,7 +24,6 @@ public class ElectronicBlastFurnaceTrigge extends SimpleCriterionTrigger<Electro
 		});
 	}
 
-
 	@Override
 	public @NotNull ResourceLocation getId() {
 		return ID;

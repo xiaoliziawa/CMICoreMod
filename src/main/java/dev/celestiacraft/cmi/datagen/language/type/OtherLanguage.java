@@ -19,7 +19,7 @@ public class OtherLanguage extends LanguageGenerate {
 		addCreativeTabLang(
 				"machines",
 				"Cmi: Machines",
-				"革新与构件: 机器"
+				"构件与革新: 机器"
 		);
 		addCustomLang(
 				"curios.identifier.mechanisms",

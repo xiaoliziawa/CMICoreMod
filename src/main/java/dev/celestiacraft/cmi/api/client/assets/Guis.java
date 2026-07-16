@@ -20,7 +20,7 @@ public class Guis implements ScreenElement {
 	}
 
 	public Guis(String path, int startX, int startY, int width, int height) {
-		this.location = Cmi.loadResource(String.format("textures/gui/%s.png", path));
+		location = Cmi.loadResource(String.format("textures/gui/%s.png", path));
 		this.startX = startX;
 		this.startY = startY;
 		this.width = width;

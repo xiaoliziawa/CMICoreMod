@@ -10,5 +10,6 @@ public class CmiAdvanmentTrigger {
 
 	public static void register() {
 		CriteriaTriggers.register(ACADEMIC_FRAUD);
+		CriteriaTriggers.register(ELECTRONIC_BLAST_FURNACE);
 	}
 }

@@ -3,7 +3,7 @@ package dev.celestiacraft.cmi.common.register.block;
 import com.simibubi.create.AllTags;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.api.client.assets.ItemModelGen;
+import dev.celestiacraft.cmi.api.client.ItemModelGen;
 import dev.celestiacraft.cmi.common.block.well.blazing_blood.BlazingBloodWellBlock;
 import dev.celestiacraft.cmi.common.block.well.blazing_blood.BlazingBloodWellBlockItem;
 import dev.celestiacraft.cmi.common.block.well.lava.LavaWellBlock;

@@ -7,7 +7,7 @@ import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.api.client.assets.ItemModelGen;
+import dev.celestiacraft.cmi.api.client.ItemModelGen;
 import dev.celestiacraft.cmi.common.block.accelerator.AcceleratorBlock;
 import dev.celestiacraft.cmi.common.block.accelerator.AcceleratorItem;
 import dev.celestiacraft.cmi.common.block.accelerator_motor.AcceleratorMotorBlock;

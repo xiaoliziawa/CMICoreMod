@@ -1,6 +1,6 @@
 package dev.celestiacraft.cmi.compat.jei.api;
 
-import dev.celestiacraft.cmi.api.client.assets.Guis;
+import dev.celestiacraft.cmi.api.client.Guis;
 
 public class CmiGuiTextures {
 	public static final Guis

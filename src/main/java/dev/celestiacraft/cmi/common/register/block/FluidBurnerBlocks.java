@@ -6,7 +6,7 @@ import com.simibubi.create.foundation.data.TagGen;
 import com.teammoeg.steampowered.registrate.SPBlocks;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.api.client.assets.ItemModelGen;
+import dev.celestiacraft.cmi.api.client.ItemModelGen;
 import dev.celestiacraft.cmi.common.block.fluid_burner.FluidBurnerBlock;
 import dev.celestiacraft.cmi.common.block.fluid_burner.FluidBurnerBlockItem;
 import dev.celestiacraft.cmi.common.block.fluid_burner.bronze.BronzeFluidBurnerBlock;

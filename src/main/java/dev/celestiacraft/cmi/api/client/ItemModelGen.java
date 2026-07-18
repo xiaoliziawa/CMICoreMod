@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.api.client.assets;
+package dev.celestiacraft.cmi.api.client;
 
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;

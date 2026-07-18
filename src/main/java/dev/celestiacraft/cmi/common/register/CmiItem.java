@@ -4,7 +4,7 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.api.client.assets.ItemModelGen;
+import dev.celestiacraft.cmi.api.client.ItemModelGen;
 import dev.celestiacraft.cmi.common.entity.prospecting_rocket.ProspectingRocketTier;
 import dev.celestiacraft.cmi.common.item.*;
 import dev.celestiacraft.cmi.common.item.tool.MetalDetector;

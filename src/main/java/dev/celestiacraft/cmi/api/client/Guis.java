@@ -1,4 +1,4 @@
-package dev.celestiacraft.cmi.api.client.assets;
+package dev.celestiacraft.cmi.api.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.celestiacraft.cmi.Cmi;

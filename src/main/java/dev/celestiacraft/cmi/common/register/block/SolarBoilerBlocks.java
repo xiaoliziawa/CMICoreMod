@@ -5,7 +5,7 @@ import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.data.TagGen;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import dev.celestiacraft.cmi.Cmi;
-import dev.celestiacraft.cmi.api.client.assets.ItemModelGen;
+import dev.celestiacraft.cmi.api.client.ItemModelGen;
 import dev.celestiacraft.cmi.common.block.solar_boiler.SolarBoilerBlock;
 import dev.celestiacraft.cmi.common.block.solar_boiler.SolarBoilerItem;
 import dev.celestiacraft.cmi.common.block.solar_boiler.bronze.BronzeSolarBoilerBlock;

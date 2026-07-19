@@ -4,8 +4,6 @@ import com.lowdragmc.lowdraglib.gui.widget.TankWidget;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 import com.lowdragmc.lowdraglib.side.fluid.IFluidTransfer;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
@@ -27,7 +25,6 @@ public class ScaledTankWidget extends TankWidget {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		FluidStack fluid = lastFluidInTank;
 		long realAmount = fluid == null ? 0 : fluid.getAmount();

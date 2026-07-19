@@ -13,8 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -41,7 +39,6 @@ public class AcceleratorMotorItem extends AssemblyOperatorBlockItem {
 	 * @param tooltip Tooltip 行列表，向其中添加内容
 	 * @param flag    Tooltip 标志（普通/高级）
 	 */
-	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
 		int maxSpeedValue = AcceleratorMotorConfig.MAX_SPEED.get();

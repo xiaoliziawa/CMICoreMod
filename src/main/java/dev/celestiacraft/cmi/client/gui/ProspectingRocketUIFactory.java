@@ -9,8 +9,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 public class ProspectingRocketUIFactory extends UIFactory<ProspectingRocketEntity> {
@@ -28,7 +26,6 @@ public class ProspectingRocketUIFactory extends UIFactory<ProspectingRocketEntit
 		return ProspectingRocketCargoUI.create(holder, entityPlayer);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Override
 	protected @Nullable ProspectingRocketEntity readHolderFromSyncData(FriendlyByteBuf syncData) {
 		int entityId = syncData.readVarInt();

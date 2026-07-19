@@ -13,8 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.jetbrains.annotations.NotNull;
 
@@ -53,7 +51,6 @@ public class GrindingRecipe extends ProcessingRecipe<RecipeWrapper> implements I
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public Component getDescriptionForAssembly() {
 		return CmiLang.translateDirect("recipe.grinding");
 	}

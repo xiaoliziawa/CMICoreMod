@@ -9,8 +9,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 public class SpaceElevatorUIFactory extends UIFactory<SpaceElevatorEntity> {
@@ -28,7 +26,6 @@ public class SpaceElevatorUIFactory extends UIFactory<SpaceElevatorEntity> {
 		return SpaceElevatorCargoUI.create(holder, entityPlayer);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Override
 	protected @Nullable SpaceElevatorEntity readHolderFromSyncData(FriendlyByteBuf syncData) {
 		int entityId = syncData.readVarInt();

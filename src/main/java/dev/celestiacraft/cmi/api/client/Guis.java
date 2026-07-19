@@ -5,8 +5,6 @@ import dev.celestiacraft.cmi.Cmi;
 import net.createmod.catnip.gui.element.ScreenElement;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class Guis implements ScreenElement {
 	public final ResourceLocation location;
@@ -27,12 +25,10 @@ public class Guis implements ScreenElement {
 		this.height = height;
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public void bind() {
 		RenderSystem.setShaderTexture(0, location);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void render(GuiGraphics graphics, int x, int y) {
 		graphics.blit(location, x, y, startX, startY, width, height);

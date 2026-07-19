@@ -5,8 +5,6 @@ import com.lowdragmc.lowdraglib.utils.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
@@ -79,7 +77,6 @@ public class CargoGridSlotWidget extends SlotWidget {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void drawInForeground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		if (isMouseOverElement(mouseX, mouseY)) {
 			CargoGridSlotWidget anchorSlot = findOccupyingAnchor();

@@ -10,8 +10,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
@@ -69,7 +67,6 @@ public class ArmorSlotWidget extends SlotWidget {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
 		if (emptyIcon == null) {

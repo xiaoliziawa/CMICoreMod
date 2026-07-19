@@ -14,8 +14,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
@@ -42,8 +40,8 @@ public class CargoGridWidget extends WidgetGroup {
 		this.container = container;
 		this.cols = cols;
 		this.rows = rows;
-		this.layout = new CargoGridLayout(cols, rows);
-		this.slots = new CargoGridSlotWidget[cols * rows];
+		layout = new CargoGridLayout(cols, rows);
+		slots = new CargoGridSlotWidget[cols * rows];
 
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
@@ -68,7 +66,6 @@ public class CargoGridWidget extends WidgetGroup {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void drawInBackground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		layout.recompute(container);
 		drawSlotBackgrounds(graphics);
@@ -106,13 +103,11 @@ public class CargoGridWidget extends WidgetGroup {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void drawInForeground(@Nonnull GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		super.drawInForeground(graphics, mouseX, mouseY, partialTicks);
 		drawPlacementPreview(graphics, mouseX, mouseY);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	private void drawPlacementPreview(GuiGraphics graphics, int mouseX, int mouseY) {
 		if (gui == null) return;
 		if (!isMouseOverElement(mouseX, mouseY)) return;
@@ -124,7 +119,7 @@ public class CargoGridWidget extends WidgetGroup {
 		int relY = mouseY - pos.y;
 		int hoveredCol = relX / SLOT_SIZE;
 		int hoveredRow = relY / SLOT_SIZE;
-		if (hoveredCol < 0 || hoveredCol >= cols || hoveredRow < 0 || hoveredRow >= rows) return;
+		if (isBoolean(hoveredCol, hoveredRow)) return;
 		int hovered = hoveredRow * cols + hoveredCol;
 
 		layout.recompute(container);
@@ -148,8 +143,11 @@ public class CargoGridWidget extends WidgetGroup {
 		DrawerHelper.drawBorder(graphics, previewX + 1, previewY + 1, previewW - 2, previewH - 2, borderColor, 1);
 	}
 
+	private boolean isBoolean(int hoveredCol, int hoveredRow) {
+		return hoveredCol < 0 || hoveredCol >= cols || hoveredRow < 0 || hoveredRow >= rows;
+	}
+
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		if (super.keyPressed(keyCode, scanCode, modifiers)) return true;
 		if (keyCode == GLFW.GLFW_KEY_R && gui != null) {
@@ -165,7 +163,6 @@ public class CargoGridWidget extends WidgetGroup {
 		return false;
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	private void drawSlotBackgrounds(GuiGraphics graphics) {
 		Position pos = getPosition();
 		for (int row = 0; row < rows; row++) {
@@ -181,25 +178,24 @@ public class CargoGridWidget extends WidgetGroup {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	private static void drawScaledItem(GuiGraphics graphics, ItemStack stack, int x, int y, int boxW, int boxH) {
 		int shortSide = Math.min(boxW, boxH);
-		float scale = Math.max((shortSide - 2 * ICON_PADDING) / 16f, 1f);
-		float drawnSize = 16f * scale;
-		float iconX = x + (boxW - drawnSize) / 2f;
-		float iconY = y + (boxH - drawnSize) / 2f;
+		float scale = Math.max((shortSide - 2 * ICON_PADDING) / 16.0f, 1.0f);
+		float drawnSize = 16.0f * scale;
+		float iconX = x + (boxW - drawnSize) / 2.0f;
+		float iconY = y + (boxH - drawnSize) / 2.0f;
 		boolean rotated = CargoGridRules.isRotated(stack);
 
 		PoseStack pose = graphics.pose();
 		pose.pushPose();
 		if (rotated) {
-			pose.translate(x + boxW / 2f, y + boxH / 2f, 0);
+			pose.translate(x + boxW / 2.0f, y + boxH / 2.0f, 0);
 			pose.mulPose(Axis.ZP.rotationDegrees(90));
-			pose.scale(scale, scale, 1f);
-			pose.translate(-8f, -8f, 0);
+			pose.scale(scale, scale, 1.0f);
+			pose.translate(-8.0f, -8.0f, 0);
 		} else {
 			pose.translate(iconX, iconY, 0);
-			pose.scale(scale, scale, 1f);
+			pose.scale(scale, scale, 1.0f);
 		}
 		graphics.renderItem(stack, 0, 0);
 		pose.popPose();
@@ -242,9 +238,9 @@ public class CargoGridWidget extends WidgetGroup {
 
 	private static int darken(int argb) {
 		int a = (argb >>> 24) & 0xFF;
-		int r = ((argb >> 16) & 0xFF) * 2 / 5;
-		int g = ((argb >> 8) & 0xFF) * 2 / 5;
-		int b = (argb & 0xFF) * 2 / 5;
+		int r = (((argb >> 16) & 0xFF) << 1) / 5;
+		int g = (((argb >> 8) & 0xFF) << 1) / 5;
+		int b = ((argb & 0xFF) << 1) / 5;
 		return (a << 24) | (r << 16) | (g << 8) | b;
 	}
 }

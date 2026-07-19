@@ -13,6 +13,7 @@ import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringB
 import com.simibubi.create.foundation.item.ItemHelper;
 import com.simibubi.create.foundation.recipe.RecipeConditions;
 import com.simibubi.create.foundation.recipe.RecipeFinder;
+import dev.celestiacraft.cmi.common.register.CmiCreateRecipe;
 import net.createmod.catnip.animation.AnimationTickHolder;
 import net.createmod.catnip.math.VecHelper;
 import net.minecraft.core.BlockPos;
@@ -31,13 +32,10 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import dev.celestiacraft.cmi.common.register.CmiCreateRecipe;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -189,8 +187,8 @@ public class BeltGrinderBlockEntity extends KineticBlockEntity {
 		}
 
 		Vec3 outPos = VecHelper.getCenterOf(worldPosition)
-				.add(itemMovement.scale(.5f).add(0, .5, 0));
-		Vec3 outMotion = itemMovement.scale(.0625).add(0, .125, 0);
+				.add(itemMovement.scale(0.5f).add(0, 0.5, 0));
+		Vec3 outMotion = itemMovement.scale(0.0625).add(0, 0.125, 0);
 
 		for (int slot = 0; slot < inv.getSlots(); slot++) {
 			ItemStack stack = inv.getStackInSlot(slot);
@@ -232,11 +230,9 @@ public class BeltGrinderBlockEntity extends KineticBlockEntity {
 			return;
 		}
 
-		if (valid) {
-			recipeIndex++;
-			if (recipeIndex >= recipes.size()) {
-				recipeIndex = 0;
-			}
+		recipeIndex++;
+		if (recipeIndex >= recipes.size()) {
+			recipeIndex = 0;
 		}
 
 		Recipe<?> recipe = recipes.get(recipeIndex);
@@ -324,7 +320,6 @@ public class BeltGrinderBlockEntity extends KineticBlockEntity {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void tickAudio() {
 		super.tickAudio();
 		float speed = Math.abs(getSpeed());
@@ -332,8 +327,8 @@ public class BeltGrinderBlockEntity extends KineticBlockEntity {
 			return;
 		}
 		if (!inv.isEmpty() && AnimationTickHolder.getTicks() % 4 == 0) {
-			float pitch = Mth.clamp((speed / 256f) * 2f, .5f, 1.6f);
-			AllSoundEvents.SANDING_SHORT.playAt(level, worldPosition, .3f, level.random.nextFloat() * 0.5F + pitch, true);
+			float pitch = Mth.clamp((speed / 256.0f) * 2.0f, 0.5f, 1.6f);
+			AllSoundEvents.SANDING_SHORT.playAt(level, worldPosition, 0.3f, level.random.nextFloat() * 0.5F + pitch, true);
 		}
 	}
 
@@ -349,21 +344,21 @@ public class BeltGrinderBlockEntity extends KineticBlockEntity {
 					.defaultBlockState());
 		} else {
 			particleData = new ItemParticleOption(ParticleTypes.ITEM, stack);
-			speed = .125f;
+			speed = 0.125f;
 		}
 
 		RandomSource r = level.random;
 		Vec3 vec = getItemMovementVec();
-		Vec3 pos = VecHelper.getCenterOf(this.worldPosition);
+		Vec3 pos = VecHelper.getCenterOf(worldPosition);
 		float offset = inv.recipeDuration != 0 ? inv.remainingTime / inv.recipeDuration : 0;
 		offset /= 2;
 		if (inv.appliedRecipe) {
-			offset -= .5f;
+			offset -= 0.5f;
 		}
 		level.addParticle(
 				particleData,
 				pos.x() + -vec.x * offset,
-				pos.y() + .45f,
+				pos.y() + 0.45f,
 				pos.z() + -vec.z * offset,
 				-vec.x * speed,
 				r.nextFloat() * speed,

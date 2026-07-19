@@ -55,8 +55,8 @@ public class AdvancedSpoutItem extends BasicBlockItem {
 				context.getItemInHand(),
 				new BlockHitResult(
 						new Vec3(up.getX() + 0.5D + Direction.UP.getStepX() * 0.5D,
-								up.getY() + 0.5D + (double) Direction.UP.getStepY() * 0.5D,
-								up.getZ() + 0.5D + (double) Direction.UP.getStepZ() * 0.5D
+								up.getY() + 0.5D + Direction.UP.getStepY() * 0.5D,
+								up.getZ() + 0.5D + Direction.UP.getStepZ() * 0.5D
 						),
 						Direction.UP,
 						up,

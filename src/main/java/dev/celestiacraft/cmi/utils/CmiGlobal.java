@@ -5,7 +5,6 @@ import dev.celestiacraft.cmi.utils.metal.CmiMetalRegistry;
 import dev.latvian.mods.kubejs.fluid.FluidStackJS;
 import dev.latvian.mods.kubejs.util.ConsoleJS;
 import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
@@ -17,24 +16,23 @@ public class CmiGlobal {
 		CmiMetalRegistry.register(id, meltingPoint, namespace, byProduct);
 	}
 
+	public static final String DEBUG_MESSAGE = "[CMIDebugMessage]";
+
 	/**
 	 * 整合包最终版本号
 	 */
-	@Setter
 	public static String modPackMainVersion;
 
 	/**
 	 * 整合包状态
 	 */
 	@Getter
-	@Setter
 	private static String modPackState = "Beta";
 
 	/**
 	 * 是否为热修复版本
 	 */
 	@Getter
-	@Setter
 	public static boolean isHotfix = false;
 
 	/**
@@ -42,7 +40,6 @@ public class CmiGlobal {
 	 */
 
 	@Getter
-	@Setter
 	private static String modpackNumberVersion = "2.5.0";
 
 	/**

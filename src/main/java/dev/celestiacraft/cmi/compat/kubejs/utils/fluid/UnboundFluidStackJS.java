@@ -12,8 +12,8 @@ public class UnboundFluidStackJS extends FluidStackJS {
 	private final ResourceLocation fluidRL;
 	private final String fluid;
 	private long amount;
-	private CompoundTag nbt;
-	private FluidStack cached;
+	private @Nullable CompoundTag nbt;
+	private @Nullable FluidStack cached;
 
 	// 标记是否为 tag 模式
 	private final boolean isTag;
@@ -23,23 +23,23 @@ public class UnboundFluidStackJS extends FluidStackJS {
 
 	// 普通流体构造
 	public UnboundFluidStackJS(ResourceLocation location) {
-		this.fluidRL = location;
-		this.fluid = location.toString();
-		this.amount = FluidStack.bucketAmount();
-		this.nbt = null;
-		this.cached = null;
-		this.isTag = false;
-		this.tagType = null;
+		fluidRL = location;
+		fluid = location.toString();
+		amount = FluidStack.bucketAmount();
+		nbt = null;
+		cached = null;
+		isTag = false;
+		tagType = null;
 	}
 
 	// tag 构造
 	public UnboundFluidStackJS(ResourceLocation location, @Nullable String tagType) {
-		this.fluidRL = location;
-		this.fluid = location.toString();
-		this.amount = FluidStack.bucketAmount();
-		this.nbt = null;
-		this.cached = null;
-		this.isTag = true;
+		fluidRL = location;
+		fluid = location.toString();
+		amount = FluidStack.bucketAmount();
+		nbt = null;
+		cached = null;
+		isTag = true;
 		this.tagType = tagType;
 	}
 
@@ -71,8 +71,8 @@ public class UnboundFluidStackJS extends FluidStackJS {
 	}
 
 	@Override
-	public void setAmount(long a) {
-		amount = a;
+	public void setAmount(long amount) {
+		this.amount = amount;
 		cached = null;
 	}
 
@@ -83,41 +83,39 @@ public class UnboundFluidStackJS extends FluidStackJS {
 	}
 
 	@Override
-	public void setNbt(@Nullable CompoundTag n) {
-		nbt = n;
+	public void setNbt(@Nullable CompoundTag nbt) {
+		this.nbt = nbt;
 		cached = null;
 	}
 
 	@Override
 	public FluidStackJS kjs$copy(long amount) {
+		UnboundFluidStackJS fluidStack;
 		if (isTag) {
-			var fs = new UnboundFluidStackJS(fluidRL, tagType);
-			fs.amount = amount;
-			fs.nbt = nbt == null ? null : nbt.copy();
-			return fs;
+			fluidStack = new UnboundFluidStackJS(fluidRL, tagType);
 		} else {
-			var fs = new UnboundFluidStackJS(fluidRL);
-			fs.amount = amount;
-			fs.nbt = nbt == null ? null : nbt.copy();
-			return fs;
+			fluidStack = new UnboundFluidStackJS(fluidRL);
 		}
+		fluidStack.amount = amount;
+		fluidStack.nbt = nbt == null ? null : nbt.copy();
+		return fluidStack;
 	}
 
 	@Override
 	public JsonObject toJson() {
-		JsonObject o = new JsonObject();
-		o.addProperty("amount", amount);
+		JsonObject json = new JsonObject();
+		json.addProperty("amount", amount);
 
 		if (isTag) {
-			o.addProperty("tag", fluidRL.toString());
+			json.addProperty("tag", fluidRL.toString());
 		} else {
-			o.addProperty("fluid", fluidRL.toString());
+			json.addProperty("fluid", fluidRL.toString());
 		}
 
 		if (nbt != null && !nbt.isEmpty()) {
-			o.addProperty("nbt", nbt.toString());
+			json.addProperty("nbt", nbt.toString());
 		}
 
-		return o;
+		return json;
 	}
 }

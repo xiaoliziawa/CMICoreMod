@@ -13,6 +13,6 @@ public interface IFluidStackJSUtils {
 	}
 
 	default boolean kjs$isTag() {
-		return kjs$tagType != null && !kjs$tagType.isEmpty();
+		return false;
 	}
 }
